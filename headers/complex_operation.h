@@ -8,17 +8,24 @@
 class ComplexOperation : public Operation {
 public:
     ComplexOperation(std::vector<Operation*> operations = std::vector<Operation*>(), std::string name_ = "");
-    ~ComplexOperation();
+    virtual ~ComplexOperation() { clear(); }
 
     void add(const Operation& op);
-    std::vector<Operation*>::iterator begin();
-    std::vector<Operation*>::iterator end();
+    std::vector<Operation*>::iterator begin() { return operation_functions.begin(); }
+    std::vector<Operation*>::iterator end()  {return operation_functions.end(); }
 
     ComplexOperation(const ComplexOperation& cop2);
     ComplexOperation operator=(const ComplexOperation& cop2);
 
     virtual int operator() (int x) override;
-    virtual Operation* copy() override;
+    virtual Operation* copy() const override;
+
+private:
+    std::vector<Operation*> operation_functions;
+
+    std::vector<Operation*> copy(std::vector<Operation*> op) const;
+    void copy(const ComplexOperation& cop);
+    void clear();
 };
 
 #endif // __COMPLEX_OPERATION_H__

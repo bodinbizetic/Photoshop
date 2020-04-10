@@ -10,7 +10,7 @@ public:
     SimpleOperation(std::function<int(int)> operation_function_, std::string name_ = "");
 
     virtual int operator() (int x) override;
-    virtual Operation* copy() override;
+    virtual Operation* copy() const override;
 private:
     std::function<int(int)> operation_function;
 };
