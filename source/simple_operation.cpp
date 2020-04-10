@@ -9,3 +9,7 @@ SimpleOperation::SimpleOperation(std::function<int(int)> operation_function_, st
 int SimpleOperation::operator() (int x) {
     return operation_function(x);
 }
+
+Operation* SimpleOperation::copy() {
+    return new SimpleOperation(*this);
+}
