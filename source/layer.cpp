@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "layer.h"
 
 Layer::Layer(int w, int h) : dimension{w, h} {
@@ -39,6 +40,8 @@ void Layer::fitLayer(std::pair<int, int> new_dims) {
     for(std::vector<Pixel>& vp : layer_matrix)
         for(int i=0; i<new_dims.first - dimension.first; i++)
             vp.push_back(Pixel(0,0,0,0));
+    
+    dimension = new_dims;
 }
 
 void Layer::initMatrix() {

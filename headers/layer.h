@@ -40,6 +40,17 @@ private:
 
     void initMatrix();
     void checkBounds(std::pair<int, int>) const;
+
+    #ifdef _TEST_
+        friend std::ostream& operator<< (std::ostream& os, Layer& l){
+            for(int i=0; i<l.dimension.second; i++) {
+                for(int j=0; j<l.dimension.first; j++)
+                    os << l.layer_matrix[i][j] << " ";
+                os << std::endl;
+            }
+            return os;
+        }
+    #endif
 };
 
 #endif // __LAYER_H__
