@@ -2,7 +2,7 @@
 #define __SELECTION_H__
 
 #include <vector>
-
+#include <string>
 #include "rectangle.h"
 
 class Selection {
@@ -13,10 +13,14 @@ public:
 
     bool isActive() const { return active; }
     void setActive(bool active_) { active = active_; }
+    std::string Name() const { return name; }
+    void setName(std::string s) { name = s; }
+
 
     void add(Rectangle r);
     std::vector< std::pair<int, int> > getSelectedCoordinates(std::pair<int, int> dimension);
 private:
+    std::string name = "";
     std::vector<Rectangle> selected_rectangles;
     bool active = true;
 };
