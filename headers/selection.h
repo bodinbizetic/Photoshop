@@ -8,8 +8,8 @@
 class Selection {
 public:
     Selection();
-    Selection(std::vector<Rectangle> selected_rectangles_);
-    Selection(Rectangle r);
+    Selection(std::vector<Rectangle> selected_rectangles_) : selected_rectangles(selected_rectangles_) {}
+    Selection(Rectangle r) { add(r); };
 
     bool isActive() const { return active; }
     void setActive(bool active_) { active = active_; }
