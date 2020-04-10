@@ -10,6 +10,6 @@ int SimpleOperation::operator() (int x) {
     return operation_function(x);
 }
 
-Operation* SimpleOperation::copy() {
+Operation* SimpleOperation::copy() const {
     return new SimpleOperation(*this);
 }
