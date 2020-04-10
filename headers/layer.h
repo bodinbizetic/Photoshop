@@ -11,6 +11,10 @@ class LayerIndexOutOfBounds {
 
 };
 
+class LayerFitDimensionsSmaller {
+
+};
+
 class Layer {
 public:
     Layer(int w, int h);
@@ -23,6 +27,8 @@ public:
 
     Pixel& operator[] (std::pair<int, int>);
     const Pixel& operator[] (std::pair<int, int>) const;
+
+    void fitLayer(std::pair<int, int>);
 private:
     std::pair<int, int> dimension;
     std::vector< std::vector<Pixel> > layer_matrix;

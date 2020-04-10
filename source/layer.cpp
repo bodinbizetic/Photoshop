@@ -27,6 +27,20 @@ const Pixel& Layer::operator[] (std::pair<int, int> coordinate) const {
     return const_cast<Pixel&>(operator[](coordinate));
 }
 
+void Layer::fitLayer(std::pair<int, int> new_dims) {
+    if(new_dims.first < dimension.first || new_dims.second < dimension.second)
+        throw LayerFitDimensionsSmaller();
+    
+    std::vector<Pixel> empty_pixels(dimension.first);
+    generate(empty_pixels.begin(), empty_pixels.end(), []()->Pixel {return Pixel(0,0,0,0); });
+    for(int i=0; i< new_dims.second - dimension.second; i++)
+        layer_matrix.push_back(empty_pixels);
+    
+    for(std::vector<Pixel>& vp : layer_matrix)
+        for(int i=0; i<new_dims.first - dimension.first; i++)
+            vp.push_back(Pixel(0,0,0,0));
+}
+
 void Layer::initMatrix() {
     layer_matrix.assign(dimension.second, std::vector<Pixel>(dimension.first));
 }
