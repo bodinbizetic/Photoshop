@@ -19,10 +19,3 @@ int Pixel::setColor(int newVal){
     if(newVal < MIN_COLOR_VALUE) newVal = MIN_COLOR_VALUE;
     return newVal;
 }
-
-int main(int argc, char const *argv[])
-{
-    Pixel(10, 10, 10);
-    std::cout << "Hello world" << std::endl;
-    return 0;
-}

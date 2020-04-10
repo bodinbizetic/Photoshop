@@ -2,6 +2,7 @@
 #define _pixel_h_
 
 #include <functional>
+#include <iostream>
 
 class Pixel {
 public:
@@ -31,6 +32,13 @@ private:
     static const int MAX_COLOR_VALUE = 255;
     static const int MIN_COLOR_VALUE = 0;
     int setColor(int newVal);
+
+    #ifdef _TEST_
+        friend std::ostream& operator<< (std::ostream& os, Pixel& l){
+            os << "(" << l.red << ", " << l.green << ", " << l.blue << ")";
+            return os;
+        }
+    #endif
 };
 
 #endif
