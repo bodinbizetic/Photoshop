@@ -2,6 +2,11 @@
 
 #include <algorithm>
 
+ComplexOperation::ComplexOperation(std::vector<Operation*> operations, std::string name_) : Operation(name_) {
+    operation_functions = copy(operations);
+}
+
+
 void ComplexOperation::add(const Operation& op) {
     operation_functions.push_back(op.copy());
 }
