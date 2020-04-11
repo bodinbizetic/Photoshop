@@ -28,6 +28,21 @@ const Pixel& Layer::operator[] (std::pair<int, int> coordinate) const {
     return const_cast<Pixel&>(operator[](coordinate));
 }
 
+Layer operator+(const Layer& l1, const Layer& l2) {
+    if(l1.dimension != l2.dimension)
+        throw LayerDimensionMismatch();
+    
+    Layer newLayer = Layer(l1.dimension);
+    for(int i=0; i<l1.dimension.second; i++) {
+        for(int j=0; j<l1.dimension.first; j++) {
+            Pixel temp1 = l1[{i, j}] + Pixel(0, 0, 0, l1.opacity);
+            Pixel temp2 = l2[{i, j}] + Pixel(0, 0, 0, l2.opacity);
+            newLayer[{i,j}] = temp1 + temp2;
+        }
+    }
+    return newLayer;
+}
+
 void Layer::fitLayer(std::pair<int, int> new_dims) {
     if(new_dims.first < dimension.first || new_dims.second < dimension.second)
         throw LayerFitDimensionsSmaller();

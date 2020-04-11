@@ -15,6 +15,10 @@ class LayerFitDimensionsSmaller {
 
 };
 
+class LayerDimensionMismatch {
+
+};
+
 class Layer {
 public:
     Layer(int w, int h);
@@ -27,6 +31,8 @@ public:
 
     Pixel& operator[] (std::pair<int, int>);
     const Pixel& operator[] (std::pair<int, int>) const;
+
+    friend Layer operator+(const Layer& l1, const Layer& l2); // TODO: Implement
 
     void fitLayer(std::pair<int, int>);
 private:
