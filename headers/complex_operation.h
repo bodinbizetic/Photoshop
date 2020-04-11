@@ -7,7 +7,7 @@
 
 class ComplexOperation : public Operation {
 public:
-    ComplexOperation(std::vector<Operation*> operations = std::vector<Operation*>(), std::string name_ = "");
+    explicit ComplexOperation(std::vector<Operation*> operations = std::vector<Operation*>(), std::string name_ = "");
     virtual ~ComplexOperation() { clear(); }
 
     void add(const Operation& op);

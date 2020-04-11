@@ -1,6 +1,6 @@
-#include "complex_operation.h"
-
 #include <algorithm>
+
+#include "complex_operation.h"
 
 ComplexOperation::ComplexOperation(std::vector<Operation*> operations, std::string name_) : Operation(name_) {
     operation_functions = copy(operations);
