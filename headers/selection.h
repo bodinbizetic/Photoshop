@@ -13,6 +13,8 @@ public:
 
     bool isActive() const { return active; }
     void setActive(bool active_) { active = active_; }
+    void deselectAll() { selected_rectangles.clear(); }
+    
     std::string Name() const { return name; }
     void setName(std::string s) { name = s; }
 
