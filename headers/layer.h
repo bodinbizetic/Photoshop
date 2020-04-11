@@ -34,6 +34,8 @@ public:
 
     friend Layer operator+(const Layer& l1, const Layer& l2); // TODO: Implement
 
+    void convertGray();
+    void convertBlackWhite();
     void fitLayer(std::pair<int, int>);
 private:
     std::pair<int, int> dimension;

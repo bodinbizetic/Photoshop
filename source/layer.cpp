@@ -43,6 +43,18 @@ Layer operator+(const Layer& l1, const Layer& l2) {
     return newLayer;
 }
 
+void Layer::convertGray() {
+    for(std::vector<Pixel> vp : layer_matrix)
+        for(Pixel& p : vp)
+            p = p.getGray();
+}
+
+void Layer::convertBlackWhite() {
+    for(std::vector<Pixel> vp : layer_matrix)
+        for(Pixel& p : vp)
+            p = p.getBlackWhite();
+}
+
 void Layer::fitLayer(std::pair<int, int> new_dims) {
     if(new_dims.first < dimension.first || new_dims.second < dimension.second)
         throw LayerFitDimensionsSmaller();

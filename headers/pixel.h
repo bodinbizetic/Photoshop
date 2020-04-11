@@ -25,6 +25,8 @@ public:
     void setRGB(std::function<int(int x)> fun);
     void setRGBA(std::function<int(int x)> fun);
 
+    Pixel getBlackWhite() const;
+    Pixel getGray() const;
     friend Pixel operator+(Pixel p1, Pixel p2);
     friend int combineAlfa(int aA, int aB) { return aA + (aB * (255 - aA) / 255); }
 private:

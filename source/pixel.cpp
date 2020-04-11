@@ -14,6 +14,17 @@ void Pixel::setRGB(std::function<int(int x)> fun){
     setBlue(fun);
 }
 
+Pixel Pixel::getBlackWhite() const {
+    int val = (red + green + blue) / 3;
+    val /= MAX_COLOR_VALUE / 2;
+    return Pixel(val, val, val, alfa);
+}
+
+Pixel Pixel::getGray() const {
+    int val = (red + green + blue) / 3;
+    return Pixel(val, val, val, alfa);
+}
+
 Pixel operator+(Pixel p1, Pixel p2) {
     std::function<int(int, int, int, int)> calc = [](int rA, int aA, int rB, int aB) -> int {
         return (rA * aA / 255) + (rB * aB * (255 - aA) / (255*255));
