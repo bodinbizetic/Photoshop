@@ -7,7 +7,7 @@
 
 class SimpleOperation : public Operation {
 public:
-    SimpleOperation(std::function<int(int)> operation_function_, std::string name_ = "");
+    SimpleOperation(std::function<int(int)> operation_function_, std::string name_ = DEFAULT_OP_NAME);
 
     virtual int operator() (int x) override;
     virtual Operation* copy() const override;

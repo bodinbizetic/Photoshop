@@ -2,6 +2,9 @@
 
 #include "selection.h"
 
+const std::string Selection::DEFAULT_SELECT_NAME = "";
+
+
 void Selection::add(Rectangle r) {
     selected_rectangles.push_back(r);
 }
