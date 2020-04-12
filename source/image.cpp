@@ -2,6 +2,18 @@
 #include <math.h>
 #include "simple_operation.h"
 
+Image::Image() {
+    initOperations();
+}
+
+Image::~Image() {
+    for(Operation*& o : all_operations) {
+        delete o;
+        o = nullptr;
+    }
+    all_operations.clear();
+}
+
 void Image::initOperations() {
     diadic_functions["add"] = std::plus<int>();
     diadic_functions["sub"] = std::minus<int>();
