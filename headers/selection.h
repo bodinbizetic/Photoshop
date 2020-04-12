@@ -9,7 +9,7 @@ class Selection {
 public:
     static const std::string DEFAULT_SELECT_NAME;
 
-    Selection();
+    Selection(){};
     Selection(std::vector<Rectangle> selected_rectangles_) : selected_rectangles(selected_rectangles_) {}
     Selection(Rectangle r) { add(r); };
 

@@ -34,11 +34,13 @@ Image& Image::removeLayer(int position) {
 
 Image& Image::addOperation(const Operation& op) {
     all_operations.push_back(op.copy());
+    return *this;
 }
 
 Image& Image::removeOperation(int position) {
     delete all_operations[position];
     all_operations.erase(all_operations.begin() + position);
+    return *this;
 }
 
 void Image::initOperations() {

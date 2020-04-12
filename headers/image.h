@@ -14,8 +14,8 @@ class ImageIndexOutOfBounds {
 
 class Image {
 public:
-    Image() {} // TODO: initialize operations
-    ~Image() {} // TODO: remove all operations
+    Image();
+    ~Image(); // TODO: remove all operations
 
     Image& addLayer(int position, std::string name_);
     Image& removeLayer(int position);
@@ -23,11 +23,13 @@ public:
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);
 
-    Image& applyOperation(int operation_id, int layer_, int selection_id);
+
+
+    Image& applyOperation(int operation_id, int layer_);
 private:
     std::pair<int, int> dimensions;
     
-    std::vector<Selection> all_selections;
+    Selection current_selection;
     std::vector<Operation*> all_operations;
     std::vector<Layer> all_layers;
     std::map< std::string, std::function<int(int, int)> > diadic_functions;

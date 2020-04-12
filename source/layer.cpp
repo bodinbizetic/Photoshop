@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "layer.h"
 
-const std::string DEFAULT_LAYER_NAME = "layer";
+const std::string Layer::DEFAULT_LAYER_NAME = "layer";
 
 Layer::Layer(int w, int h, std::string name_) : dimension{w, h}, name(name_) {
     initMatrix();
