@@ -8,18 +8,22 @@
 #include "operation.h"
 #include "selection.h"
 
+class ImageIndexOutOfBounds {
+
+};
+
 class Image {
 public:
     Image() {} // TODO: initialize operations
     ~Image() {} // TODO: remove all operations
 
-    void addLayer(int position, std::string name_);
-    void removeLayer(int position);
+    Image& addLayer(int position, std::string name_);
+    Image& removeLayer(int position);
 
-    void addOperation(Operation* op);
-    void removeOperation(int i);
+    Image& addOperation(Operation* op);
+    Image& removeOperation(int i);
 
-    void applyOperation(int operation_id, int layer_, int selection_id);
+    Image& applyOperation(int operation_id, int layer_, int selection_id);
 private:
     std::pair<int, int> dimensions;
     

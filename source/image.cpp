@@ -14,6 +14,24 @@ Image::~Image() {
     all_operations.clear();
 }
 
+Image& Image::addLayer(int position, std::string name_) {
+    Layer newLayer = Layer(dimensions, name_);
+    
+    if(position >= all_layers.size() || position < 0)
+        all_layers.push_back(newLayer);
+    all_layers.insert(all_layers.begin() + position, newLayer);
+
+    return *this;
+}
+
+Image& Image::removeLayer(int position) {
+    if(position >= all_layers.size() || position < 0)
+       throw ImageIndexOutOfBounds();
+    all_layers.erase(all_layers.begin() + position);
+
+    return *this;
+}
+
 void Image::initOperations() {
     diadic_functions["add"] = std::plus<int>();
     diadic_functions["sub"] = std::minus<int>();
