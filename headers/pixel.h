@@ -6,7 +6,7 @@
 
 class Pixel {
 public:
-    Pixel(int red_=0, int green_=0, int blue_=0, int alfa_=255)
+    explicit Pixel(int red_=0, int green_=0, int blue_=0, int alfa_=255)
     : red(red_), green(green_), blue(blue_), alfa(alfa_) {};
 
     int Red() const {return red;}
@@ -27,6 +27,7 @@ public:
 
     Pixel getBlackWhite() const;
     Pixel getGray() const;
+    operator int(){};
     friend Pixel operator+(Pixel p1, Pixel p2);
     friend int combineAlfa(int aA, int aB) { return aA + (aB * (255 - aA) / 255); }
 private:

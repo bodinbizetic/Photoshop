@@ -25,6 +25,10 @@ Pixel Pixel::getGray() const {
     return Pixel(val, val, val, alfa);
 }
 
+Pixel::operator int() {
+    return (red << 24) + (green << 16) + (blue << 8) + (alfa << 0);
+}
+
 Pixel operator+(Pixel p1, Pixel p2) {
     std::function<int(int, int, int, int)> calc = [](int rA, int aA, int rB, int aB) -> int {
         return (rA * aA / 255) + (rB * aB * (255 - aA) / (255*255));
