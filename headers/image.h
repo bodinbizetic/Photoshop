@@ -20,7 +20,7 @@ public:
     Image& addLayer(int position, std::string name_);
     Image& removeLayer(int position);
 
-    Image& addOperation(Operation* op);
+    Image& addOperation(const Operation& op);
     Image& removeOperation(int i);
 
     Image& applyOperation(int operation_id, int layer_, int selection_id);

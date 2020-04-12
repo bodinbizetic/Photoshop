@@ -32,6 +32,15 @@ Image& Image::removeLayer(int position) {
     return *this;
 }
 
+Image& Image::addOperation(const Operation& op) {
+    all_operations.push_back(op.copy());
+}
+
+Image& Image::removeOperation(int position) {
+    delete all_operations[position];
+    all_operations.erase(all_operations.begin() + position);
+}
+
 void Image::initOperations() {
     diadic_functions["add"] = std::plus<int>();
     diadic_functions["sub"] = std::minus<int>();
