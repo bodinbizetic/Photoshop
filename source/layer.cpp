@@ -1,15 +1,17 @@
 #include <algorithm>
 #include "layer.h"
 
-Layer::Layer(int w, int h) : dimension{w, h} {
+const std::string DEFAULT_LAYER_NAME = "layer";
+
+Layer::Layer(int w, int h, std::string name_) : dimension{w, h}, name(name_) {
     initMatrix();
 }
 
-Layer::Layer(std::pair<int, int> dim_) : dimension(dim_) {
+Layer::Layer(std::pair<int, int> dim_, std::string name_) : dimension(dim_), name(name_) {
     initMatrix();
 }
 
-Layer::Layer(std::vector< std::vector<Pixel> > new_layer_matrix) : layer_matrix(new_layer_matrix) {
+Layer::Layer(std::vector< std::vector<Pixel> > new_layer_matrix, std::string name_) : layer_matrix(new_layer_matrix), name(name_) {
     dimension = {layer_matrix[0].size(), layer_matrix.size()};
 }
 

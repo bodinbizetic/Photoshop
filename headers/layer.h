@@ -21,9 +21,11 @@ class LayerDimensionMismatch {
 
 class Layer {
 public:
-    Layer(int w, int h);
-    Layer(std::pair<int, int> dim_);
-    Layer(std::vector< std::vector<Pixel> > new_layer_matrix);
+    static const std::string DEFAULT_LAYER_NAME;
+
+    Layer(int w, int h, std::string name_ = DEFAULT_LAYER_NAME);
+    Layer(std::pair<int, int> dim_, std::string name_ = DEFAULT_LAYER_NAME);
+    Layer(std::vector< std::vector<Pixel> > new_layer_matrix, std::string name_ = DEFAULT_LAYER_NAME);
     void setOpacity(int x);
     void setActive(bool x) { active = x; }
     int Opacity() const { return opacity; }
@@ -38,6 +40,7 @@ public:
     void convertBlackWhite();
     void fitLayer(std::pair<int, int>);
 private:
+    std::string name = DEFAULT_LAYER_NAME;
     std::pair<int, int> dimension;
     std::vector< std::vector<Pixel> > layer_matrix;
     
