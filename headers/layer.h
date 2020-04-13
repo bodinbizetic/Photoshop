@@ -29,7 +29,9 @@ public:
     void setOpacity(int x);
     void setActive(bool x) { active = x; }
     int Opacity() const { return opacity; }
-    bool Active() const {return active; }
+    bool Active() const { return active; }
+    std::string getName() const { return name; }
+
 
     Pixel& operator[] (std::pair<int, int>);
     const Pixel& operator[] (std::pair<int, int>) const;
