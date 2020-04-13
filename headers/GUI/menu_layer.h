@@ -18,6 +18,8 @@ public:
 private:
     Image& project;
     void functionCall(std::string x) override;
+
+    void printLayers() const;
 };
 
 #endif // __MENU_LAYER_H__

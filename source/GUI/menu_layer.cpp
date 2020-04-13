@@ -10,10 +10,7 @@ void Menu_Layer::functionCall(std::string x) {
     } else if(x == "3") {
         // TODO: Selection menu
     } else if(x == "4"){
-        std::vector<std::string> names = project.getLayerNames();
-        int x=0;
-        for(const std::string& n : names)
-            std::cout << x << ". " << n << std::endl;
+        printLayers();
     } else if(x == "5") {
         // TODO: operation menu
     } else if(x == "6") {
@@ -21,4 +18,11 @@ void Menu_Layer::functionCall(std::string x) {
     }else {
         throw WrongCommand();
     }
+}
+
+void Menu_Layer::printLayers() const{
+    std::vector<std::string> names = project.getLayerNames();
+    int x=0;
+    for(const std::string& n : names)
+        std::cout << x << ". " << n << std::endl;
 }
