@@ -16,6 +16,7 @@ void Menu_Main::functionCall(std::string x) {
     if(x == "0")
         running = false;
     else if(x == "1"){
+        initProject();
         Menu_Image mi;
         mi.start();
     } else if(x == "2") {
