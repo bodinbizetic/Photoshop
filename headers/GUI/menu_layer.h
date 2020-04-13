@@ -24,6 +24,7 @@ private:
     void printLayers();
     void toggleLayer();
     void setOpacity();
+    void draw();
 
 };
 

@@ -1,6 +1,7 @@
-#include "image.h"
 #include <math.h>
 
+#include "formater_bmp.h"
+#include "image.h"
 #include "simple_operation.h"
 
 Image::Image() {
@@ -16,7 +17,8 @@ Image::~Image() {
 }
 
 Image& Image::addLayer(int position, std::string name_, std::string path_) {
-    Layer newLayer = Layer(dimensions, name_);
+    Layer newLayer = createLayer(name_, path_);
+
     
     if(position >= all_layers.size() || position < 0)
         all_layers.push_back(newLayer);
@@ -56,8 +58,21 @@ Image& Image::setOpacity(int position, int val) {
        throw ImageIndexOutOfBounds();
     
     all_layers[position].setOpacity(val);
+    
+    return *this;
 }
 
+std::vector<int> Image::getLayerMatrix(int position) const {
+    if(position >= all_layers.size() || position < 0)
+       throw ImageIndexOutOfBounds();
+    
+    auto matrix = all_layers[position].Matrix();
+    std::vector<int> ret;
+    for(auto m : matrix)
+        ret.push_back((int)m);
+    
+    return ret;
+}
 
 Image& Image::addOperation(const Operation& op) {
     all_operations.push_back(op.copy());
@@ -85,4 +100,28 @@ void Image::initOperations() {
     all_operations.push_back(sop1.copy());
     all_operations.push_back(sop2.copy());
 
+}
+
+Layer Image::createLayer(std::string name_, std::string path_) {
+    if(path_ == "")
+        return Layer(dimensions, name_);
+    else {
+        Formater &f = * new Formater_BMP(path_);
+        std::vector<int> vi = f.load();
+        std::vector<Pixel> vp;
+        for(int i : vi) { // TODO: Add constructor from vi to vp
+            vp.push_back((Pixel) i);
+        }
+        std::pair<int, int> dim = f.Dimensions();
+        Layer newLayer(dim, vp, name_);
+        // TODO: call fit layers
+        updateDim(dim);
+        delete &f;
+        return newLayer;
+    }
+}
+
+void Image::updateDim(std::pair<int, int> newDim) {
+    dimensions.first = std::max(dimensions.first, newDim.first);
+    dimensions.second = std::max(dimensions.second, newDim.second);
 }

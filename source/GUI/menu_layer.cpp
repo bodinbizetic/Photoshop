@@ -17,7 +17,7 @@ void Menu_Layer::functionCall(std::string x) {
     } else if(x == "5") {
         setOpacity();
     } else if(x == "6") {
-        // TODO: Selection menu
+        draw();
     }else {
         throw WrongCommand();
     }
@@ -35,6 +35,7 @@ void Menu_Layer::addLayer() {
     if(!file){
         file.close();
         std::cout << "Not valid path: creating empty layer" << std::endl;
+        path="";
     }
 
     project.addLayer(-1, name, path);
@@ -72,6 +73,16 @@ void Menu_Layer::setOpacity() {
     
 }
 
+void Menu_Layer::draw() {
+    int pos = inputIntMsg("Insert position of layer to be drawn:\n>>> ");
+    std::vector<int> matrix = project.getLayerMatrix(pos);
+    std::pair<int, int> dim = project.Dimensions();
+    system("cls");
+    consoleDraw(matrix, dim);
+    std::string unused;
+    std::cin >> unused;
+}
+
 /* Create empty layer and show
 1
 1
@@ -86,4 +97,12 @@ Name3
 Location3
 3
 
+
+1
+1
+1
+Name
+C:\Users\Dinbo\Desktop\PROJEKAT1\bmp_24.bmp
+6
+0
 */
