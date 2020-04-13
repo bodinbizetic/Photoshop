@@ -8,8 +8,9 @@
 class Formater_BMP : public Formater {
 public:
     Formater_BMP(std::string path_);
-    std::vector< std::vector<int> > load();
-    void store(std::vector< std::vector<int> >) {};
+    std::vector<int> load();
+    void store(std::vector<int>) override;
+    std::pair<int, int> getDimension() const { return dimension; }
 private:
     std::pair<unsigned int, unsigned int> dimension;
     bool hasAlfa;
@@ -23,6 +24,9 @@ private:
 
     int readByte_1(std::ifstream& file);
     int readBytes(std::ifstream& file, int n);
+
+    void storeByte_1(std::ostream& file, unsigned char c);
+    void storeBytes(std::ostream& file, int i, int n);
 };
 
 #endif // __FORMATER_BMP_H__
