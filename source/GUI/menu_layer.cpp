@@ -1,6 +1,7 @@
 #include <fstream>
 #include "menu_layer.h"
 #include "menu_main.h"
+#include "utilities.h"
 
 void Menu_Layer::functionCall(std::string x) {
     if(x == "0")
@@ -39,13 +40,22 @@ void Menu_Layer::addLayer() {
     project.addLayer(-1, name, path);
 }
 
+void Menu_Layer::deleteLayer() {
+    printLayers();
 
+    std::string command;
+    std::cout << "Insert position of layer to be removed:\n>>> ";
+    std::cin >> command;
+    if(!isInteger(command))
+        throw WrongCommand();
+    project.removeLayer(atoi(command.c_str()));
+}
 
 void Menu_Layer::printLayers() {
     std::vector<std::string> names = project.getLayerNames();
     int x=0;
     for(const std::string& n : names)
-        std::cout << x << ". " << n << std::endl;
+        std::cout << x++ << ". " << n << std::endl;
     setClean();
 }
 
