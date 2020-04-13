@@ -20,7 +20,7 @@ void Menu_Layer::functionCall(std::string x) {
         draw();
     } else if(x == "7") {
         swapLayers();
-    else {
+    } else {
         throw WrongCommand();
     }
 }
