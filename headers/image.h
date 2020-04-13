@@ -21,6 +21,7 @@ public:
     Image& removeLayer(int position);
     std::vector<std::pair<std::string, std::string>> getLayerNames() const;
     Image& toggleLayer(int pos);
+    Image& setOpacity(int position, int val);
 
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);

@@ -51,6 +51,14 @@ Image& Image::toggleLayer(int position) {
     return *this;
 }
 
+Image& Image::setOpacity(int position, int val) {
+    if(position >= all_layers.size() || position < 0)
+       throw ImageIndexOutOfBounds();
+    
+    all_layers[position].setOpacity(val);
+}
+
+
 Image& Image::addOperation(const Operation& op) {
     all_operations.push_back(op.copy());
     return *this;

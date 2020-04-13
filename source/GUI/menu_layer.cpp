@@ -59,6 +59,19 @@ void Menu_Layer::toggleLayer() {
     
 }
 
+void Menu_Layer::setOpacity() {
+    int pos = inputIntMsg("Insert position of layer:\n>>> ");
+    int val = inputIntMsg("Insert value of opacity [0-100]:\n>>> ");
+    if(val > Layer::MAX_OPACITY){
+        val = Layer::MAX_OPACITY;
+    }
+    if(val < Layer::MIN_OPACITY)
+        val = Layer::MIN_OPACITY;
+    project.setOpacity(pos, val);
+    std::cout << "Opacity set to " << val << std::endl;
+    
+}
+
 /* Create empty layer and show
 1
 1
