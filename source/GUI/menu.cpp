@@ -7,9 +7,18 @@ void Menu::start() {
 }
 
 void Menu::loopMenu() {
-    while(1) {
+    while(running) {
+        showMenu();
         std::string command;
+        
         std::cin >> command;
-        functionCall(command.c_str());
+        functionCall(command);
     }
+}
+
+void Menu::showMenu() {
+    system("cls");
+    int id=0; 
+    for(std::string c : commands)
+        std::cout << id++ << ". " << c << std::endl;
 }

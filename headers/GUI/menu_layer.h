@@ -1,0 +1,23 @@
+#ifndef __MENU_LAYER_H__
+#define __MENU_LAYER_H__
+
+#include "menu.h"
+#include "image.h"
+
+class Menu_Layer : public Menu {
+public:
+    Menu_Layer(Image& project_) : project(project_), Menu({
+        "Return",
+        "Add layer",
+        "Delete layer",
+        "Show all layers",
+        "Toggle layer",
+        "Insert image to layer"
+        "Draw layer",
+    }) {}
+private:
+    Image& project;
+    void functionCall(std::string x) override;
+};
+
+#endif // __MENU_LAYER_H__

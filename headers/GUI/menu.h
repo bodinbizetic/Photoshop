@@ -2,6 +2,11 @@
 #define __MENU_H__
 
 #include <string>
+#include <vector>
+
+class Terminate {
+
+};
 
 class WrongCommand {
 
@@ -9,12 +14,15 @@ class WrongCommand {
 
 class Menu {
 public:
-    Menu() {};
+    Menu(std::vector<std::string> commands_) : commands(commands_) {};
     ~Menu() {};
     void start();
+protected:
+    bool running = true;
+    const std::vector<std::string> commands;
 private:
     void loopMenu();
-    virtual void showMenu() {};
+    void showMenu() {};
     virtual void functionCall(std::string x) {};
 
 };
