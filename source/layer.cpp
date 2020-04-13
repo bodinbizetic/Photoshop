@@ -11,8 +11,8 @@ Layer::Layer(std::pair<int, int> dim_, std::string name_) : dimension(dim_), nam
     initMatrix();
 }
 
-Layer::Layer(std::vector< std::vector<Pixel> > new_layer_matrix, std::string name_) : layer_matrix(new_layer_matrix), name(name_) {
-    dimension = {layer_matrix[0].size(), layer_matrix.size()};
+Layer::Layer(std::pair<int, int> dim_, std::vector<Pixel> new_layer_matrix, std::string name_) : layer_matrix(new_layer_matrix), name(name_) {
+    dimension = dim_;
 }
 
 void Layer::setOpacity(int x) {
@@ -23,7 +23,7 @@ void Layer::setOpacity(int x) {
 
 Pixel& Layer::operator[] (std::pair<int, int> coordinate) {
     checkBounds(coordinate);
-    return layer_matrix[coordinate.second][coordinate.first];
+    return layer_matrix[coordinate.second * dimension.first + coordinate.first];
 }
 
 const Pixel& Layer::operator[] (std::pair<int, int> coordinate) const {
@@ -46,35 +46,35 @@ Layer operator+(const Layer& l1, const Layer& l2) {
 }
 
 void Layer::convertGray() {
-    for(std::vector<Pixel> vp : layer_matrix)
-        for(Pixel& p : vp)
-            p = p.getGray();
+    for(Pixel& p: layer_matrix)
+        p = p.getGray();
 }
 
 void Layer::convertBlackWhite() {
-    for(std::vector<Pixel> vp : layer_matrix)
-        for(Pixel& p : vp)
-            p = p.getBlackWhite();
+    for(Pixel& p : layer_matrix)
+        p = p.getBlackWhite();
 }
 
 void Layer::fitLayer(std::pair<int, int> new_dims) {
     if(new_dims.first < dimension.first || new_dims.second < dimension.second)
         throw LayerFitDimensionsSmaller();
     
-    std::vector<Pixel> empty_pixels(dimension.first);
-    generate(empty_pixels.begin(), empty_pixels.end(), []()->Pixel {return Pixel(0,0,0,0); });
-    for(int i=0; i< new_dims.second - dimension.second; i++)
-        layer_matrix.push_back(empty_pixels);
+    // std::vector<Pixel> empty_pixels(dimension.first);
+    // generate(empty_pixels.begin(), empty_pixels.end(), []()->Pixel {return Pixel(0,0,0,0); });
+    // for(int i=0; i< new_dims.second - dimension.second; i++)
+    //     layer_matrix.push_back(empty_pixels);
     
-    for(std::vector<Pixel>& vp : layer_matrix)
-        for(int i=0; i<new_dims.first - dimension.first; i++)
-            vp.push_back(Pixel(0,0,0,0));
+    // for(std::vector<Pixel>& vp : layer_matrix)
+    //     for(int i=0; i<new_dims.first - dimension.first; i++)
+    //         vp.push_back(Pixel(0,0,0,0));
     
-    dimension = new_dims;
+    // dimension = new_dims;
+
+    //TODO
 }
 
 void Layer::initMatrix() {
-    layer_matrix.assign(dimension.second, std::vector<Pixel>(dimension.first));
+    layer_matrix.assign(dimension.second * dimension.first, 0);
 }
 
 void Layer::checkBounds(std::pair<int, int> coordinates) const{

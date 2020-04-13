@@ -9,25 +9,49 @@ const unsigned int OFFSET_HEIGHT =  0x16;
 const unsigned int OFFSET_SIZE_PADDING = 0x22;
 const unsigned int OFFSET_PIXELS = 0xA;
 
-std::vector <std::vector<int>> Formater_BMP::load() {
+std::vector<int> Formater_BMP::load() {
     std::ifstream file(path, std::ios::binary);
-    
-    std::cout << dimension.first << " " << dimension.second << std::endl;
+    std::vector <int> matrix(dimension.second*dimension.first, 0);
 
-    std::vector <std::vector<int>> matrix(dimension.second, std::vector<int>(dimension.first, 0));
-    file.seekg(offset_for_pixels);
-    std::for_each(matrix.rbegin(), matrix.rend(), [&file, this](std::vector<int> &vi) {
-        for(int &i : vi){ 
-            i = this->readBytes(file, (this->hasAlfa ? 32 : 24));
-            if(this->hasAlfa == false){
-                i += 255 << 24;
-            }
+    file.seekg(offset_for_pixels, std::ios::beg);
+    // char c;
+    // file.read(&c, 1);
+    int x=0;
+    for(int i=0; i<dimension.second; i++) {
+        for(int j=0; j<dimension.first; j++){
+            matrix[i * dimension.first + j] = readBytes(file, 3);
         }
-    });
+        readBytes(file, 4 - dimension.first * 3 % 4);
+    }
 
     file.close();
-
+    
     return matrix;
+}
+
+void Formater_BMP::store(std::vector<int> matrix) {
+    std::ofstream file("output.bmp", std::ios::binary | std::ios::out);
+
+    std::ifstream input(path, std::ios::binary);
+    int i;
+    for(i=0; i < offset_for_pixels; i++) {
+        char c;
+        int temp = readByte_1(input);
+        // file.write(&c, 1);
+        storeByte_1(file, temp);
+    }
+    std::cout << i << std::endl;
+    for(int i=0; i<dimension.second; i++){
+        int j;
+        for(j=0; j<dimension.first; j++){
+            storeBytes(file, matrix[i*dimension.first + j], 3);
+        }
+        for(int k=0; k < 4 - dimension.first*3 % 4; k++)
+            storeByte_1(file, 0);
+    }
+    
+    file.close();
+    input.close();
 }
 
 Formater_BMP::Formater_BMP(std::string path_) : Formater(path_) {
@@ -40,7 +64,6 @@ Formater_BMP::Formater_BMP(std::string path_) : Formater(path_) {
     loadDimensions(file);
     loadOff_Pixels(file);
     
-    std::cout << dimension.first << " " << dimension.second << std::endl;
     file.close();
 }
 
@@ -84,4 +107,18 @@ int Formater_BMP::readBytes(std::ifstream& file, int n) {
     }
     return input;
 }
+
+void Formater_BMP::storeByte_1(std::ostream& file, unsigned char c) {
+    file << c;
+}
+
+void Formater_BMP::storeBytes(std::ostream& file, int num, int n) {
+    
+    for(int i=0; i<n; i++) {
+        char c = num & 0xff;
+        file.write(&c, 1);
+        num >>= 8;
+    }
+}
+
 
