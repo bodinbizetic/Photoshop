@@ -56,21 +56,17 @@ void Layer::convertBlackWhite() {
 }
 
 void Layer::fitLayer(std::pair<int, int> new_dims) {
-    if(new_dims.first < dimension.first || new_dims.second < dimension.second)
-        throw LayerFitDimensionsSmaller();
+    if(new_dims.first < dimension.first && new_dims.second < dimension.second)
+        return;
     
-    // std::vector<Pixel> empty_pixels(dimension.first);
-    // generate(empty_pixels.begin(), empty_pixels.end(), []()->Pixel {return Pixel(0,0,0,0); });
-    // for(int i=0; i< new_dims.second - dimension.second; i++)
-    //     layer_matrix.push_back(empty_pixels);
-    
-    // for(std::vector<Pixel>& vp : layer_matrix)
-    //     for(int i=0; i<new_dims.first - dimension.first; i++)
-    //         vp.push_back(Pixel(0,0,0,0));
-    
-    // dimension = new_dims;
-
-    //TODO
+    std::vector<Pixel> new_Layer(new_dims.first * new_dims.second, Pixel(255,255,255,0));
+    for(int i=0; i<dimension.second; i++){
+        for(int j=0; j<dimension.first; j++) {
+            new_Layer[i*new_dims.first + j] = layer_matrix[i*dimension.first + j];
+        }
+    }
+    layer_matrix = new_Layer;
+    dimension = new_dims;
 }
 
 void Layer::initMatrix() {

@@ -116,9 +116,15 @@ Layer Image::createLayer(std::string name_, std::string path_) {
         Layer newLayer(dim, vp, name_);
         // TODO: call fit layers
         updateDim(dim);
+        fitAll();
         delete &f;
         return newLayer;
     }
+}
+
+void Image::fitAll() {
+    for(Layer& l : all_layers)
+        l.fitLayer(dimensions);
 }
 
 void Image::updateDim(std::pair<int, int> newDim) {

@@ -42,7 +42,7 @@ private:
     std::vector<Layer> all_layers;
     std::map< std::string, std::function<int(int, int)> > diadic_functions;
 
-    void fittAll();
+    void fitAll();
     void updateDim(std::pair<int, int> newDim);
     Layer combineLayers() const;
     void initOperations();
