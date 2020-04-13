@@ -26,7 +26,7 @@ Pixel Pixel::getGray() const {
 }
 
 Pixel::operator int() {
-    return (red << 24) + (green << 16) + (blue << 8) + (alfa << 0);
+    return (red << 16) + (green << 8) + (blue << 0) + (alfa << 24);
 }
 
 Pixel operator+(Pixel p1, Pixel p2) {
