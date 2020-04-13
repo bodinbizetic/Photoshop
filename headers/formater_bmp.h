@@ -10,7 +10,7 @@ public:
     Formater_BMP(std::string path_);
     std::vector<int> load();
     void store(std::vector<int>) override;
-    std::pair<int, int> getDimension() const { return dimension; }
+    std::pair<int, int> Dimensions() const override { return dimension; }
 private:
     std::pair<unsigned int, unsigned int> dimension;
     bool hasAlfa;
