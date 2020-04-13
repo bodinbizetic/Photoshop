@@ -22,6 +22,9 @@ private:
     void addLayer();
     void deleteLayer();
     void printLayers();
+    void toggleLayer();
+    void setOpacity();
+
 };
 
 #endif // __MENU_LAYER_H__

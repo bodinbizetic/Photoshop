@@ -19,7 +19,8 @@ public:
 
     Image& addLayer(int position, std::string name_, std::string path_);
     Image& removeLayer(int position);
-    std::vector<std::string> getLayerNames() const;
+    std::vector<std::pair<std::string, std::string>> getLayerNames() const;
+    Image& toggleLayer(int pos);
 
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);

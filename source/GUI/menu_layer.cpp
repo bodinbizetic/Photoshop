@@ -13,9 +13,9 @@ void Menu_Layer::functionCall(std::string x) {
     } else if(x == "3") {
         printLayers();
     } else if(x == "4"){
-        // TODO: Selection menu
+        toggleLayer();
     } else if(x == "5") {
-        // TODO: operation menu
+        setOpacity();
     } else if(x == "6") {
         // TODO: Selection menu
     }else {
@@ -42,23 +42,22 @@ void Menu_Layer::addLayer() {
 
 void Menu_Layer::deleteLayer() {
     printLayers();
-
-    std::string command;
-    std::cout << "Insert position of layer to be removed:\n>>> ";
-    std::cin >> command;
-    if(!isInteger(command))
-        throw WrongCommand();
-    project.removeLayer(atoi(command.c_str()));
+    project.removeLayer(inputIntMsg("Insert position of layer to be removed:\n>>> "));
 }
 
 void Menu_Layer::printLayers() {
-    std::vector<std::string> names = project.getLayerNames();
+    std::vector< std::pair<std::string, std::string> > names = project.getLayerNames();
     int x=0;
-    for(const std::string& n : names)
-        std::cout << x++ << ". " << n << std::endl;
+    for(const std::pair<std::string, std::string>& n : names)
+        std::cout << x++ << ". " << n.first << "\t" << n.second << std::endl;
     setClean();
 }
 
+void Menu_Layer::toggleLayer() {
+    printLayers();
+    project.toggleLayer(inputIntMsg("Insert position of layer to be toggled:\n>>> "));
+    
+}
 
 /* Create empty layer and show
 1
@@ -69,6 +68,9 @@ Location
 1
 Name2
 Location2
+1
+Name3
+Location3
 3
 
 */

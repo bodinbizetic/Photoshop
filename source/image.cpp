@@ -34,12 +34,21 @@ Image& Image::removeLayer(int position) {
     return *this;
 }
 
-std::vector<std::string> Image::getLayerNames() const {
-    std::vector<std::string> names;
+std::vector<std::pair<std::string, std::string>> Image::getLayerNames() const {
+    std::vector<std::pair<std::string, std::string>> names;
     for(const Layer& l: all_layers) {
-        names.push_back(l.getName());
+        names.push_back({l.getName(), (l.Active() ? "True" : "False")});
     }
     return names;
+}
+
+Image& Image::toggleLayer(int position) {
+    if(position >= all_layers.size() || position < 0)
+       throw ImageIndexOutOfBounds();
+    
+    all_layers[position].setActive(!all_layers[position].Active());
+
+    return *this;
 }
 
 Image& Image::addOperation(const Operation& op) {
