@@ -22,6 +22,7 @@ public:
     std::vector<std::pair<std::string, std::string>> getLayerNames() const;
     Image& toggleLayer(int pos);
     Image& setOpacity(int position, int val);
+    std::vector<int> getLayerMatrix(int) const;
 
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);
@@ -31,6 +32,8 @@ public:
     Image& toggleSelection() { current_selection.setActive(!current_selection.isActive()); return *this; }
 
     Image& applyOperation(int operation_id, int layer_);
+
+    std::pair<int, int> Dimensions() const { return dimensions; };
 private:
     std::pair<int, int> dimensions;
 
@@ -40,8 +43,10 @@ private:
     std::map< std::string, std::function<int(int, int)> > diadic_functions;
 
     void fittAll();
+    void updateDim(std::pair<int, int> newDim);
     Layer combineLayers() const;
     void initOperations();
+    Layer createLayer(std::string name_, std::string path_);
 };
 
 #endif // _image_h_
