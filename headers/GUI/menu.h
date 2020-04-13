@@ -18,10 +18,11 @@ public:
     ~Menu() {};
     void start();
 protected:
+    void setClean() { clean = false; }
     bool running = true;
-    bool clean = true;
     const std::vector<std::string> commands;
 private:
+    bool clean = true;
     void loopMenu();
     void showMenu();
     virtual void functionCall(std::string x) = 0;
