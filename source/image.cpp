@@ -20,7 +20,8 @@ Image& Image::addLayer(int position, std::string name_, std::string path_) {
     
     if(position >= all_layers.size() || position < 0)
         all_layers.push_back(newLayer);
-    all_layers.insert(all_layers.begin() + position, newLayer);
+    else 
+        all_layers.insert(all_layers.begin() + position, newLayer);
 
     return *this;
 }

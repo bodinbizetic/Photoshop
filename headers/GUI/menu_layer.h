@@ -19,7 +19,9 @@ private:
     Image& project;
     void functionCall(std::string x) override;
 
-    void printLayers() const;
+    void addLayer();
+    void deleteLayer();
+    void printLayers();
 };
 
 #endif // __MENU_LAYER_H__
