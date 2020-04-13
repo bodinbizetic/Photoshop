@@ -17,8 +17,9 @@ public:
     Image();
     ~Image(); // TODO: remove all operations
 
-    Image& addLayer(int position, std::string name_);
+    Image& addLayer(int position, std::string name_, std::string path_);
     Image& removeLayer(int position);
+    std::vector<std::string> getLayerNames() const;
 
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);
@@ -30,7 +31,7 @@ public:
     Image& applyOperation(int operation_id, int layer_);
 private:
     std::pair<int, int> dimensions;
-    
+
     Selection current_selection;
     std::vector<Operation*> all_operations;
     std::vector<Layer> all_layers;

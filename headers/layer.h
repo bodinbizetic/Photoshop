@@ -45,7 +45,7 @@ private:
     std::string name = DEFAULT_LAYER_NAME;
     std::pair<int, int> dimension;
     std::vector<Pixel> layer_matrix;
-    
+    std::string path = "";
     static const int MIN_OPACITY = 0;
     static const int MAX_OPACITY = 100;
     int opacity;

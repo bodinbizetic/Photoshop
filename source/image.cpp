@@ -1,5 +1,6 @@
 #include "image.h"
 #include <math.h>
+
 #include "simple_operation.h"
 
 Image::Image() {
@@ -14,7 +15,7 @@ Image::~Image() {
     all_operations.clear();
 }
 
-Image& Image::addLayer(int position, std::string name_) {
+Image& Image::addLayer(int position, std::string name_, std::string path_) {
     Layer newLayer = Layer(dimensions, name_);
     
     if(position >= all_layers.size() || position < 0)
@@ -30,6 +31,14 @@ Image& Image::removeLayer(int position) {
     all_layers.erase(all_layers.begin() + position);
 
     return *this;
+}
+
+std::vector<std::string> Image::getLayerNames() const {
+    std::vector<std::string> names;
+    for(const Layer& l: all_layers) {
+        names.push_back(l.getName());
+    }
+    return names;
 }
 
 Image& Image::addOperation(const Operation& op) {
