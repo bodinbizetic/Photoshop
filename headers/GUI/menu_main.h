@@ -1,5 +1,9 @@
 #include "menu.h"
 
+class PathNotExists {
+
+};
+
 class Menu_Main : public Menu{
 public:
     Menu_Main() : Menu({
@@ -8,5 +12,10 @@ public:
         "Open existing project",
     }) {}
 private:
+    std::string path_="";
     void functionCall(std::string x) override;
+
+    void initProject();
+    void createProjectFolder();
+    void createProjectResource();
 };
