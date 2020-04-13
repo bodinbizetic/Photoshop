@@ -18,7 +18,9 @@ void Menu_Layer::functionCall(std::string x) {
         setOpacity();
     } else if(x == "6") {
         draw();
-    }else {
+    } else if(x == "7") {
+        swapLayers();
+    else {
         throw WrongCommand();
     }
 }
@@ -81,6 +83,12 @@ void Menu_Layer::draw() {
     consoleDraw(matrix, dim);
     std::string unused;
     std::cin >> unused;
+}
+
+void Menu_Layer::swapLayers() {
+    int l1 = inputIntMsg("Input first layer id:\n>>> ");
+    int l2 = inputIntMsg("Input second layer id:\n>>> ");
+    project.swapLayers(l1, l2);
 }
 
 /* Create empty layer and show

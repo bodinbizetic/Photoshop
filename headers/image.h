@@ -23,6 +23,7 @@ public:
     Image& toggleLayer(int pos);
     Image& setOpacity(int position, int val);
     std::vector<int> getLayerMatrix(int) const;
+    void swapLayers(int, int);
 
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);

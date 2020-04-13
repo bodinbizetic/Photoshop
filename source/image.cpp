@@ -74,6 +74,15 @@ std::vector<int> Image::getLayerMatrix(int position) const {
     return ret;
 }
 
+void Image::swapLayers(int position1, int position2) {
+    if(position1 >= all_layers.size() || position1 < 0)
+       throw ImageIndexOutOfBounds();
+    if(position2 >= all_layers.size() || position2 < 0)
+       throw ImageIndexOutOfBounds();
+    
+    std::swap(all_layers[position1], all_layers[position2]);
+}
+
 Image& Image::addOperation(const Operation& op) {
     all_operations.push_back(op.copy());
     return *this;
