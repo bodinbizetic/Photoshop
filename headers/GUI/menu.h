@@ -19,11 +19,12 @@ public:
     void start();
 protected:
     bool running = true;
+    bool clean = true;
     const std::vector<std::string> commands;
 private:
     void loopMenu();
-    void showMenu() {};
-    virtual void functionCall(std::string x) {};
+    void showMenu();
+    virtual void functionCall(std::string x) = 0;
 
 };
 

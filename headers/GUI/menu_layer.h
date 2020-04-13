@@ -12,7 +12,7 @@ public:
         "Delete layer",
         "Show all layers",
         "Toggle layer",
-        "Insert image to layer"
+        "Set Opacity",
         "Draw layer",
     }) {}
 private:
