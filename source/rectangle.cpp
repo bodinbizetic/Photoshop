@@ -1,14 +1,14 @@
 #include "rectangle.h"
 #include <algorithm>
 
-bool Rectangle::inRectangle(std::pair<int, int> dot) {
+bool RectangleShape::inRectangle(std::pair<int, int> dot) {
     if(between(coordinates.first, dimensions.first, dot.first) && 
         between(coordinates.second, dimensions.second, dot.second))
         return true;
     return false;
 }
 
-bool Rectangle::between(int coord, int dim, int dot) {
+bool RectangleShape::between(int coord, int dim, int dot) {
     int first  =    std::min(coord, coord + dim);
     int second =    std::max(coord, coord + dim);
     if(first <= dot && dot <= second) return true;

@@ -5,13 +5,15 @@
 #include <string>
 #include "rectangle.h"
 
+typedef RectangleShape Rect;
+
 class Selection {
 public:
     static const std::string DEFAULT_SELECT_NAME;
 
-    Selection(){};
-    Selection(std::vector<Rectangle> selected_rectangles_) : selected_rectangles(selected_rectangles_) {}
-    Selection(Rectangle r) { add(r); };
+    Selection(){}
+    Selection(std::vector<Rect> selected_rectangles_) : selected_rectangles(selected_rectangles_) {}
+    Selection(Rect r) { add(r); };
 
     bool isActive() const { return active; }
     void setActive(bool active_) { active = active_; }
@@ -21,11 +23,11 @@ public:
     void setName(std::string s) { name = s; }
 
 
-    void add(Rectangle r);
+    void add(Rect r);
     std::vector< std::pair<int, int> > getSelectedCoordinates(std::pair<int, int> dimension);
 private:
     std::string name = "";
-    std::vector<Rectangle> selected_rectangles;
+    std::vector<Rect> selected_rectangles;
     bool active = true;
 };
 

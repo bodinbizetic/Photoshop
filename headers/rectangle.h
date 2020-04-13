@@ -3,10 +3,10 @@
 
 #include <utility>
 
-class Rectangle {
+class RectangleShape {
 public:
-    Rectangle(int x, int y, int w, int h) : coordinates{x, y}, dimensions{w, h} {}
-    Rectangle(std::pair<int, int> coord, std::pair<int, int> dim) : coordinates(coord), dimensions(dim) {}
+    RectangleShape(int x, int y, int w, int h) : coordinates{x, y}, dimensions{w, h} {}
+    RectangleShape(std::pair<int, int> coord, std::pair<int, int> dim) : coordinates(coord), dimensions(dim) {}
 
     bool inRectangle(std::pair<int, int>);
 private:

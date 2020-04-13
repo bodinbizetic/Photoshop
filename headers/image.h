@@ -23,7 +23,7 @@ public:
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);
 
-    Image& select(Rectangle r) { current_selection.add(r); return *this;};
+    Image& select(RectangleShape r) { current_selection.add(r); return *this;};
     Image& clearSelection() { current_selection.deselectAll(); return *this;}
     Image& toggleSelection() { current_selection.setActive(!current_selection.isActive()); return *this; }
 
