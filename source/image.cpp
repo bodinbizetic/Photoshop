@@ -94,6 +94,15 @@ Image& Image::removeOperation(int position) {
     return *this;
 }
 
+std::vector<std::pair<std::string, std::string>> Image::getSelectionNames() const {
+    std::vector<std::pair<std::string, std::string>> sol;
+    for(const Selection& s : all_selections)
+        sol.push_back({s.Name(), (s.isActive() ? "Active" : "Not Active")});
+    
+    return sol;
+}
+
+
 std::vector<int> Image::getFinalResult() {
     auto vp = combineLayers().Matrix();
     std::vector<int> vi;

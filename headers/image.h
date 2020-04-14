@@ -32,9 +32,10 @@ public:
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);
 
-    Image& select(RectangleShape r) { current_selection.add(r); return *this;};
-    Image& clearSelection() { current_selection.deselectAll(); return *this;}
-    Image& toggleSelection() { current_selection.setActive(!current_selection.isActive()); return *this; }
+    Image& select(RectangleShape r);
+    std::vector<std::pair<std::string, std::string>> getSelectionNames() const;
+    Image& clearSelection(int pos) { all_selections[pos].deselectAll(); return *this;}
+    Image& toggleSelection(int position);
 
     Image& applyOperation(int operation_id, int layer_);
 
@@ -43,7 +44,7 @@ public:
 private:
     std::pair<int, int> dimensions;
 
-    Selection current_selection;
+    std::vector<Selection> all_selections;
     std::vector<Operation*> all_operations;
     std::vector<Layer> all_layers;
     std::map< std::string, std::function<int(int, int)> > diadic_functions;
