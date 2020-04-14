@@ -22,6 +22,7 @@ public:
     void removeSelection();
     void showAllSelections();
     void toggleSelection();
+    void addRectangle();
 
     
 };

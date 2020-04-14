@@ -2,6 +2,7 @@
 
 #include "menu_selection.h"
 #include "utilities.h"
+#include "rectangle.h"
 
 void Menu_Selection::functionCall(std::string x ){
     if(x == "0")
@@ -15,7 +16,7 @@ void Menu_Selection::functionCall(std::string x ){
     } else if(x == "4"){
         toggleSelection();
     } else if(x == "5") {
-        // Add to select
+        addRectangle();
     } else {
         throw WrongCommand();
     }
@@ -50,6 +51,16 @@ void Menu_Selection::showAllSelections() {
 }
 
 void Menu_Selection::toggleSelection() {
-    int position = inputIntMsg("Insert position of seleciton to be deleted:\n>>> ");
+    int position = inputIntMsg("Insert position of seleciton to be toggled:\n>>> ");
     project.toggleSelection(position);
+}
+
+void Menu_Selection::addRectangle() {
+    int position =  inputIntMsg("Insert position of selection to selecti rectangle:\n>>> ");
+    int x =         inputIntMsg("Insert X coordinate:\n>>> ");
+    int y =         inputIntMsg("Insert Y coordinate:\n>>> ");
+    int w =         inputIntMsg("Insert width:\n>>> ");
+    int h =         inputIntMsg("Insert height:\n>>> ");
+    RectangleShape reck(x, y, w, h);
+    project.select(reck, position);
 }

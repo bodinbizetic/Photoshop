@@ -94,6 +94,15 @@ Image& Image::removeOperation(int position) {
     return *this;
 }
 
+Image& Image::select(RectangleShape r, int position) {
+    if(position >= all_selections.size() || position < 0)
+       throw ImageIndexOutOfBounds();
+
+    all_selections[position].add(r);
+    return *this;
+}
+
+
 Image& Image::addSelection(std::string name) {
     Selection newSelection;
     newSelection.setName(name);

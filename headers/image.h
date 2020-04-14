@@ -32,7 +32,7 @@ public:
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);
 
-    Image& select(RectangleShape r);
+    Image& select(RectangleShape r, int position);
     Image& addSelection(std::string name_);
     std::vector<std::pair<std::string, std::string>> getSelectionNames() const;
     Image& removeSelection(int pos);
