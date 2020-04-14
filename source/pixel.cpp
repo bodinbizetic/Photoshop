@@ -29,7 +29,7 @@ Pixel::operator int() {
     return (red << 16) + (green << 8) + (blue << 0) + (alfa << 24);
 }
 
-Pixel operator+(Pixel p1, Pixel p2) {
+Pixel operator+(Pixel p2, Pixel p1) {
     std::function<int(int, int, int, int)> calc = [](int rA, int aA, int rB, int aB) -> int {
         return (rA * aA / 255) + (rB * aB * (255 - aA) / (255*255));
     };

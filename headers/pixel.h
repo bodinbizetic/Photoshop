@@ -8,7 +8,7 @@ class Pixel {
 public:
     explicit Pixel(int red_, int green_, int blue_, int alfa_=255)
     : red(red_), green(green_), blue(blue_), alfa(alfa_) {};
-    Pixel(int ARGB = 0) : alfa((ARGB & 0xff000000) >> 24), red((ARGB & 0x00ff0000) >> 16), green((ARGB & 0x0000ff00) >> 8), blue((ARGB & 0x000000ff) >> 0){}
+    Pixel(int ARGB = 0xff000000) : alfa((ARGB & 0xff000000) >> 24), red((ARGB & 0x00ff0000) >> 16), green((ARGB & 0x0000ff00) >> 8), blue((ARGB & 0x000000ff) >> 0){}
     int Red() const {return red;}
     int Blue() const {return blue;}
     int Green() const {return green;}

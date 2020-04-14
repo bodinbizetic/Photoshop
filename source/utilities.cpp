@@ -15,7 +15,7 @@ bool isInteger(std::string s) {
 
 int inputIntMsg(std::string x) {
     std::string command;
-    std::cout << "Insert position of layer to be toggled:\n>>> ";
+    std::cout << x;
     std::cin >> command;
     if(!isInteger(command))
         throw WrongCommand();

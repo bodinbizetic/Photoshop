@@ -7,16 +7,25 @@
 
 #include "pixel.h"
 
-class LayerIndexOutOfBounds {
-
+class LayerIndexOutOfBounds : public std::exception {
+    const char* what() const noexcept override {
+        std::cout << "LayerIndexOutOfBounds" << std::endl;
+        return "LayerIndexOutOfBounds";
+    }
 };
 
-class LayerFitDimensionsSmaller {
-
+class LayerFitDimensionsSmaller : public std::exception {
+    const char* what() const noexcept override {
+        std::cout << "LayerFitDimensionsSmaller" << std::endl;
+        return "LayerFitDimensionsSmaller";
+    }
 };
 
-class LayerDimensionMismatch {
-
+class LayerDimensionMismatch : public std::exception {
+    const char* what() const noexcept override {
+        std::cout << "LayerDimensionMismatch" << std::endl;
+        return "LayerDimensionMismatch";
+    }
 };
 
 class Layer {
@@ -49,7 +58,7 @@ private:
     std::pair<int, int> dimension;
     std::vector<Pixel> layer_matrix;
     std::string path = "";
-    int opacity;
+    int opacity = MAX_OPACITY;
     bool active=true;
 
     void initMatrix();

@@ -3,13 +3,17 @@
 
 #include <vector>
 #include <map>
+#include <exception>
 
 #include "layer.h"
 #include "operation.h"
 #include "selection.h"
 
-class ImageIndexOutOfBounds {
-
+class ImageIndexOutOfBounds : public std::exception{
+    const char* what() const noexcept override {
+        std::cout << "Image index out of bounds" << std::endl;
+        return "Image index out of bounds";
+    }
 };
 
 class Image {
@@ -35,6 +39,7 @@ public:
     Image& applyOperation(int operation_id, int layer_);
 
     std::pair<int, int> Dimensions() const { return dimensions; };
+    std::vector<int> getFinalResult();
 private:
     std::pair<int, int> dimensions;
 
@@ -43,11 +48,11 @@ private:
     std::vector<Layer> all_layers;
     std::map< std::string, std::function<int(int, int)> > diadic_functions;
 
-    void fitAll();
-    void updateDim(std::pair<int, int> newDim);
     Layer combineLayers() const;
     void initOperations();
     Layer createLayer(std::string name_, std::string path_);
+    void fitAll();
+    void updateDim(std::pair<int, int> newDim);
 };
 
 #endif // _image_h_

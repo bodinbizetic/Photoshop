@@ -14,7 +14,8 @@ public:
         "Toggle layer",
         "Set Opacity",
         "Draw layer",
-        "Swap layer"
+        "Swap layer",
+        "Show combined"
     }) {}
 private:
     Image& project;
@@ -27,6 +28,7 @@ private:
     void setOpacity();
     void draw();
     void swapLayers();
+    void showCombined();
 
 };
 

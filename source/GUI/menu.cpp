@@ -12,7 +12,12 @@ void Menu::loopMenu() {
         std::string command;
         std::cout << ">>> ";
         std::cin >> command;
-        functionCall(command);
+        try{
+            functionCall(command);
+        } catch(std::exception e) {
+            std:: cout << e.what() << std::endl;
+            clean = false;
+        }
     }
 }
 

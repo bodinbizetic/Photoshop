@@ -20,6 +20,8 @@ void Menu_Layer::functionCall(std::string x) {
         draw();
     } else if(x == "7") {
         swapLayers();
+    } else if(x == "8") {
+        showCombined();
     } else {
         throw WrongCommand();
     }
@@ -91,26 +93,20 @@ void Menu_Layer::swapLayers() {
     project.swapLayers(l1, l2);
 }
 
+void Menu_Layer::showCombined() {
+    consoleDraw(project.getFinalResult(), project.Dimensions());
+}
+
 /* Create empty layer and show
 1
 1
 1
-Name
-Location
-1
 Name2
-Location2
+C:\Users\Dinbo\Desktop\PROJEKAT1\bmp_24.bmp
 1
 Name3
-Location3
-3
+C:\Users\Dinbo\Desktop\PROJEKAT1\bmp_24_2.bmp
+8
 
 
-1
-1
-1
-Name
-C:\Users\Dinbo\Desktop\PROJEKAT1\bmp_24.bmp
-6
-0
 */

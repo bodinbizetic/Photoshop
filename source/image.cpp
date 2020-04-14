@@ -94,6 +94,22 @@ Image& Image::removeOperation(int position) {
     return *this;
 }
 
+std::vector<int> Image::getFinalResult() {
+    auto vp = combineLayers().Matrix();
+    std::vector<int> vi;
+    for(Pixel& p : vp)
+        vi.push_back((int)p);
+    return vi;
+}
+
+Layer Image::combineLayers() const {
+    Layer l1(dimensions);
+    for(const Layer& l : all_layers)
+        l1 = l1 + l;
+
+    return l1;
+}
+
 void Image::initOperations() {
     diadic_functions["add"] = std::plus<int>();
     diadic_functions["sub"] = std::minus<int>();

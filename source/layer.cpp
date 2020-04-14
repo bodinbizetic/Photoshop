@@ -21,14 +21,15 @@ void Layer::setOpacity(int x) {
     else opacity = x;
 }
 
-Pixel& Layer::operator[] (std::pair<int, int> coordinate) {
-    checkBounds(coordinate);
-    return layer_matrix[coordinate.second * dimension.first + coordinate.first];
+Pixel& Layer::operator[] (std::pair<int, int> coordinateXY) {
+    checkBounds(coordinateXY);
+    return layer_matrix[coordinateXY.second * dimension.first + coordinateXY.first];
 }
 
 const Pixel& Layer::operator[] (std::pair<int, int> coordinate) const {
-    return const_cast<Pixel&>(operator[](coordinate));
-}
+    checkBounds(coordinate);
+    return const_cast<Pixel&>(layer_matrix[coordinate.second * dimension.first + coordinate.first]);
+}    
 
 Layer operator+(const Layer& l1, const Layer& l2) {
     if(l1.dimension != l2.dimension)
@@ -37,9 +38,10 @@ Layer operator+(const Layer& l1, const Layer& l2) {
     Layer newLayer = Layer(l1.dimension);
     for(int i=0; i<l1.dimension.second; i++) {
         for(int j=0; j<l1.dimension.first; j++) {
-            Pixel temp1 = l1[{i, j}] + Pixel(0, 0, 0, l1.opacity);
-            Pixel temp2 = l2[{i, j}] + Pixel(0, 0, 0, l2.opacity);
-            newLayer[{i,j}] = temp1 + temp2;
+            Pixel temp1 = l1[{j, i}];
+            Pixel temp2 = l2[{j, i}];
+            temp2.setAlfa(temp2.Alfa() * l2.opacity / Layer::MAX_OPACITY);
+            newLayer[{j,i}] = temp1 + temp2;
         }
     }
     return newLayer;
