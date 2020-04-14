@@ -33,6 +33,7 @@ public:
     Image& removeOperation(int i);
 
     Image& select(RectangleShape r);
+    Image& addSelection(std::string name_);
     std::vector<std::pair<std::string, std::string>> getSelectionNames() const;
     Image& clearSelection(int pos) { all_selections[pos].deselectAll(); return *this;}
     Image& toggleSelection(int position);

@@ -17,6 +17,9 @@ public:
 public:
     virtual void functionCall(std::string x);
     Image& project;
+
+    void addSelection();
+    void removeSelection();
     void showAllSelections();
     
 };

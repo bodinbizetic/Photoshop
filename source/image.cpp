@@ -94,6 +94,13 @@ Image& Image::removeOperation(int position) {
     return *this;
 }
 
+Image& Image::addSelection(std::string name) {
+    Selection newSelection;
+    newSelection.setName(name);
+    all_selections.push_back(newSelection);
+    return *this;
+}
+
 std::vector<std::pair<std::string, std::string>> Image::getSelectionNames() const {
     std::vector<std::pair<std::string, std::string>> sol;
     for(const Selection& s : all_selections)
@@ -101,7 +108,6 @@ std::vector<std::pair<std::string, std::string>> Image::getSelectionNames() cons
     
     return sol;
 }
-
 
 std::vector<int> Image::getFinalResult() {
     auto vp = combineLayers().Matrix();
