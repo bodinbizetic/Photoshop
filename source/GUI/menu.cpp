@@ -23,6 +23,7 @@ void Menu::loopMenu() {
 
 void Menu::showMenu() {
     if(clean) {
+        printHeader();
         system("cls");
         int id=0; 
         for(std::string c : commands)
@@ -30,4 +31,12 @@ void Menu::showMenu() {
     } else
        clean = true;
     
+}
+
+void Menu::printHeader() {
+    for(std::string s : header)
+        std::cout << s << std::endl;
+    
+    std::cout << "+--------------------------+" << std::endl;
+    header.clear();
 }
