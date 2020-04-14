@@ -109,6 +109,13 @@ std::vector<std::pair<std::string, std::string>> Image::getSelectionNames() cons
     return sol;
 }
 
+Image& Image::removeSelection(int position) {
+    if(position >= all_selections.size() || position < 0)
+       throw ImageIndexOutOfBounds();
+    
+    all_selections.erase(all_selections.begin() + position);
+}
+
 std::vector<int> Image::getFinalResult() {
     auto vp = combineLayers().Matrix();
     std::vector<int> vi;

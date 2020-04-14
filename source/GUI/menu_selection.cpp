@@ -1,5 +1,7 @@
 #include <algorithm>
+
 #include "menu_selection.h"
+#include "utilities.h"
 
 void Menu_Selection::functionCall(std::string x ){
     if(x == "0")
@@ -11,7 +13,7 @@ void Menu_Selection::functionCall(std::string x ){
     } else if(x == "3") {
         showAllSelections();
     } else if(x == "4"){
-        // Toggle
+        toggleSelection();
     } else if(x == "5") {
         // Add to select
     } else {
@@ -24,14 +26,20 @@ void Menu_Selection::addSelection() {
     std::cout << "Insert a name for new selection:\n>>> ";
     std::cin >> name;
     std::vector<std::pair<std::string, std::string>> all_names = project.getSelectionNames();
-    if(std::count_if(all_names.begin(), all_names.end(), [name](std::pair<std::string, std::string> s) -> bool {
+    
+    if(std::find_if(all_names.begin(), all_names.end(), [name](std::pair<std::string, std::string> s) -> bool {
         return name == s.first;
-    })) {
+    }) != all_names.end()) {
         std::cout << "Name already exists, Creation failed" << std::endl;
         setClean();
         return;
     }
     project.addSelection(name);
+}
+
+void Menu_Selection::removeSelection() {
+    int position = inputIntMsg("Insert position of seleciton to be deleted:\n>>> ");
+    project.removeSelection(position);
 }
 
 void Menu_Selection::showAllSelections() {

@@ -21,6 +21,8 @@ public:
     void addSelection();
     void removeSelection();
     void showAllSelections();
+    void toggleSelection();
+
     
 };
 
