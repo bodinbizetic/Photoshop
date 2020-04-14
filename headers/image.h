@@ -36,7 +36,7 @@ public:
     Image& addSelection(std::string name_);
     std::vector<std::pair<std::string, std::string>> getSelectionNames() const;
     Image& removeSelection(int pos);
-    Image& clearSelection(int pos) { all_selections[pos].deselectAll(); return *this;}
+    Image& clearSelection(int pos);
     Image& toggleSelection(int position);
 
     Image& applyOperation(int operation_id, int layer_);

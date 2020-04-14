@@ -48,3 +48,8 @@ void Menu_Selection::showAllSelections() {
         std::cout << n.first << "\t" << n.second << std::endl;
     setClean();
 }
+
+void Menu_Selection::toggleSelection() {
+    int position = inputIntMsg("Insert position of seleciton to be deleted:\n>>> ");
+    project.toggleSelection(position);
+}

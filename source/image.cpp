@@ -114,6 +114,17 @@ Image& Image::removeSelection(int position) {
        throw ImageIndexOutOfBounds();
     
     all_selections.erase(all_selections.begin() + position);
+    
+    return *this;
+}
+
+Image& Image::toggleSelection(int position) {
+    if(position >= all_selections.size() || position < 0)
+       throw ImageIndexOutOfBounds();
+    
+    all_selections[position].setActive(!all_selections[position].isActive());
+
+    return *this;
 }
 
 std::vector<int> Image::getFinalResult() {
