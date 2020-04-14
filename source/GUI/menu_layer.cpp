@@ -38,7 +38,7 @@ void Menu_Layer::addLayer() {
     std::ifstream file(path);
     if(!file){
         file.close();
-        std::cout << "Not valid path: creating empty layer" << std::endl;
+        addHeader("Not valid path: created empty layer");
         path="";
     }
 

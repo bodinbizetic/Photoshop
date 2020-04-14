@@ -83,6 +83,23 @@ void Image::swapLayers(int position1, int position2) {
     std::swap(all_layers[position1], all_layers[position2]);
 }
 
+std::vector<std::string> Image::getDiadicNames() const {
+    std::vector<std::string> names;
+    for(auto p : diadic_functions)
+        names.push_back(p.first);
+    
+    return names;
+}
+
+std::vector<std::string> Image::getOperationNames() const {
+    std::vector<std::string> names;
+    for(auto p : all_operations)
+        names.push_back(p->Name());
+    
+    return names;
+}
+
+
 Image& Image::addOperation(const Operation& op) {
     all_operations.push_back(op.copy());
     return *this;

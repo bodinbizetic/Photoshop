@@ -29,6 +29,8 @@ public:
     std::vector<int> getLayerMatrix(int) const;
     void swapLayers(int, int);
 
+    std::vector<std::string> getDiadicNames() const;
+    std::vector<std::string> getOperationNames() const;
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);
 
