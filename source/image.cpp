@@ -147,7 +147,8 @@ std::vector<int> Image::getFinalResult() {
 Layer Image::combineLayers() const {
     Layer l1(dimensions);
     for(const Layer& l : all_layers)
-        l1 = l1 + l;
+        if(l.Active())
+            l1 = l1 + l;
 
     return l1;
 }
