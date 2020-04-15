@@ -27,6 +27,7 @@ Image& Image::addLayer(int position, std::string name_, std::string path_) {
     else 
         all_layers.insert(all_layers.begin() + position, newLayer);
 
+    fitAll();
     return *this;
 }
 
@@ -209,7 +210,6 @@ Layer Image::createLayer(std::string name_, std::string path_) {
         Layer newLayer(dim, vp, name_);
         // TODO: call fit layers
         updateDim(dim);
-        fitAll();
         delete &f;
         return newLayer;
     }
