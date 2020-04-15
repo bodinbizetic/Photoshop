@@ -15,7 +15,7 @@ void Pixel::setRGB(const Operation& fun){
 
 Pixel Pixel::getBlackWhite() const {
     int val = (red + green + blue) / 3;
-    val /= MAX_COLOR_VALUE / 2;
+    val = (val > 127 ? 255 : 0);
     return Pixel(val, val, val, alfa);
 }
 
