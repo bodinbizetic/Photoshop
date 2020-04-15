@@ -65,6 +65,14 @@ Image& Image::applyOperationCoordinates(const Operation& op, std::vector<std::pa
     return *this;
 }
 
+void Image::invert() {
+    std::vector<std::pair<int, int>> coordinates = getActiveCoordinates();
+    SimpleOperation op([](int i) -> int{
+        return Pixel::MAX_VALUE - i;
+    });
+    applyOperation(op);
+}
+
 std::vector<std::pair<int, int>> Image::getActiveCoordinates() {
     std::set<std::pair<int, int>> all_coordinates;
     for(const Selection& s : all_selections)

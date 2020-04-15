@@ -16,8 +16,10 @@ void Menu_Operation::functionCall(std::string x) {
     } else if(x == "5") {
         project.toBlackWhite();
     } else if(x == "6") {
-        // Invert
+        project.invert();
     } else if(x == "7") {
+        project.invert();
+    } else if(x == "8") {
         Menu_Operation_Mode m(project);
         m.start();
     } else {
