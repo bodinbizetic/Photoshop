@@ -34,6 +34,7 @@ public:
     std::vector<std::pair<std::string, std::string>> getOperationMode() const;
     Image& useDiadic(std::string name, int arg);
     Image& useOperation(int pos);
+    void createOperation(std::vector<std::pair<int, int>> op_arg, std::string name_);
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);
 

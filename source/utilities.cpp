@@ -7,6 +7,8 @@
 #include "menu.h"
 
 bool isInteger(std::string s) {
+    if(s[0] == '-' || s[0] == '+')
+        s = s.substr(1, s.size()-1);
     for(auto c : s)
         if(!isdigit(c))
             return false;

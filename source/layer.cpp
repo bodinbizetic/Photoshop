@@ -83,10 +83,10 @@ void Layer::checkBounds(std::pair<int, int> coordinates) const{
 }
 
 Pixel Layer::getMedian(std::pair<int, int> coord) const {
-    int sumR = *this[{coord.first, coord.second}].Red();
-    int sumB = *this[{coord.first, coord.second}].Blue();
-    int sumG = *this[{coord.first, coord.second}].Green();
-    int alfa = *this[{coord.first, coord.second}].Alfa();
+    int sumR = operator[]({coord.first, coord.second}).Red();
+    int sumB = operator[]({coord.first, coord.second}).Blue();
+    int sumG = operator[]({coord.first, coord.second}).Green();
+    int alfa = operator[]({coord.first, coord.second}).Alfa();
     int cnt=1;
     auto add = [&](const Pixel& l) {
         sumR += l.Red();

@@ -43,6 +43,7 @@ std::vector<Operation*> ComplexOperation::copy(std::vector<Operation*> op) const
 }
 
 void ComplexOperation::copy(const ComplexOperation& cop) {
+    setName(cop.Name());
     operation_functions = cop.copy(cop.operation_functions);
 }
 

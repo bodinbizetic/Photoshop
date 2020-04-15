@@ -29,6 +29,9 @@ private:
     void useDiadic(std::string);
     void useMonadicOperation(int);
 
+    void createOperation();
+    std::pair<int, int> insertOperation();
+
     
 };
 

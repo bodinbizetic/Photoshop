@@ -10,7 +10,7 @@ void Menu_Operation::functionCall(std::string x) {
     } else if(x == "2") {
         useOperation();
     } else if(x == "3") {
-        // Create
+        createOperation();
     } else if(x == "4"){
         project.toGray();
     } else if(x == "5") {
@@ -60,7 +60,7 @@ void Menu_Operation::useOperation() {
     if(operation_id < diadic_num)
         useDiadic(project.getDiadicNames()[operation_id]);
     else
-        useMonadicOperation(operation_id - diadic_num + 1);
+        useMonadicOperation(operation_id - diadic_num);
 }
 
 void Menu_Operation::useDiadic(std::string op_id) {
@@ -70,4 +70,38 @@ void Menu_Operation::useDiadic(std::string op_id) {
 
 void Menu_Operation::useMonadicOperation(int op_id) {
     project.useOperation(op_id);
+}
+
+void Menu_Operation::createOperation() {
+    std::vector<std::pair<int,int>> op_scheme;
+    showAllOperations();
+    std::string name;
+    std::cout << "Insert name:\n>>> ";
+    std::cin >> name;
+    std::cout << "End with -1" << std::endl;
+    while(1) {
+        std::pair<int, int> op = insertOperation();
+        if(op.first == -1)
+            break;
+        op_scheme.push_back(op);
+    }
+
+    project.createOperation(op_scheme, name);
+}
+
+std::pair<int, int> Menu_Operation::insertOperation() {
+    int diadic_num = project.getDiadicNames().size();
+    int oper_num   = project.getOperationNames().size();
+    int operation_id = inputIntMsg("OPERATION:\n>>> ");
+    if(operation_id < 0 || operation_id >= diadic_num + oper_num) {
+        return {-1, -1};
+    }
+
+    if(operation_id < diadic_num) {
+        int arg = inputIntMsg("ARGUMENT:\n>>> ");
+        return {operation_id, arg};
+    }
+    else
+        return {operation_id, -1};
+        
 }
