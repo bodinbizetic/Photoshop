@@ -43,6 +43,24 @@ void Image::toBlackWhite() {
             }
 }
 
+void Image::invert() {
+    std::vector<std::pair<int, int>> coordinates = getActiveCoordinates();
+    SimpleOperation op([](int i) -> int{
+        return Pixel::MAX_VALUE - i;
+    });
+    applyOperation(op);
+}
+
+void Image::blur() {
+    std::vector<std::pair<int, int>> coordinates = getActiveCoordinates();
+    for(Layer& l : all_layers)
+        if(l.Active()) {
+            Layer old(l);
+            for(std::pair<int, int> c : coordinates)
+                l[c] = old.getMedian(c);
+        }
+}
+
 Image& Image::applyOperation(const Operation& op) {
     applyOperationSelection(op);
     
@@ -63,14 +81,6 @@ Image& Image::applyOperationCoordinates(const Operation& op, std::vector<std::pa
                     l[c].setAlfa(op);
             }
     return *this;
-}
-
-void Image::invert() {
-    std::vector<std::pair<int, int>> coordinates = getActiveCoordinates();
-    SimpleOperation op([](int i) -> int{
-        return Pixel::MAX_VALUE - i;
-    });
-    applyOperation(op);
 }
 
 std::vector<std::pair<int, int>> Image::getActiveCoordinates() {

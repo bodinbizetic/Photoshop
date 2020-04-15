@@ -14,6 +14,7 @@ public:
         "Turn picture to gray",
         "Turn picture to Black and White",
         "Invert",
+        "Blur",
         "Choose operation mode"
     }) {}
 private:

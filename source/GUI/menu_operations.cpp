@@ -18,7 +18,7 @@ void Menu_Operation::functionCall(std::string x) {
     } else if(x == "6") {
         project.invert();
     } else if(x == "7") {
-        project.invert();
+        project.blur();
     } else if(x == "8") {
         Menu_Operation_Mode m(project);
         m.start();

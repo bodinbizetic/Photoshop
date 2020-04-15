@@ -52,6 +52,7 @@ public:
     void toGray();
     void toBlackWhite();
     void invert();
+    void blur();
 private:
     std::map<std::string, bool> operation_mode{{"Red", true}, {"Green", true}, {"Blue", true}, {"Alfa", false}};
     

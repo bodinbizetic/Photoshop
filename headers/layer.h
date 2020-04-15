@@ -53,6 +53,7 @@ public:
     void convertGray();
     void convertBlackWhite();
     void fitLayer(std::pair<int, int>);
+    Pixel getMedian(std::pair<int, int>) const;
 private:
     std::string name = DEFAULT_LAYER_NAME;
     std::pair<int, int> dimension;
@@ -63,7 +64,6 @@ private:
 
     void initMatrix();
     void checkBounds(std::pair<int, int>) const;
-
     #ifdef _TEST_
         friend std::ostream& operator<< (std::ostream& os, Layer& l){
             for(int i=0; i<l.dimension.second; i++) {

@@ -81,3 +81,41 @@ void Layer::checkBounds(std::pair<int, int> coordinates) const{
     if(coordinates.second < 0 || coordinates.second >= dimension.second)
         throw LayerIndexOutOfBounds();
 }
+
+Pixel Layer::getMedian(std::pair<int, int> coord) const {
+    int sumR = operator[]({coord.first, coord.second}).Red();
+    int sumB = operator[]({coord.first, coord.second}).Blue();
+    int sumG = operator[]({coord.first, coord.second}).Green();
+    int alfa = operator[]({coord.first, coord.second}).Alfa();
+    int cnt=1;
+    auto add = [&](const Pixel& l) {
+        sumR += l.Red();
+        sumG += l.Green();
+        sumB += l.Blue();
+        cnt++;
+    };
+    auto check = [this](std::pair<int, int> coordinates) -> bool {
+        if(coordinates.first < 0 || coordinates.first >= dimension.first)
+            return false;
+        if(coordinates.second < 0 || coordinates.second >= dimension.second)
+            return false;
+        return true;
+    };
+    auto val = [this] (std::pair<int, int> coordinates) -> int {
+        return coordinates.second * dimension.first + coordinates.first;
+    };
+    // add(layer_matrix[val(coord)]);
+    if(check({coord.first-1, coord.second}))
+        add(layer_matrix[val({coord.first-1, coord.second})]);
+
+    if(check({coord.first+1, coord.second}))
+        add(layer_matrix[val({coord.first+1, coord.second})]);
+
+    if(check({coord.first, coord.second+1}))
+        add(layer_matrix[val({coord.first, coord.second+1})]);
+
+    if(check({coord.first, coord.second-1}))
+        add(layer_matrix[val({coord.first, coord.second-1})]);
+    // add(layer_matrix[val(coord)].Red());
+    return {sumR/cnt, sumG/cnt, sumB/cnt, alfa};
+}
