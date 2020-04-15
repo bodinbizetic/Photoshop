@@ -12,9 +12,9 @@ void Menu_Operation::functionCall(std::string x) {
     } else if(x == "3") {
         // Create
     } else if(x == "4"){
-        // Gray
+        project.toGray();
     } else if(x == "5") {
-        // BlackW
+        project.toBlackWhite();
     } else if(x == "6") {
         // Invert
     } else if(x == "7") {
@@ -67,5 +67,5 @@ void Menu_Operation::useDiadic(std::string op_id) {
 }
 
 void Menu_Operation::useMonadicOperation(int op_id) {
-
+    project.useOperation(op_id);
 }

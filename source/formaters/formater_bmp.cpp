@@ -22,7 +22,7 @@ std::vector<int> Formater_BMP::load() {
             int newElement = readBytes(file, 3) | 0xff000000; // TODO: Make to work with 32 bit BMP
             matrix[i * dimension.first + j] = newElement;
         }
-        readBytes(file, 4 - dimension.first * 3 % 4);
+        readBytes(file, dimension.first * 3 % 4);
     }
 
     file.close();

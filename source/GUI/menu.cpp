@@ -16,7 +16,7 @@ void Menu::loopMenu() {
         std::cin >> command;
         try{
             functionCall(command);
-        } catch(std::exception e) {
+        } catch(std::exception& e) {
             std:: cout << e.what() << std::endl;
             clean = false;
         }

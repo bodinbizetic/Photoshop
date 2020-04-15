@@ -33,10 +33,7 @@ public:
     std::vector<std::string> getOperationNames() const;
     std::vector<std::pair<std::string, std::string>> getOperationMode() const;
     Image& useDiadic(std::string name, int arg);
-    Image& applyOperation(const Operation& op);
-    Image& applyOperationSelection(const Operation& op);
-    Image& applyOperationImage(const Operation& op);
-    Image& applyOperationCoordinates(const Operation& op, std::vector<std::pair<int, int>>);
+    Image& useOperation(int pos);
     Image& addOperation(const Operation& op);
     Image& removeOperation(int i);
 
@@ -51,6 +48,9 @@ public:
     std::pair<int, int> Dimensions() const { return dimensions; };
     std::vector<int> getFinalResult();
     void toggleModeColor(std::string c);
+
+    void toGray();
+    void toBlackWhite();
 private:
     std::map<std::string, bool> operation_mode{{"Red", true}, {"Green", true}, {"Blue", true}, {"Alfa", false}};
     
@@ -67,6 +67,11 @@ private:
     Layer createLayer(std::string name_, std::string path_);
     void fitAll();
     void updateDim(std::pair<int, int> newDim);
+
+    Image& applyOperationSelection(const Operation& op);
+    Image& applyOperation(const Operation& op);
+    Image& applyOperationCoordinates(const Operation& op, std::vector<std::pair<int, int>>);
+    std::vector<std::pair<int, int>> getActiveCoordinates();
 };
 
 #endif // _image_h_

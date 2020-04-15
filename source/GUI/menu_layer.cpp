@@ -95,6 +95,8 @@ void Menu_Layer::swapLayers() {
 
 void Menu_Layer::showCombined() {
     consoleDraw(project.getFinalResult(), project.Dimensions());
+    std::string x;
+    std::cin >> x;
 }
 
 /* Create empty layer and show
