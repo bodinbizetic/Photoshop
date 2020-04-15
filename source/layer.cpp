@@ -83,10 +83,10 @@ void Layer::checkBounds(std::pair<int, int> coordinates) const{
 }
 
 Pixel Layer::getMedian(std::pair<int, int> coord) const {
-    int sumR = operator[]({coord.first, coord.second}).Red();
-    int sumB = operator[]({coord.first, coord.second}).Blue();
-    int sumG = operator[]({coord.first, coord.second}).Green();
-    int alfa = operator[]({coord.first, coord.second}).Alfa();
+    int sumR = *this[{coord.first, coord.second}].Red();
+    int sumB = *this[{coord.first, coord.second}].Blue();
+    int sumG = *this[{coord.first, coord.second}].Green();
+    int alfa = *this[{coord.first, coord.second}].Alfa();
     int cnt=1;
     auto add = [&](const Pixel& l) {
         sumR += l.Red();
@@ -104,7 +104,6 @@ Pixel Layer::getMedian(std::pair<int, int> coord) const {
     auto val = [this] (std::pair<int, int> coordinates) -> int {
         return coordinates.second * dimension.first + coordinates.first;
     };
-    // add(layer_matrix[val(coord)]);
     if(check({coord.first-1, coord.second}))
         add(layer_matrix[val({coord.first-1, coord.second})]);
 
@@ -116,6 +115,5 @@ Pixel Layer::getMedian(std::pair<int, int> coord) const {
 
     if(check({coord.first, coord.second-1}))
         add(layer_matrix[val({coord.first, coord.second-1})]);
-    // add(layer_matrix[val(coord)].Red());
     return {sumR/cnt, sumG/cnt, sumB/cnt, alfa};
 }
