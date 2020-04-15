@@ -6,7 +6,7 @@ SimpleOperation::SimpleOperation(std::function<int(int)> operation_function_, st
 
 }
 
-int SimpleOperation::operator() (int x) {
+int SimpleOperation::operator() (int x) const{
     return operation_function(x);
 }
 

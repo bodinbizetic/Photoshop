@@ -13,7 +13,8 @@ public:
         "Create operation",
         "Turn picture to gray",
         "Turn picture to Black and White",
-        "Invert"
+        "Invert",
+        "Choose operation mode"
     }) {}
 private:
     Image& project;
@@ -22,6 +23,12 @@ private:
     void showAllOperations();
     void showDiadic(int& x) const;
     void showMonadic(int& x) const;
+
+    void useOperation();
+    void useDiadic(std::string);
+    void useMonadicOperation(int);
+
+    
 };
 
 #endif // __MENU_OPERATIONS_H__

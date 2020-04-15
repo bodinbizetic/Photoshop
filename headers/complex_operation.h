@@ -17,7 +17,7 @@ public:
     ComplexOperation(const ComplexOperation& cop2);
     ComplexOperation operator=(const ComplexOperation& cop2);
 
-    virtual int operator() (int x) override;
+    virtual int operator() (int x) const override;
     virtual Operation* copy() const override;
 
 private:

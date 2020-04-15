@@ -22,7 +22,7 @@ ComplexOperation ComplexOperation::operator= (const ComplexOperation& cop2) {
     return *this;
 }
 
-int ComplexOperation::operator() (int x) {
+int ComplexOperation::operator() (int x) const {
     int result = x;
     std::for_each(operation_functions.begin(), operation_functions.end(), [&result] (Operation* op) {
         result = (*op)(result);

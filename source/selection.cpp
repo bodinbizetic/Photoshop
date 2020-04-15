@@ -9,7 +9,7 @@ void Selection::add(RectangleShape r) {
     selected_rectangles.push_back(r);
 }
 
-std::vector< std::pair<int, int> > Selection::getSelectedCoordinates(std::pair<int, int> dimension) {
+std::vector< std::pair<int, int> > Selection::getSelectedCoordinates(std::pair<int, int> dimension) const{
     std::vector< std::pair<int, int> > allCoordinates;
     for(int i=0; i<dimension.second; i++)
         for(int j=0; j<dimension.first; j++)

@@ -3,13 +3,16 @@
 
 #include <string>
 #include <vector>
+#include <exception>
 
-class Terminate {
+class Terminate : public std::exception {
 
 };
 
-class WrongCommand {
-
+class WrongCommand : public std::exception {
+    const char* what() const noexcept override {
+        return "The command you entered is not valid";
+    }
 };
 
 class Menu {

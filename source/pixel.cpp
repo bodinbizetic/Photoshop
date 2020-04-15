@@ -2,13 +2,12 @@
 #include <functional>
 #include "pixel.h"
 
-void Pixel::setRGBA(std::function<int(int x)> fun){
+void Pixel::setRGBA(const Operation& fun){
     setRGB(fun);
     setAlfa(fun);
 }
 
-
-void Pixel::setRGB(std::function<int(int x)> fun){
+void Pixel::setRGB(const Operation& fun){
     setRed(fun);
     setGreen(fun);
     setBlue(fun);

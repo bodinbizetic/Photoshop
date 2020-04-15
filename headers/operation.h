@@ -18,7 +18,7 @@ public:
     std::string Name() const { return name; }
     void setName(std::string name_);
 
-    virtual int operator() (int val) = 0;
+    virtual int operator() (int val) const = 0;
     virtual Operation* copy() const = 0;
 private:
     std::string name;

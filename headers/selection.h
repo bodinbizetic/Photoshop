@@ -24,7 +24,7 @@ public:
 
 
     void add(Rect r);
-    std::vector< std::pair<int, int> > getSelectedCoordinates(std::pair<int, int> dimension);
+    std::vector< std::pair<int, int> > getSelectedCoordinates(std::pair<int, int> dimension) const;
 private:
     std::string name = "";
     std::vector<Rect> selected_rectangles;
