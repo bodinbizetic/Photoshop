@@ -9,6 +9,12 @@ class OperationNameAlreadyExists : public std::exception {
 
 };
 
+class DivisionByZero : public std::exception {
+    const char * what() const noexcept override {
+        return "Division by zero";
+    }
+};
+
 class Operation {
 public:
     static const std::string DEFAULT_OP_NAME;
