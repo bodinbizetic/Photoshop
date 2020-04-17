@@ -21,12 +21,12 @@ Image& Image::useOperation(int pos) {
 }
 
 Image& Image::applyOperationSelection(const Operation& op) {
-    applyOperationCoordinates(op, all_selections.getActiveCoordinates(dimensions));
+    applyOperationCoordinates(op, all_selections.getActiveCoordinates(Dimensions()));
     return *this;
 }
 
 void Image::toGray() {
-    auto coordinates = all_selections.getActiveCoordinates(dimensions);
+    auto coordinates = all_selections.getActiveCoordinates(Dimensions());
     for(Layer& l : all_layers)
         if(l.Active())
             for(std::pair<int, int> c : coordinates) {
@@ -35,7 +35,7 @@ void Image::toGray() {
 }
 
 void Image::toBlackWhite() {
-    auto coordinates = all_selections.getActiveCoordinates(dimensions);
+    auto coordinates = all_selections.getActiveCoordinates(Dimensions());
      for(Layer& l : all_layers)
         if(l.Active())
             for(std::pair<int, int> c : coordinates) {
@@ -44,7 +44,7 @@ void Image::toBlackWhite() {
 }
 
 void Image::invert() {
-    std::vector<std::pair<int, int>> coordinates = all_selections.getActiveCoordinates(dimensions);
+    std::vector<std::pair<int, int>> coordinates = all_selections.getActiveCoordinates(Dimensions());
     SimpleOperation op([](int i) -> int{
         return Pixel::MAX_VALUE - i;
     });
@@ -52,7 +52,7 @@ void Image::invert() {
 }
 
 void Image::blur() {
-    std::vector<std::pair<int, int>> coordinates = all_selections.getActiveCoordinates(dimensions);
+    std::vector<std::pair<int, int>> coordinates = all_selections.getActiveCoordinates(Dimensions());
     for(Layer& l : all_layers)
         if(l.Active()) {
             Layer old(l);
