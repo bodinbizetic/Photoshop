@@ -22,6 +22,7 @@ public:
     void start();
 protected:
     void setClean() { clean = false; }
+    void clClean() { clean = true;}
     void addHeader(std::string s) { header.push_back(s); }
     bool running = true;
     const std::vector<std::string> commands;
