@@ -31,11 +31,21 @@ Image& Image::addLayer(int position, std::string name_, std::string path_) {
     return *this;
 }
 
+Image& Image::addLayer(std::pair<int, int> dimensions_, std::string name_) {
+    Layer newLayer(dimensions_, name_);
+    all_layers.push_back(newLayer);
+    updateDim(dimensions_);
+    fitAll();
+
+    return *this;
+}
+
 Image& Image::removeLayer(int position) {
     if(position >= all_layers.size() || position < 0)
        throw ImageIndexOutOfBounds();
     all_layers.erase(all_layers.begin() + position);
-
+    if(all_layers.size() == 0)
+        dimensions = {0,0};
     return *this;
 }
 
@@ -117,48 +127,6 @@ Image& Image::addOperation(const Operation& op) {
 Image& Image::removeOperation(int position) {
     delete all_operations[position];
     all_operations.erase(all_operations.begin() + position);
-    return *this;
-}
-
-Image& Image::select(RectangleShape r, int position) {
-    if(position >= all_selections.size() || position < 0)
-       throw ImageIndexOutOfBounds();
-
-    all_selections[position].add(r);
-    return *this;
-}
-
-
-Image& Image::addSelection(std::string name) {
-    Selection newSelection;
-    newSelection.setName(name);
-    all_selections.push_back(newSelection);
-    return *this;
-}
-
-std::vector<std::pair<std::string, std::string>> Image::getSelectionNames() const {
-    std::vector<std::pair<std::string, std::string>> sol;
-    for(const Selection& s : all_selections)
-        sol.push_back({s.Name(), (s.isActive() ? "Active" : "Not Active")});
-    
-    return sol;
-}
-
-Image& Image::removeSelection(int position) {
-    if(position >= all_selections.size() || position < 0)
-       throw ImageIndexOutOfBounds();
-    
-    all_selections.erase(all_selections.begin() + position);
-    
-    return *this;
-}
-
-Image& Image::toggleSelection(int position) {
-    if(position >= all_selections.size() || position < 0)
-       throw ImageIndexOutOfBounds();
-    
-    all_selections[position].setActive(!all_selections[position].isActive());
-
     return *this;
 }
 

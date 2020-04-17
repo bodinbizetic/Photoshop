@@ -21,12 +21,12 @@ Image& Image::useOperation(int pos) {
 }
 
 Image& Image::applyOperationSelection(const Operation& op) {
-    applyOperationCoordinates(op, getActiveCoordinates());
+    applyOperationCoordinates(op, all_selections.getActiveCoordinates(dimensions));
     return *this;
 }
 
 void Image::toGray() {
-    auto coordinates = getActiveCoordinates();
+    auto coordinates = all_selections.getActiveCoordinates(dimensions);
     for(Layer& l : all_layers)
         if(l.Active())
             for(std::pair<int, int> c : coordinates) {
@@ -35,7 +35,7 @@ void Image::toGray() {
 }
 
 void Image::toBlackWhite() {
-    auto coordinates = getActiveCoordinates();
+    auto coordinates = all_selections.getActiveCoordinates(dimensions);
      for(Layer& l : all_layers)
         if(l.Active())
             for(std::pair<int, int> c : coordinates) {
@@ -44,7 +44,7 @@ void Image::toBlackWhite() {
 }
 
 void Image::invert() {
-    std::vector<std::pair<int, int>> coordinates = getActiveCoordinates();
+    std::vector<std::pair<int, int>> coordinates = all_selections.getActiveCoordinates(dimensions);
     SimpleOperation op([](int i) -> int{
         return Pixel::MAX_VALUE - i;
     });
@@ -52,7 +52,7 @@ void Image::invert() {
 }
 
 void Image::blur() {
-    std::vector<std::pair<int, int>> coordinates = getActiveCoordinates();
+    std::vector<std::pair<int, int>> coordinates = all_selections.getActiveCoordinates(dimensions);
     for(Layer& l : all_layers)
         if(l.Active()) {
             Layer old(l);
@@ -81,23 +81,4 @@ Image& Image::applyOperationCoordinates(const Operation& op, std::vector<std::pa
                     l[c].setAlfa(op);
             }
     return *this;
-}
-
-std::vector<std::pair<int, int>> Image::getActiveCoordinates() {
-    std::set<std::pair<int, int>> all_coordinates;
-    for(const Selection& s : all_selections)
-        if(s.isActive()){
-            auto vii = s.getSelectedCoordinates(dimensions);
-            all_coordinates.insert(vii.begin(), vii.end());
-        }
-    
-    if(all_coordinates.empty()){
-        std::vector<std::pair<int,int>> coords;
-        for(int i=0; i<dimensions.second; i++)
-            for(int j=0; j<dimensions.first; j++)
-                coords.push_back({j, i});
-        return coords;
-    }
-        
-    return {all_coordinates.begin(), all_coordinates.end()};
 }

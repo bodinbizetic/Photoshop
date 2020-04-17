@@ -49,6 +49,9 @@ void Menu_Operation::showMonadic(int& x) const {
 }
 
 void Menu_Operation::useOperation() {
+    showAllOperations();
+    setClean();
+
     int diadic_num = project.getDiadicNames().size();
     int oper_num   = project.getOperationNames().size();
     int operation_id = inputIntMsg("Insert id of operation you want to use\n>>> ");
@@ -75,9 +78,11 @@ void Menu_Operation::useMonadicOperation(int op_id) {
 void Menu_Operation::createOperation() {
     std::vector<std::pair<int,int>> op_scheme;
     showAllOperations();
+    setClean();
     std::string name;
     std::cout << "Insert name:\n>>> ";
-    std::cin >> name;
+    getchar();
+    scanf("%[^\n]", &name);
     std::cout << "End with -1" << std::endl;
     while(1) {
         std::pair<int, int> op = insertOperation();

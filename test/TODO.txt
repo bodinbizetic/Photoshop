@@ -1,0 +1,4 @@
+-> Selekcije zadavanje sa vektorom
+-> Layeri -> kombinovanje WTF
+-> Formateri
+-> Operacije -> SimpleOperation + arg u konstruktor -> Zasebne klase -> Inverzija

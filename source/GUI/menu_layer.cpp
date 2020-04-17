@@ -41,12 +41,20 @@ void Menu_Layer::addLayer() {
         addHeader("Not valid path: created empty layer");
         path="";
     }
-
-    project.addLayer(-1, name, path);
+    if(project.getLayerNames().size() == 0 && path == "") {
+        int w = inputIntMsg("Width:\n>>> ");
+        if(w < 1) addHeader("Not valid number");
+        int h = inputIntMsg("Height:\n>>> ");
+        if(h < 1) addHeader("Not valid number");
+        
+        project.addLayer({w, h}, name); 
+    } else
+        project.addLayer(-1, name, path);
 }
 
 void Menu_Layer::deleteLayer() {
     printLayers();
+    clClean();
     project.removeLayer(inputIntMsg("Insert position of layer to be removed:\n>>> "));
 }
 
@@ -60,11 +68,14 @@ void Menu_Layer::printLayers() {
 
 void Menu_Layer::toggleLayer() {
     printLayers();
+    clClean();
     project.toggleLayer(inputIntMsg("Insert position of layer to be toggled:\n>>> "));
     
 }
 
 void Menu_Layer::setOpacity() {
+    printLayers();
+    clClean();
     int pos = inputIntMsg("Insert position of layer:\n>>> ");
     int val = inputIntMsg("Insert value of opacity [0-100]:\n>>> ");
     if(val > Layer::MAX_OPACITY){
