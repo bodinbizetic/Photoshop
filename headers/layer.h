@@ -9,8 +9,7 @@
 
 class LayerIndexOutOfBounds : public std::exception {
     const char* what() const noexcept override {
-        std::cout << "LayerIndexOutOfBounds" << std::endl;
-        return "LayerIndexOutOfBounds";
+        return "Layer index out of bounds";
     }
 };
 

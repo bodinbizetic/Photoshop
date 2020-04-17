@@ -7,6 +7,7 @@
 
 #include "layer.h"
 #include "operation.h"
+#include "layer_collection.h"
 #include "selection_collection.h"
 
 class ImageIndexOutOfBounds : public std::exception{
@@ -21,14 +22,7 @@ public:
     Image();
     ~Image(); // TODO: remove all operations
 
-    Image& addLayer(int position, std::string name_, std::string path_);
-    Image& addLayer(std::pair<int, int> dimensions_, std::string name_);
-    Image& removeLayer(int position);
-    std::vector<std::pair<std::string, std::string>> getLayerNames() const;
-    Image& toggleLayer(int pos);
-    Image& setOpacity(int position, int val);
-    std::vector<int> getLayerMatrix(int) const;
-    void swapLayers(int, int);
+    LayerCollection& getLayerCollection() { return all_layers; }
 
     SelectionCollection& getSelectionCollection() { return all_selections; }
 
@@ -42,7 +36,7 @@ public:
     Image& removeOperation(int i);
 
 
-    std::pair<int, int> Dimensions() const { return dimensions; };
+    std::pair<int, int> Dimensions() const { return all_layers.Dimensions(); };
     std::vector<int> getFinalResult();
     void toggleModeColor(std::string c);
 
@@ -52,20 +46,13 @@ public:
     void blur();
 private:
     SelectionCollection all_selections;
+    LayerCollection all_layers;
     std::map<std::string, bool> operation_mode{{"Red", true}, {"Green", true}, {"Blue", true}, {"Alfa", false}};
     
-    std::pair<int, int> dimensions;
-    
     std::vector<Operation*> all_operations;
-    std::vector<Layer> all_layers;
     std::map< std::string, std::function<int(int, int)> > diadic_functions;
 
-    int transformOneDimension(std::pair<int, int> p) { return p.second * dimensions.first + p.first; }
-    Layer combineLayers() const;
     void initOperations();
-    Layer createLayer(std::string name_, std::string path_);
-    void fitAll();
-    void updateDim(std::pair<int, int> newDim);
 
     Image& applyOperationSelection(const Operation& op);
     Image& applyOperation(const Operation& op);

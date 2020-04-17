@@ -41,25 +41,29 @@ void Menu_Layer::addLayer() {
         addHeader("Not valid path: created empty layer");
         path="";
     }
-    if(project.getLayerNames().size() == 0 && path == "") {
+    
+    LayerCollection &layers = project.getLayerCollection();
+    if(layers.getLayerNames().size() == 0 && path == "") {
         int w = inputIntMsg("Width:\n>>> ");
         if(w < 1) addHeader("Not valid number");
         int h = inputIntMsg("Height:\n>>> ");
         if(h < 1) addHeader("Not valid number");
         
-        project.addLayer({w, h}, name); 
+        layers.addLayer({w, h}, name); 
     } else
-        project.addLayer(-1, name, path);
+        layers.addLayer(-1, name, path);
 }
 
 void Menu_Layer::deleteLayer() {
     printLayers();
     clClean();
-    project.removeLayer(inputIntMsg("Insert position of layer to be removed:\n>>> "));
+    LayerCollection &layers = project.getLayerCollection();
+    layers.removeLayer(inputIntMsg("Insert position of layer to be removed:\n>>> "));
 }
 
 void Menu_Layer::printLayers() {
-    std::vector< std::pair<std::string, std::string> > names = project.getLayerNames();
+    LayerCollection &layers = project.getLayerCollection();
+    std::vector< std::pair<std::string, std::string> > names = layers.getLayerNames();
     int x=0;
     for(const std::pair<std::string, std::string>& n : names)
         std::cout << x++ << ". " << n.first << "\t" << n.second << std::endl;
@@ -69,7 +73,8 @@ void Menu_Layer::printLayers() {
 void Menu_Layer::toggleLayer() {
     printLayers();
     clClean();
-    project.toggleLayer(inputIntMsg("Insert position of layer to be toggled:\n>>> "));
+    LayerCollection &layers = project.getLayerCollection();
+    layers.toggleLayer(inputIntMsg("Insert position of layer to be toggled:\n>>> "));
     
 }
 
@@ -83,15 +88,17 @@ void Menu_Layer::setOpacity() {
     }
     if(val < Layer::MIN_OPACITY)
         val = Layer::MIN_OPACITY;
-    project.setOpacity(pos, val);
+        LayerCollection &layers = project.getLayerCollection();
+    layers.setOpacity(pos, val);
     std::cout << "Opacity set to " << val << std::endl;
     
 }
 
 void Menu_Layer::draw() {
     int pos = inputIntMsg("Insert position of layer to be drawn:\n>>> ");
-    std::vector<int> matrix = project.getLayerMatrix(pos);
-    std::pair<int, int> dim = project.Dimensions();
+    LayerCollection &layers = project.getLayerCollection();
+    std::vector<int> matrix = layers.getLayerMatrix(pos);
+    std::pair<int, int> dim = layers.Dimensions();
     system("cls");
     consoleDraw(matrix, dim);
     std::string unused;
@@ -101,7 +108,8 @@ void Menu_Layer::draw() {
 void Menu_Layer::swapLayers() {
     int l1 = inputIntMsg("Input first layer id:\n>>> ");
     int l2 = inputIntMsg("Input second layer id:\n>>> ");
-    project.swapLayers(l1, l2);
+    LayerCollection &layers = project.getLayerCollection();
+    layers.swapLayers(l1, l2);
 }
 
 void Menu_Layer::showCombined() {

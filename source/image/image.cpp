@@ -18,84 +18,6 @@ Image::~Image() {
     all_operations.clear();
 }
 
-Image& Image::addLayer(int position, std::string name_, std::string path_) {
-    Layer newLayer = createLayer(name_, path_);
-
-    
-    if(position >= all_layers.size() || position < 0)
-        all_layers.push_back(newLayer);
-    else 
-        all_layers.insert(all_layers.begin() + position, newLayer);
-
-    fitAll();
-    return *this;
-}
-
-Image& Image::addLayer(std::pair<int, int> dimensions_, std::string name_) {
-    Layer newLayer(dimensions_, name_);
-    all_layers.push_back(newLayer);
-    updateDim(dimensions_);
-    fitAll();
-
-    return *this;
-}
-
-Image& Image::removeLayer(int position) {
-    if(position >= all_layers.size() || position < 0)
-       throw ImageIndexOutOfBounds();
-    all_layers.erase(all_layers.begin() + position);
-    if(all_layers.size() == 0)
-        dimensions = {0,0};
-    return *this;
-}
-
-std::vector<std::pair<std::string, std::string>> Image::getLayerNames() const {
-    std::vector<std::pair<std::string, std::string>> names;
-    for(const Layer& l: all_layers) {
-        names.push_back({l.getName(), (l.Active() ? "True" : "False")});
-    }
-    return names;
-}
-
-Image& Image::toggleLayer(int position) {
-    if(position >= all_layers.size() || position < 0)
-       throw ImageIndexOutOfBounds();
-    
-    all_layers[position].setActive(!all_layers[position].Active());
-
-    return *this;
-}
-
-Image& Image::setOpacity(int position, int val) {
-    if(position >= all_layers.size() || position < 0)
-       throw ImageIndexOutOfBounds();
-    
-    all_layers[position].setOpacity(val);
-    
-    return *this;
-}
-
-std::vector<int> Image::getLayerMatrix(int position) const {
-    if(position >= all_layers.size() || position < 0)
-       throw ImageIndexOutOfBounds();
-    
-    auto matrix = all_layers[position].Matrix();
-    std::vector<int> ret;
-    for(auto m : matrix)
-        ret.push_back((int)m);
-    
-    return ret;
-}
-
-void Image::swapLayers(int position1, int position2) {
-    if(position1 >= all_layers.size() || position1 < 0)
-       throw ImageIndexOutOfBounds();
-    if(position2 >= all_layers.size() || position2 < 0)
-       throw ImageIndexOutOfBounds();
-    
-    std::swap(all_layers[position1], all_layers[position2]);
-}
-
 std::vector<std::string> Image::getDiadicNames() const {
     std::vector<std::string> names;
     for(auto p : diadic_functions)
@@ -131,20 +53,11 @@ Image& Image::removeOperation(int position) {
 }
 
 std::vector<int> Image::getFinalResult() {
-    auto vp = combineLayers().Matrix();
+    auto vp = all_layers.combineLayers().Matrix();
     std::vector<int> vi;
     for(Pixel& p : vp)
         vi.push_back((int)p);
     return vi;
-}
-
-Layer Image::combineLayers() const {
-    Layer l1(dimensions);
-    for(const Layer& l : all_layers)
-        if(l.Active())
-            l1 = l1 + l;
-
-    return l1;
 }
 
 void Image::initOperations() {
@@ -162,35 +75,6 @@ void Image::initOperations() {
     all_operations.push_back(sop1.copy());
     all_operations.push_back(sop2.copy());
 
-}
-
-Layer Image::createLayer(std::string name_, std::string path_) {
-    if(path_ == "")
-        return Layer(dimensions, name_);
-    else {
-        Formater &f = * new Formater_BMP(path_);
-        std::vector<int> vi = f.load();
-        std::vector<Pixel> vp;
-        for(int i : vi) { // TODO: Add constructor from vi to vp
-            vp.push_back((Pixel) i);
-        }
-        std::pair<int, int> dim = f.Dimensions();
-        Layer newLayer(dim, vp, name_);
-        // TODO: call fit layers
-        updateDim(dim);
-        delete &f;
-        return newLayer;
-    }
-}
-
-void Image::fitAll() {
-    for(Layer& l : all_layers)
-        l.fitLayer(dimensions);
-}
-
-void Image::updateDim(std::pair<int, int> newDim) {
-    dimensions.first = std::max(dimensions.first, newDim.first);
-    dimensions.second = std::max(dimensions.second, newDim.second);
 }
 
 void Image::toggleModeColor(std::string name) {
