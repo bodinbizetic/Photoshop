@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <windows.h>
+#include <fstream>
 
 #include "pixel.h"
 #include "menu.h"
@@ -40,3 +41,12 @@ void consoleDraw(std::vector<int> vvi, std::pair<int, int> dim) {
     ReleaseDC(myconsole, mydc);
 }
 
+bool fileExists(std::string path) {
+    std::ifstream file(path);
+    if(file.fail()) {
+        file.close();
+        return false;
+    }
+    file.close();
+    return true;
+}
