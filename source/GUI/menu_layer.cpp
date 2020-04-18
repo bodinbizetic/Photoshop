@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include "menu_layer.h"
 #include "menu_main.h"
@@ -28,10 +29,20 @@ void Menu_Layer::functionCall(std::string x) {
 }
 
 void Menu_Layer::addLayer() {
+    LayerCollection &layers = project.getLayerCollection();
     std::string name;
     std::cout << "Layer name:\n>>> ";
     std::cin >> name; // TODO: Check if layer exists
     
+    auto names = layers.getLayerNames();
+    if(std::find_if(names.begin(), names.end(), [&name](std::pair<std::string, std::string> s)->bool {
+        return s.first == name;
+        
+    }) != names.end()){
+        addHeader("Name Already exists");
+        return;
+    }
+
     std::string path;
     std::cout << "Path of BMP/PAM file to be loaded:\n>>> ";
     std::cin >> path;
@@ -42,7 +53,6 @@ void Menu_Layer::addLayer() {
         path="";
     }
     
-    LayerCollection &layers = project.getLayerCollection();
     if(layers.getLayerNames().size() == 0 && path == "") {
         int w = inputIntMsg("Width:\n>>> ");
         if(w < 1) addHeader("Not valid number");
