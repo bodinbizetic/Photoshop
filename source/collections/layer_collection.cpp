@@ -108,21 +108,3 @@ void LayerCollection::updateDim(std::pair<int, int> newDim) {
     dimensions.first = std::max(dimensions.first, newDim.first);
     dimensions.second = std::max(dimensions.second, newDim.second);
 }
-
-void LayerCollection::convertGray(const std::vector<std::pair<int, int>>& coords) {
-    for(Layer& l : all_layers)
-        for(const std::pair<int, int>& c : coords)
-            l.convertGray(c);
-}
-
-void LayerCollection::convertBlackWhite(const std::vector<std::pair<int, int>>& coords) {
-    for(Layer& l : all_layers)
-        for(const std::pair<int, int>& c : coords)
-            l.convertBlackWhite(c);
-}
-
-void LayerCollection::convertMedianBlur(const std::vector<std::pair<int, int>>& coords) {
-    for(Layer& l : all_layers)
-        for(const std::pair<int, int>& c : coords)
-            l.convertMedianBlur(c);
-} // TODO: remove this 3 methods
