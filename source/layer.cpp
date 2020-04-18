@@ -21,12 +21,12 @@ void Layer::setOpacity(int x) {
     else opacity = x;
 }
 
-Pixel& Layer::operator[] (std::pair<int, int> coordinateXY) {
+Pixel& Layer::operator[] (const std::pair<int, int>& coordinateXY) {
     checkBounds(coordinateXY);
     return layer_matrix[coordinateXY.second * dimension.first + coordinateXY.first];
 }
 
-const Pixel& Layer::operator[] (std::pair<int, int> coordinate) const {
+const Pixel& Layer::operator[] (const std::pair<int, int>& coordinate) const {
     checkBounds(coordinate);
     return const_cast<Pixel&>(layer_matrix[coordinate.second * dimension.first + coordinate.first]);
 }    
@@ -47,14 +47,19 @@ Layer operator+(const Layer& l1, const Layer& l2) {
     return newLayer;
 }
 
-void Layer::convertGray() {
-    for(Pixel& p: layer_matrix)
-        p = p.getGray();
+void Layer::convertGray(const std::pair<int, int>& coord) {
+    Pixel& p = (*this)[coord];
+    p = p.getGray();
 }
 
-void Layer::convertBlackWhite() {
-    for(Pixel& p : layer_matrix)
-        p = p.getBlackWhite();
+void Layer::convertBlackWhite(const std::pair<int, int>& coord) {
+    Pixel& p = (*this)[coord];
+    p = p.getBlackWhite();
+}
+
+void Layer::convertMedianBlur(const std::pair<int, int>& coord) {
+    Pixel newPixel = getMedian(coord);
+    (*this)[coord] = newPixel;
 }
 
 void Layer::fitLayer(std::pair<int, int> new_dims) {
@@ -75,7 +80,7 @@ void Layer::initMatrix() {
     layer_matrix.assign(dimension.second * dimension.first, 0);
 }
 
-void Layer::checkBounds(std::pair<int, int> coordinates) const{
+void Layer::checkBounds(const std::pair<int, int>& coordinates) const{
     if(coordinates.first < 0 || coordinates.first >= dimension.first)
         throw LayerIndexOutOfBounds();
     if(coordinates.second < 0 || coordinates.second >= dimension.second)

@@ -12,13 +12,13 @@ void Menu_Operation::functionCall(std::string x) {
     } else if(x == "3") {
         createOperation();
     } else if(x == "4"){
-        project.toGray();
+        // project.toGray();
     } else if(x == "5") {
-        project.toBlackWhite();
+        // project.toBlackWhite();
     } else if(x == "6") {
-        project.invert();
+        // project.invert();
     } else if(x == "7") {
-        project.blur();
+        // project.blur();
     } else if(x == "8") {
         Menu_Operation_Mode m(project);
         m.start();
@@ -35,14 +35,16 @@ void Menu_Operation::showAllOperations() {
 }
 
 void Menu_Operation::showDiadic(int& x) const {
-    std::vector<std::string> names = project.getDiadicNames();
+    OperationCollection &operations = project.getOperationCollection();
+    std::vector<std::string> names = operations.getDiadicNames();
     for(std::string name : names) {
         std::cout << x++ << " " << name << std::endl;
     }
 }
 
 void Menu_Operation::showMonadic(int& x) const {
-    std::vector<std::string> names = project.getOperationNames();
+    OperationCollection &operations = project.getOperationCollection();
+    std::vector<std::string> names = operations.getOperationNames();
     for(std::string name : names) {
         std::cout << x++ << " " << name << std::endl;
     }
@@ -52,8 +54,9 @@ void Menu_Operation::useOperation() {
     showAllOperations();
     setClean();
 
-    int diadic_num = project.getDiadicNames().size();
-    int oper_num   = project.getOperationNames().size();
+OperationCollection &operations = project.getOperationCollection();
+    int diadic_num = operations.getDiadicNames().size();
+    int oper_num   = operations.getOperationNames().size();
     int operation_id = inputIntMsg("Insert id of operation you want to use\n>>> ");
     if(operation_id < 0 || operation_id >= diadic_num + oper_num) {
         addHeader("Wrong ID");
@@ -61,12 +64,12 @@ void Menu_Operation::useOperation() {
     }
 
     if(operation_id < diadic_num)
-        useDiadic(project.getDiadicNames()[operation_id]);
+        useDiadic(operation_id);
     else
         useMonadicOperation(operation_id - diadic_num);
 }
 
-void Menu_Operation::useDiadic(std::string op_id) {
+void Menu_Operation::useDiadic(int op_id) {
     int arg = inputIntMsg("Insert constant for other operand:\n>>> ");
     project.useDiadic(op_id, arg);
 }
@@ -91,12 +94,14 @@ void Menu_Operation::createOperation() {
         op_scheme.push_back(op);
     }
 
-    project.createOperation(op_scheme, name);
+OperationCollection &operations = project.getOperationCollection();
+    operations.createOperation(op_scheme, name);
 }
 
 std::pair<int, int> Menu_Operation::insertOperation() {
-    int diadic_num = project.getDiadicNames().size();
-    int oper_num   = project.getOperationNames().size();
+    OperationCollection &operations = project.getOperationCollection();
+    int diadic_num = operations.getDiadicNames().size();
+    int oper_num   = operations.getOperationNames().size();
     int operation_id = inputIntMsg("OPERATION:\n>>> ");
     if(operation_id < 0 || operation_id >= diadic_num + oper_num) {
         return {-1, -1};

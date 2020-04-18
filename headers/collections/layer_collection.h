@@ -18,6 +18,9 @@ public:
 
     Layer combineLayers() const;
 
+    void convertGray(const std::vector<std::pair<int, int>>&);
+    void convertBlackWhite(const std::vector<std::pair<int, int>>&);
+    void convertMedianBlur(const std::vector<std::pair<int, int>>&);
 private:
     std::vector<Layer> all_layers;
     std::pair<int, int> dimensions;

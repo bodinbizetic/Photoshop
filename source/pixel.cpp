@@ -2,17 +2,6 @@
 #include <functional>
 #include "pixel.h"
 
-void Pixel::setRGBA(const Operation& fun){
-    setRGB(fun);
-    setAlfa(fun);
-}
-
-void Pixel::setRGB(const Operation& fun){
-    setRed(fun);
-    setGreen(fun);
-    setBlue(fun);
-}
-
 Pixel Pixel::getBlackWhite() const {
     int val = (red + green + blue) / 3;
     val = (val > 127 ? 255 : 0);

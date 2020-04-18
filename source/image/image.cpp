@@ -7,49 +7,46 @@
 #include "simple_operation.h"
 
 Image::Image() {
-    initOperations();
+
 }
 
 Image::~Image() {
-    for(Operation*& o : all_operations) {
-        delete o;
-        o = nullptr;
+    
+}
+
+void Image::useDiadic(int pos, int arg) {
+    std::function<int(int, int)> fun = all_operations.getDiadic(pos);
+    SimpleOperation op(fun, arg, "", all_operations.getModeBinary());
+    applyOperation(op);
+}
+
+void Image::useOperation(int pos) {
+    applyOperation(*all_operations.getOperation(pos));
+}
+
+void Image::applyOperation(const Operation& op) {
+    std::vector<std::pair<int, int>> selected = all_selections.getActiveCoordinates(Dimensions());
+    applyOperationCoordinates(op, selected);
+}
+
+void Image::applyOperationCoordinates(const Operation& op, const std::vector<std::pair<int, int>>& selected) {
+    for(Layer& l : all_layers) {
+        OperationalLayer operational = makeOperationalLayer(l);
+        op(operational, selected);
+        for(std::pair<int, int> s : selected) {
+            l[s].setAlfa(operational.matrix[operational.dimensions.first * s.second + s.first].alfa);
+            l[s].setRed(operational.matrix[operational.dimensions.first * s.second + s.first].red);
+            l[s].setBlue(operational.matrix[operational.dimensions.first * s.second + s.first].blue);
+            l[s].setGreen(operational.matrix[operational.dimensions.first * s.second + s.first].green);
+        }
     }
-    all_operations.clear();
 }
 
-std::vector<std::string> Image::getDiadicNames() const {
-    std::vector<std::string> names;
-    for(auto p : diadic_functions)
-        names.push_back(p.first);
-    
-    return names;
-}
-
-std::vector<std::string> Image::getOperationNames() const {
-    std::vector<std::string> names;
-    for(auto p : all_operations)
-        names.push_back(p->Name());
-    
-    return names;
-}
-
-std::vector<std::pair<std::string, std::string>> Image::getOperationMode() const {
-    std::vector<std::pair<std::string, std::string>> ret;
-    for(auto i : operation_mode)
-        ret.push_back({i.first, (i.second ? "True" : "False")});
-    return ret;
-}
-
-Image& Image::addOperation(const Operation& op) {
-    all_operations.push_back(op.copy());
-    return *this;
-}
-
-Image& Image::removeOperation(int position) {
-    delete all_operations[position];
-    all_operations.erase(all_operations.begin() + position);
-    return *this;
+OperationalLayer Image::makeOperationalLayer(Layer& l) {
+    std::vector<OperationalPixel> operational;
+    for(Pixel p : l)
+        operational.push_back({p.Red(), p.Green(), p.Blue(), p.Alfa()});
+    return {operational, l.Dimension()};
 }
 
 std::vector<int> Image::getFinalResult() {
@@ -59,26 +56,3 @@ std::vector<int> Image::getFinalResult() {
         vi.push_back((int)p);
     return vi;
 }
-
-void Image::initOperations() {
-    diadic_functions["add"] = std::plus<int>();
-    diadic_functions["sub"] = std::minus<int>();
-    diadic_functions["div"] = [](int y, int x) -> int { if(x ==0) throw DivisionByZero(); return y/x; };
-    diadic_functions["mul"] = std::multiplies<int>();
-    diadic_functions["rdiv"] = [](int x, int y) -> int { if(x ==0) throw DivisionByZero(); return y/x; };
-    diadic_functions["rsub"] = [](int x, int y) -> int { return y-x; };
-    diadic_functions["pow"] = [](int x, int y) -> int  { return pow(x, y); };
-    diadic_functions["max"] = [](int x, int y) -> int  { return std::max(x, y); };
-    diadic_functions["min"] = [](int x, int y) -> int  { return std::min(x, y); };
-    SimpleOperation sop1([](int x) -> int { return log(x); }, "Log");
-    SimpleOperation sop2([](int x) -> int { return abs(x); }, "Abs");
-    all_operations.push_back(sop1.copy());
-    all_operations.push_back(sop2.copy());
-
-}
-
-void Image::toggleModeColor(std::string name) {
-    if(operation_mode.find(name) != operation_mode.end())
-        operation_mode[name] = !operation_mode[name];
-}
-

@@ -22,12 +22,11 @@ ComplexOperation ComplexOperation::operator= (const ComplexOperation& cop2) {
     return *this;
 }
 
-int ComplexOperation::operator() (int x) const {
-    int result = x;
-    std::for_each(operation_functions.begin(), operation_functions.end(), [&result] (Operation* op) {
-        result = (*op)(result);
+OperationalLayer& ComplexOperation::operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const {
+    std::for_each(operation_functions.begin(), operation_functions.end(), [&] (Operation* oper) {
+        (*oper)(op, toChange);
     });
-    return result;
+    return op;
 }
 
 Operation* ComplexOperation::copy() const {

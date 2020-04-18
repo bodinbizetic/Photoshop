@@ -14,7 +14,8 @@ void Menu_Operation_Mode::functionCall(std::string x) {
 }
 
 void Menu_Operation_Mode::showCurrentOperationMode() {
-    auto modes = project.getOperationMode();
+    OperationCollection &operations = project.getOperationCollection();
+    auto modes = operations.getOperationMode();
     int x = 0;
     for(auto m : modes)
         std::cout << x++ << ". " << m.first << "\t" << m.second << std::endl;
@@ -22,10 +23,11 @@ void Menu_Operation_Mode::showCurrentOperationMode() {
 }
 
 void Menu_Operation_Mode::toggleOperationMode() {
+    OperationCollection &operations = project.getOperationCollection();
     int op = inputIntMsg("Input id of atribute to be changed:\n>>> ");
-    if(op < 0 || op >= project.getOperationMode().size()) {
+    if(op < 0 || op >= operations.getOperationMode().size()) {
         addHeader("Index out of bounds");
         return;
     }
-    project.toggleModeColor(project.getOperationMode()[op].first);
+    operations.toggleModeColor(operations.getOperationMode()[op].first);
 }

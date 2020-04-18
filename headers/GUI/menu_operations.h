@@ -26,7 +26,7 @@ private:
     void showMonadic(int& x) const;
 
     void useOperation();
-    void useDiadic(std::string);
+    void useDiadic(int);
     void useMonadicOperation(int);
 
     void createOperation();

@@ -18,7 +18,7 @@ public:
     ComplexOperation(const ComplexOperation& cop2);
     ComplexOperation operator=(const ComplexOperation& cop2);
 
-    virtual int operator() (int x) const override;
+    virtual OperationalLayer& operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const override;
     virtual Operation* copy() const override;
 
 private:

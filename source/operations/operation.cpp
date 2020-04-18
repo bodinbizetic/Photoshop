@@ -2,7 +2,7 @@
 
 const std::string Operation::DEFAULT_OP_NAME = "";
 
-Operation::Operation(std::string name_) {
+Operation::Operation(std::string name_, int RGBA_mask_) : RGBA_mask(RGBA_mask_) {
     setName(name_);
 }
 

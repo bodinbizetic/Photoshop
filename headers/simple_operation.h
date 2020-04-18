@@ -7,9 +7,10 @@
 
 class SimpleOperation : public Operation {
 public:
-    SimpleOperation(std::function<int(int)> operation_function_, std::string name_ = DEFAULT_OP_NAME);
+    SimpleOperation(std::function<int(int)> operation_function_, std::string name_ = DEFAULT_OP_NAME, int RGBA_mask = 0b1110);
+    SimpleOperation(std::function<int(int, int)> operation_function_, int arg, std::string name_ = DEFAULT_OP_NAME, int RGBA_mask = 0b1110);
 
-    virtual int operator() (int x) const override;
+    virtual OperationalLayer& operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const override;
     virtual Operation* copy() const override;
 private:
     std::function<int(int)> operation_function;

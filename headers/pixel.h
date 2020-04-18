@@ -22,12 +22,6 @@ public:
     void setGreen(int newVal) { green = setColor(newVal); }
     void setBlue(int newVal) { blue = setColor(newVal); }
     void setAlfa(int newVal) { alfa = setColor(newVal); }
-    void setRed(const Operation& fun) { red = setColor(fun(red));}
-    void setGreen(const Operation& fun) { green = setColor(fun(green)); }
-    void setBlue(const Operation& fun) { blue = setColor(fun(blue)); }
-    void setAlfa(const Operation& fun) { alfa = setColor(fun(alfa)); }
-    void setRGB(const Operation& fun);
-    void setRGBA(const Operation& fun);
 
     Pixel getBlackWhite() const;
     Pixel getGray() const;

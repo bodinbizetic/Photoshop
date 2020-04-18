@@ -15,14 +15,12 @@ class LayerIndexOutOfBounds : public std::exception {
 
 class LayerFitDimensionsSmaller : public std::exception {
     const char* what() const noexcept override {
-        std::cout << "LayerFitDimensionsSmaller" << std::endl;
         return "LayerFitDimensionsSmaller";
     }
 };
 
 class LayerDimensionMismatch : public std::exception {
     const char* what() const noexcept override {
-        std::cout << "LayerDimensionMismatch" << std::endl;
         return "LayerDimensionMismatch";
     }
 };
@@ -44,15 +42,19 @@ public:
     std::vector<Pixel> Matrix() const { return layer_matrix; }
 
 
-    Pixel& operator[] (std::pair<int, int>);
-    const Pixel& operator[] (std::pair<int, int>) const;
+    Pixel& operator[] (const std::pair<int, int>& coordinateXY);
+    const Pixel& operator[] (const std::pair<int, int>& coordinateXY) const;
 
     friend Layer operator+(const Layer& l1, const Layer& l2); // TODO: Implement
 
-    void convertGray();
-    void convertBlackWhite();
+    void convertGray(const std::pair<int, int>& coordinate);
+    void convertBlackWhite(const std::pair<int, int>& coordinate);
+    void convertMedianBlur(const std::pair<int,int>& coordinate);
+
     void fitLayer(std::pair<int, int>);
-    Pixel getMedian(std::pair<int, int>) const;
+    std::pair<int, int> Dimension() const { return dimension; }
+    std::vector<Pixel>::iterator begin() { return layer_matrix.begin(); }
+    std::vector<Pixel>::iterator end() { return layer_matrix.end(); }
 private:
     std::string name = DEFAULT_LAYER_NAME;
     std::pair<int, int> dimension;
@@ -61,18 +63,10 @@ private:
     int opacity = MAX_OPACITY;
     bool active=true;
 
+
     void initMatrix();
-    void checkBounds(std::pair<int, int>) const;
-    #ifdef _TEST_
-        friend std::ostream& operator<< (std::ostream& os, Layer& l){
-            for(int i=0; i<l.dimension.second; i++) {
-                for(int j=0; j<l.dimension.first; j++)
-                    // os << l.layer_matrix[i * j] << " ";
-                os << std::endl;
-            }
-            return os;
-        }
-    #endif
+    void checkBounds(const std::pair<int, int>& coordinate) const;
+    Pixel getMedian(std::pair<int, int>) const;
 };
 
 #endif // __LAYER_H__
