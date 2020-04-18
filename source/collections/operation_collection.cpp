@@ -3,6 +3,7 @@
 #include "operation_collection.h"
 #include "complex_operation.h"
 #include "simple_operation.h"
+#include "gray_operation.h"
 
 OperationCollection::~OperationCollection() {
     for(Operation*& o : all_operations) {
@@ -84,9 +85,10 @@ void OperationCollection::initOperations() {
     diadic_functions["min"] = [](int x, int y) -> int  { return std::min(x, y); };
     SimpleOperation sop1([](int x) -> int { return log(x); }, "Log");
     SimpleOperation sop2([](int x) -> int { return abs(x); }, "Abs");
+    GrayTransformation gop1("Gray");
     all_operations.push_back(sop1.copy());
     all_operations.push_back(sop2.copy());
-
+    all_operations.push_back(gop1.copy());
 }
 
 void OperationCollection::toggleModeColor(std::string name) {
