@@ -17,8 +17,8 @@ void Menu::loopMenu() {
         try{
             functionCall(command);
         } catch(std::exception& e) {
-            std:: cout << e.what() << std::endl;
-            clean = false;
+            addHeader(e.what());
+            clean = true;
         }
     }
 }
