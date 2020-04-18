@@ -23,6 +23,8 @@ void Menu_Layer::functionCall(std::string x) {
         swapLayers();
     } else if(x == "8") {
         showCombined();
+    } else if(x == "9") {
+        saveAll("bmp");
     } else {
         throw WrongCommand();
     }
@@ -130,6 +132,12 @@ void Menu_Layer::showCombined() {
     consoleDraw(project.getFinalResult(), project.Dimensions());
     std::string x;
     std::cin >> x;
+}
+
+void Menu_Layer::saveAll(std::string ext) {
+    LayerCollection& layers = project.getLayerCollection();
+    if(ext == "bmp")
+        layers.saveAllLayersBMP("resource");
 }
 
 /* Create empty layer and show

@@ -1,5 +1,6 @@
 #include "formater_bmp.h"
 #include "layer_collection.h"
+#include "utilities.h"
 
 void LayerCollection::addLayer(int position, std::string name_, std::string path_) {
     Layer newLayer = createLayer(name_, path_);
@@ -108,3 +109,30 @@ void LayerCollection::updateDim(std::pair<int, int> newDim) {
     dimensions.first = std::max(dimensions.first, newDim.first);
     dimensions.second = std::max(dimensions.second, newDim.second);
 }
+
+void LayerCollection::saveAllLayersBMP(std::string workind_dir) {
+    for(int i=0; i<all_layers.size(); i++)
+        saveLayerBMP(i, workind_dir);
+}
+
+void LayerCollection::saveLayerBMP(int pos, std::string working_dir) {
+    if(pos < 0 || pos >= all_layers.size())
+        throw LayerIndexOutOfBounds();
+    const Layer& curr_layer = all_layers[pos];
+    Formater_BMP formater(working_dir + OS_SEP + curr_layer.getName() + ".bmp");
+    
+    std::vector<int> vi;
+    for(auto i : curr_layer.Matrix())
+        vi.push_back(i);
+
+    formater.store(vi, curr_layer.Dimension());
+}
+
+/*
+1
+1
+1
+name
+resource/leopard.bmp
+9
+*/

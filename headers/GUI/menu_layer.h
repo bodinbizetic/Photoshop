@@ -21,7 +21,8 @@ public:
         "Set Opacity",
         "Draw layer",
         "Swap layer",
-        "Show combined"
+        "Show combined",
+        "Save all as BMP"
     }) {}
 private:
     Image& project;
@@ -36,6 +37,7 @@ private:
     void draw();
     void swapLayers();
     void showCombined();
+    void saveAll(std::string ext);
 
 };
 

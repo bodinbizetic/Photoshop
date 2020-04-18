@@ -35,7 +35,7 @@ void Formater_BMP::store(std::vector<int> matrix, std::pair<int, int> dimensions
     std::ofstream file(path, std::ios::binary | std::ios::out);
 
     dimension = dimensions;
-    hasAlfa = false;
+    hasAlfa = true;
     BMP_Header header = configureHeader();
     storeHeader(file, header);
 

@@ -2,4 +2,5 @@
 -> Layeri -> kombinovanje WTF
 -> Formateri
 -> Operacije -> SimpleOperation + arg u konstruktor -> Zasebne klase -> Inverzija
+-> BlackWhite, medijana i inverzija
 -> Medijana -> sredisnji ne prosecni

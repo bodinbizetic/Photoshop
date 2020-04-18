@@ -6,11 +6,7 @@
 
 #include "menu_main.h"
 #include "menu_image.h"
-
-#define CHANGE_DIR "chdir "
-#define MAKE_DIR "mkdir "
-#define OS_SEP "\\"
-#define DELETE_FILE "del "
+#include "utilities.h"
 
 void Menu_Main::functionCall(std::string x) {
     if(x == "0")
@@ -59,7 +55,7 @@ void Menu_Main::createProjectFolder() {
 }
 
 void Menu_Main::createProjectResource() {
-    std::string command = MAKE_DIR + path_ + OS_SEP + "Resource";
+    std::string command = MAKE_DIR + path_ + OS_SEP + "resource";
     system(command.c_str());
 }
 
