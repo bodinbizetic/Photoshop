@@ -15,15 +15,15 @@ SimpleOperation::SimpleOperation(std::function<int(int, int)> operation_function
 
 OperationalLayer& SimpleOperation::operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const {
     for(auto coordinate : toChange){
-    OperationalPixel& p = op.matrix[op.dimensions.first * coordinate.second + coordinate.first];
-    if(RGBA_mask & 0b1000)
-        p.red = operation_function(p.red);
-    if(RGBA_mask & 0b0100)
-        p.blue = operation_function(p.blue);
-    if(RGBA_mask & 0b0010)
-        p.green = operation_function(p.green);
-    if(RGBA_mask & 0b0001)
-        p.alfa = operation_function(p.alfa);
+        OperationalPixel& p = op.matrix[op.dimensions.first * coordinate.second + coordinate.first];
+        if(RGBA_mask & 0b1000)
+            p.red = operation_function(p.red);
+        if(RGBA_mask & 0b0100)
+            p.blue = operation_function(p.blue);
+        if(RGBA_mask & 0b0010)
+            p.green = operation_function(p.green);
+        if(RGBA_mask & 0b0001)
+            p.alfa = operation_function(p.alfa);
     }
     return op; 
 }
