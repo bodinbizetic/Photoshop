@@ -14,15 +14,14 @@ std::vector<int> Formater_BMP::load() {
     std::vector <int> matrix(dimension.second*dimension.first, 0);
 
     file.seekg(offset_for_pixels, std::ios::beg);
-    // char c;
-    // file.read(&c, 1);
+    int alfa = (hasAlfa ? 4 : 3);
     int x=0;
     for(int i=0; i<dimension.second; i++) {
         for(int j=0; j<dimension.first; j++){
-            int newElement = readBytes(file, 3) | 0xff000000; // TODO: Make to work with 32 bit BMP
+            int newElement = readBytes(file, alfa) | (hasAlfa ? 0 :0xff000000); // TODO: Make to work with 32 bit BMP
             matrix[i * dimension.first + j] = newElement;
         }
-        readBytes(file, dimension.first * 3 % 4);
+        readBytes(file, dimension.first * alfa % 4);
     }
 
     file.close();
@@ -30,29 +29,26 @@ std::vector<int> Formater_BMP::load() {
     return matrix;
 }
 
-void Formater_BMP::store(std::vector<int> matrix) {
-    std::ofstream file("output.bmp", std::ios::binary | std::ios::out);
+void Formater_BMP::store(std::vector<int> matrix, std::pair<int, int> dimensions) {
+    std::ofstream file(path, std::ios::binary | std::ios::out);
 
-    std::ifstream input(path, std::ios::binary);
-    int i;
-    for(i=0; i < offset_for_pixels; i++) {
-        char c;
-        int temp = readByte_1(input);
-        // file.write(&c, 1);
-        storeByte_1(file, temp);
-    }
-    std::cout << i << std::endl;
+    dimension = dimensions;
+    hasAlfa = false;
+    BMP_Header header = configureHeader();
+    storeHeader(file, header);
+
+    int alfaSize = (hasAlfa ? 4 : 3);
+
     for(int i=0; i<dimension.second; i++){
         int j;
         for(j=0; j<dimension.first; j++){
-            storeBytes(file, matrix[i*dimension.first + j], 3);
+            storeBytes(file, matrix[i*dimension.first + j], alfaSize);
         }
-        for(int k=0; k < 4 - dimension.first*3 % 4; k++)
+        for(int k=0; k < dimension.first*alfaSize % 4; k++)
             storeByte_1(file, 0);
     }
     
     file.close();
-    input.close();
 }
 
 Formater_BMP::Formater_BMP(std::string path_) : Formater(path_) {
@@ -81,11 +77,6 @@ void Formater_BMP::loadDimensions(std::ifstream& file) {
     dimension.first =  readBytes(file, 4);
     file.seekg(OFFSET_HEIGHT);
     dimension.second = readBytes(file, 4);
-    // char byte[2];
-    // for(int i=0; i<10; i++){
-
-    //     file.read(byte, 1);
-    // }
 }
 
 void Formater_BMP::loadOff_Pixels(std::ifstream& file) {
@@ -122,4 +113,42 @@ void Formater_BMP::storeBytes(std::ostream& file, int num, int n) {
     }
 }
 
+int Formater_BMP::invertNumber(int number, int size) const {
+    int result = 0;
+    int mask = 0xff;
+    for(int i=0; i<size; i++) {
+        result += number & mask;
+        number >>= 8;
+        result <<= 8;
+    }
+    return result;
+}
 
+BMP_Header Formater_BMP::configureHeader() const {
+    BMP_Header header;
+    header.image_width = dimension.first;
+    header.image_height = dimension.second;
+    header.size_bmp = dimension.first * dimension.second * (hasAlfa ? 4 : 3);
+    header.size_bmp_file = dimension.first * dimension.second * (hasAlfa ? 4 : 3) + sizeof(BMP_Header)-2;
+    header.bits_per_pixel = (hasAlfa ? 32 : 24);
+    return header;
+}
+
+void Formater_BMP::storeHeader(std::ofstream& file, const BMP_Header& header) const {
+    file.write((char*)&header.ID_field, sizeof(header.ID_field));
+    file.write((char*)&header.size_bmp_file, sizeof(header.size_bmp_file));
+    file.write((char*)&header.unused_0, sizeof(header.unused_0));
+    file.write((char*)&header.unused_1, sizeof(header.unused_1));
+    file.write((char*)&header.offset_pixels, sizeof(header.offset_pixels));
+    file.write((char*)&header.num_of_bytes_dib, sizeof(header.num_of_bytes_dib));
+    file.write((char*)&header.image_width, sizeof(header.image_width));
+    file.write((char*)&header.image_height, sizeof(header.image_height));
+    file.write((char*)&header.color, sizeof(header.color));
+    file.write((char*)&header.bits_per_pixel, sizeof(header.bits_per_pixel));
+    file.write((char*)&header.commpression, sizeof(header.commpression));
+    file.write((char*)&header.size_bmp, sizeof(header.size_bmp));
+    file.write((char*)&header.pixels_per_meter_1, sizeof(header.pixels_per_meter_1));
+    file.write((char*)&header.pixels_per_meter_2, sizeof(header.pixels_per_meter_2));
+    file.write((char*)&header.unused_dib_1, sizeof(header.unused_dib_1));
+    file.write((char*)&header.unused_dib_2, sizeof(header.unused_dib_2));
+}

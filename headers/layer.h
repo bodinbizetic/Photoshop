@@ -47,7 +47,7 @@ public:
 
     friend Layer operator+(const Layer& l1, const Layer& l2); // TODO: Implement
 
-    void convertGray(const std::pair<int, int>& coordinate);
+    void convertGray(const std::pair<int, int>& coordinate);        // TODO: Remove if necessary
     void convertBlackWhite(const std::pair<int, int>& coordinate);
     void convertMedianBlur(const std::pair<int,int>& coordinate);
 
