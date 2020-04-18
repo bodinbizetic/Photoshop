@@ -33,15 +33,8 @@ void Menu_Layer::addLayer() {
     std::string name;
     std::cout << "Layer name:\n>>> ";
     std::cin >> name; // TODO: Check if layer exists
-    
-    auto names = layers.getLayerNames();
-    if(std::find_if(names.begin(), names.end(), [&name](std::pair<std::string, std::string> s)->bool {
-        return s.first == name;
-        
-    }) != names.end()){
-        addHeader("Name Already exists");
-        return;
-    }
+
+    checkIfLayerExists(layers, name);
 
     std::string path;
     std::cout << "Path of BMP/PAM file to be loaded:\n>>> ";
@@ -63,6 +56,17 @@ void Menu_Layer::addLayer() {
     } else
         layers.addLayer(-1, name, path);
 }
+
+void Menu_Layer::checkIfLayerExists(const LayerCollection& layers, std::string name) {
+    auto names = layers.getLayerNames();
+    if(std::find_if(names.begin(), names.end(), [&name](std::pair<std::string, std::string> s)->bool {
+        return s.first == name;
+        
+    }) != names.end()){
+        throw LayerNameAlreadyExists();
+    }
+}
+
 
 void Menu_Layer::deleteLayer() {
     printLayers();

@@ -4,6 +4,12 @@
 #include "menu.h"
 #include "image.h"
 
+class LayerNameAlreadyExists : public std::exception {
+    const char* what() const noexcept override {
+        return "Layer name already exists";
+    }
+};
+
 class Menu_Layer : public Menu {
 public:
     Menu_Layer(Image& project_) : project(project_), Menu({
@@ -22,6 +28,7 @@ private:
     void functionCall(std::string x) override;
 
     void addLayer();
+    void checkIfLayerExists(const LayerCollection& layers, std::string name);
     void deleteLayer();
     void printLayers();
     void toggleLayer();
