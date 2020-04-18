@@ -43,6 +43,7 @@ private:
     unsigned int size_with_header;
     unsigned int offset_for_pixels;
 
+    void loadInit();
     void loadAlfa(std::ifstream& file);
     void loadDimensions(std::ifstream& file);
     void loadOff_Pixels(std::ifstream& file);

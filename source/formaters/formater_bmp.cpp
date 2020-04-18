@@ -10,6 +10,8 @@ const unsigned int OFFSET_SIZE_PADDING = 0x22;
 const unsigned int OFFSET_PIXELS = 0xA;
 
 std::vector<int> Formater_BMP::load() {
+    loadInit();
+
     std::ifstream file(path, std::ios::binary);
     std::vector <int> matrix(dimension.second*dimension.first, 0);
 
@@ -18,7 +20,7 @@ std::vector<int> Formater_BMP::load() {
     int x=0;
     for(int i=0; i<dimension.second; i++) {
         for(int j=0; j<dimension.first; j++){
-            int newElement = readBytes(file, alfa) | (hasAlfa ? 0 :0xff000000); // TODO: Make to work with 32 bit BMP
+            int newElement = readBytes(file, alfa) | (hasAlfa ? 0 :0xff000000); // TODO: Load check for anomalities
             matrix[i * dimension.first + j] = newElement;
         }
         readBytes(file, dimension.first * alfa % 4);
@@ -52,6 +54,9 @@ void Formater_BMP::store(std::vector<int> matrix, std::pair<int, int> dimensions
 }
 
 Formater_BMP::Formater_BMP(std::string path_) : Formater(path_) {
+}
+
+void Formater_BMP::loadInit() {
     std::ifstream file;
     file.open(path, std::ios::binary);
 
@@ -105,7 +110,6 @@ void Formater_BMP::storeByte_1(std::ostream& file, unsigned char c) {
 }
 
 void Formater_BMP::storeBytes(std::ostream& file, int num, int n) {
-    
     for(int i=0; i<n; i++) {
         char c = num & 0xff;
         file.write(&c, 1);
