@@ -1,5 +1,5 @@
 #include <math.h>
-
+#include <algorithm>
 #include "operation_collection.h"
 #include "complex_operation.h"
 #include "simple_operation.h"

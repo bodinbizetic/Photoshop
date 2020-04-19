@@ -1,3 +1,7 @@
+#include <string>
+#include <utility>
+
+#include "image.h"
 #include "menu.h"
 
 class PathNotExists {
@@ -15,7 +19,8 @@ private:
     std::string path_="";
     void functionCall(std::string x) override;
 
-    void initProject();
-    void createProjectFolder();
-    void createProjectResource();
+    std::pair<std::string, std::string> createProjectFolder();
+    void createProjectResource(Image& project);
+
+    std::pair<std::string, std::string> openProject();
 };

@@ -7,7 +7,7 @@ class LayerCollection {
 public:
     std::pair<int, int> Dimensions() const { return dimensions; }
 
-    void addLayer(int position, std::string name_, std::string path_);
+    void addLayer(int position, std::string name_, std::string relative_path_);
     void addLayer(std::pair<int, int> dimensions_, std::string name_);
     void removeLayer(int position);
     std::vector<std::pair<std::string, std::string>> getLayerNames() const;
@@ -22,6 +22,7 @@ public:
 private:
     std::vector<Layer> all_layers;
     std::pair<int, int> dimensions;
+    std::map<std::string, std::string> layer_paths;
 
     Layer createLayer(std::string name_, std::string path_);
     void fitAll();

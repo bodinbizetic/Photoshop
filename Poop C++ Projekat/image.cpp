@@ -6,7 +6,7 @@
 #include "image.h"
 #include "simple_operation.h"
 
-Image::Image() {
+Image::Image(std::string path, std::string name) : project_manager(path, name){
 
 }
 
@@ -56,3 +56,7 @@ std::vector<int> Image::getFinalResult() {
         vi.push_back((int)p);
     return vi;
 }
+
+/*
+C:\Users\Dinbo\Desktop
+*/

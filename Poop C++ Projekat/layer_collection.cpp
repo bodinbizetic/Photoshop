@@ -1,3 +1,5 @@
+#include <algorithm>
+#include "project_manager.h"
 #include "formater_bmp.h"
 #include "layer_collection.h"
 #include "utilities.h"
@@ -24,6 +26,7 @@ void LayerCollection::addLayer(std::pair<int, int> dimensions_, std::string name
 void LayerCollection::removeLayer(int position) {
     if(position >= all_layers.size() || position < 0)
        throw LayerIndexOutOfBounds();
+    layer_paths.erase(layer_paths.find(all_layers[position].getName()));
     all_layers.erase(all_layers.begin() + position);
     if(all_layers.size() == 0)
         dimensions = {0,0};
@@ -82,8 +85,10 @@ Layer LayerCollection::combineLayers() const {
 }
 
 Layer LayerCollection::createLayer(std::string name_, std::string path_) {
-    if(path_ == "")
+    if(path_ == "") {
+        layer_paths[name_] = ProjectManager::resource_folder + OS_SEP + name_ + ".bmp";
         return Layer(dimensions, name_);
+    }
     else {
         Formater &f = * new Formater_BMP(path_);
         std::vector<int> vi = f.load();
@@ -92,6 +97,7 @@ Layer LayerCollection::createLayer(std::string name_, std::string path_) {
             vp.push_back((Pixel) i);
         }
         std::pair<int, int> dim = f.Dimensions();
+        layer_paths[name_] = path_;
         Layer newLayer(dim, vp, name_);
         // TODO: call fit layers
         updateDim(dim);
@@ -119,7 +125,7 @@ void LayerCollection::saveLayerBMP(int pos, std::string working_dir) {
     if(pos < 0 || pos >= all_layers.size())
         throw LayerIndexOutOfBounds();
     const Layer& curr_layer = all_layers[pos];
-    Formater_BMP formater(working_dir + OS_SEP + curr_layer.getName() + ".bmp");
+    Formater_BMP formater(layer_paths[curr_layer.getName()]); // TODO: force relative paths
     
     std::vector<int> vi;
     for(auto i : curr_layer.Matrix())

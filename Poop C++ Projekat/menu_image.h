@@ -6,14 +6,14 @@
 
 class Menu_Image : public Menu {
 public:
-    Menu_Image() : Menu({
+    Menu_Image(Image& project_) : project(project_), Menu({
         "Return",
         "Layer", 
         "Operation",
         "Selection"
         }) {}
 private:
-    Image project;
+    Image& project;
     void functionCall(std::string cmd) override;
 };
 

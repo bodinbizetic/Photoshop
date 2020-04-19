@@ -7,6 +7,7 @@
 
 #include "layer.h"
 #include "operation.h"
+#include "project_manager.h"
 #include "layer_collection.h"
 #include "selection_collection.h"
 #include "operation_collection.h"
@@ -20,14 +21,16 @@ class ImageIndexOutOfBounds : public std::exception{
 
 class Image {
 public:
-    Image();
+    Image(std::string path, std::string name);
     ~Image(); // TODO: remove all operations
 
     LayerCollection& getLayerCollection() { return all_layers; }
 
     SelectionCollection& getSelectionCollection() { return all_selections; }
 
-    OperationCollection& getOperationCollection() {return all_operations; }
+    OperationCollection& getOperationCollection() { return all_operations; }
+
+    ProjectManager& getProjectManager() { return project_manager;  }
 
     void useDiadic(int pos, int arg); // TODO
     void useOperation(int pos);
@@ -39,7 +42,7 @@ private:
     SelectionCollection all_selections;
     LayerCollection all_layers;
     OperationCollection all_operations;
-    
+    ProjectManager project_manager;
     void toGray();
     void toBlackWhite();
     void invert();

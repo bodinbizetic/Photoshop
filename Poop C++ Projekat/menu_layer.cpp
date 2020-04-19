@@ -1,8 +1,10 @@
 #include <algorithm>
+#include <regex>
 #include <fstream>
 #include "menu_layer.h"
 #include "menu_main.h"
 #include "utilities.h"
+#include "project_manager.h"
 
 void Menu_Layer::functionCall(std::string x) {
     if(x == "0")
@@ -46,6 +48,13 @@ void Menu_Layer::addLayer() {
         file.close();
         addHeader("Not valid path: created empty layer");
         path="";
+    }else {
+        // TODO: copy to resource folder path
+        std::string newPath = getRelativePath(path);
+        newPath = ProjectManager::resource_folder + OS_SEP + newPath;
+        if(path != project.getProjectManager().getCwd() + OS_SEP + newPath)
+            ProjectManager::copy(path, newPath);
+        path = newPath;
     }
     
     if(layers.getLayerNames().size() == 0 && path == "") {
@@ -69,6 +78,15 @@ void Menu_Layer::checkIfLayerExists(const LayerCollection& layers, std::string n
     }
 }
 
+std::string Menu_Layer::getRelativePath(std::string path) {
+    std::regex reg(".*\\\\(.+\\.(?:(?:bmp)|(?:pam)))");
+    std::cmatch match;
+    std::regex_match(path.c_str(), match, reg);
+    // std::cout << match[0] << std::endl;
+    if(match[1] == "")
+        throw ExtensionError();
+    return match[1];
+}
 
 void Menu_Layer::deleteLayer() {
     printLayers();

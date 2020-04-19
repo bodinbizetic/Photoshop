@@ -10,6 +10,12 @@ class LayerNameAlreadyExists : public std::exception {
     }
 };
 
+class ExtensionError : public std::exception {
+    const char* what() const noexcept override {
+        return "File type not supported";
+    }
+};
+
 class Menu_Layer : public Menu {
 public:
     Menu_Layer(Image& project_) : project(project_), Menu({
@@ -38,6 +44,8 @@ private:
     void swapLayers();
     void showCombined();
     void saveAll(std::string ext);
+
+    std::string getRelativePath(std::string path);
 
 };
 

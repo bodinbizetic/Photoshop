@@ -50,3 +50,20 @@ bool fileExists(std::string path) {
     file.close();
     return true;
 }
+
+bool copyPath(std::string src, std::string dst) {
+    std::ifstream input(src, std::ios::binary);
+    std::ofstream output(dst, std::ios::binary);
+    if(input.fail() || output.fail()){
+        std::cout << "Failed";
+    }
+    char c;
+    while(!input.eof()){
+        input.read(&c, 1);
+        output.write(&c, 1);
+    }
+
+    output.close();
+    input.close();
+    return input && output;
+}
