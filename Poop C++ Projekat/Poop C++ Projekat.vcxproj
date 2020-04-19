@@ -88,6 +88,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>headers/operations;headers/formaters;headers/collections;headers/gui;headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,54 +140,56 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="complex_operation.h" />
-    <ClInclude Include="formater.h" />
-    <ClInclude Include="formater_bmp.h" />
-    <ClInclude Include="gray_operation.h" />
-    <ClInclude Include="image.h" />
-    <ClInclude Include="layer.h" />
-    <ClInclude Include="layer_collection.h" />
-    <ClInclude Include="menu.h" />
-    <ClInclude Include="menu_image.h" />
-    <ClInclude Include="menu_layer.h" />
-    <ClInclude Include="menu_main.h" />
-    <ClInclude Include="menu_operations.h" />
-    <ClInclude Include="menu_operations_mode.h" />
-    <ClInclude Include="menu_selection.h" />
-    <ClInclude Include="operation.h" />
-    <ClInclude Include="operation_collection.h" />
-    <ClInclude Include="pixel.h" />
-    <ClInclude Include="project_manager.h" />
-    <ClInclude Include="rectangle.h" />
-    <ClInclude Include="selection.h" />
-    <ClInclude Include="selection_collection.h" />
-    <ClInclude Include="simple_operation.h" />
-    <ClInclude Include="utilities.h" />
+    <ClInclude Include="headers\collections\layer_collection.h" />
+    <ClInclude Include="headers\collections\operation_collection.h" />
+    <ClInclude Include="headers\collections\project_manager.h" />
+    <ClInclude Include="headers\collections\selection_collection.h" />
+    <ClInclude Include="headers\formaters\formater.h" />
+    <ClInclude Include="headers\formaters\formater_bmp.h" />
+    <ClInclude Include="headers\formaters\formater_pam.h" />
+    <ClInclude Include="headers\gui\menu.h" />
+    <ClInclude Include="headers\gui\menu_image.h" />
+    <ClInclude Include="headers\gui\menu_layer.h" />
+    <ClInclude Include="headers\gui\menu_main.h" />
+    <ClInclude Include="headers\gui\menu_operations.h" />
+    <ClInclude Include="headers\gui\menu_operations_mode.h" />
+    <ClInclude Include="headers\gui\menu_selection.h" />
+    <ClInclude Include="headers\image.h" />
+    <ClInclude Include="headers\layer.h" />
+    <ClInclude Include="headers\operations\complex_operation.h" />
+    <ClInclude Include="headers\operations\gray_operation.h" />
+    <ClInclude Include="headers\operations\operation.h" />
+    <ClInclude Include="headers\operations\simple_operation.h" />
+    <ClInclude Include="headers\pixel.h" />
+    <ClInclude Include="headers\rectangle.h" />
+    <ClInclude Include="headers\selection.h" />
+    <ClInclude Include="headers\utilities.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="complex_operation.cpp" />
-    <ClCompile Include="formater_bmp.cpp" />
-    <ClCompile Include="gray_operation.cpp" />
-    <ClCompile Include="image.cpp" />
-    <ClCompile Include="layer.cpp" />
-    <ClCompile Include="layer_collection.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="menu.cpp" />
-    <ClCompile Include="menu_image.cpp" />
-    <ClCompile Include="menu_layer.cpp" />
-    <ClCompile Include="menu_main.cpp" />
-    <ClCompile Include="menu_operations.cpp" />
-    <ClCompile Include="menu_operation_mode.cpp" />
-    <ClCompile Include="menu_selection.cpp" />
-    <ClCompile Include="operation.cpp" />
-    <ClCompile Include="operation_collection.cpp" />
-    <ClCompile Include="pixel.cpp" />
-    <ClCompile Include="project_manager.cpp" />
-    <ClCompile Include="rectangle.cpp" />
-    <ClCompile Include="selection.cpp" />
-    <ClCompile Include="selection_collection.cpp" />
-    <ClCompile Include="simple_operation.cpp" />
-    <ClCompile Include="utilities.cpp" />
+    <ClCompile Include="source\collections\layer_collection.cpp" />
+    <ClCompile Include="source\collections\operation_collection.cpp" />
+    <ClCompile Include="source\collections\project_manager.cpp" />
+    <ClCompile Include="source\collections\selection_collection.cpp" />
+    <ClCompile Include="source\formaters\formater_bmp.cpp" />
+    <ClCompile Include="source\formaters\formater_pam.cpp" />
+    <ClCompile Include="source\gui\menu.cpp" />
+    <ClCompile Include="source\gui\menu_image.cpp" />
+    <ClCompile Include="source\gui\menu_layer.cpp" />
+    <ClCompile Include="source\gui\menu_main.cpp" />
+    <ClCompile Include="source\gui\menu_operations.cpp" />
+    <ClCompile Include="source\gui\menu_operation_mode.cpp" />
+    <ClCompile Include="source\gui\menu_selection.cpp" />
+    <ClCompile Include="source\image.cpp" />
+    <ClCompile Include="source\layer.cpp" />
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\operations\complex_operation.cpp" />
+    <ClCompile Include="source\operations\gray_operation.cpp" />
+    <ClCompile Include="source\operations\operation.cpp" />
+    <ClCompile Include="source\operations\simple_operation.cpp" />
+    <ClCompile Include="source\pixel.cpp" />
+    <ClCompile Include="source\rectangle.cpp" />
+    <ClCompile Include="source\selection.cpp" />
+    <ClCompile Include="source\utilities.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

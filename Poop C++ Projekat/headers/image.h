@@ -43,10 +43,7 @@ private:
     LayerCollection all_layers;
     OperationCollection all_operations;
     ProjectManager project_manager;
-    void toGray();
-    void toBlackWhite();
-    void invert();
-    void blur();
+
 
     void applyOperation(const Operation& op);
     void applyOperationCoordinates(const Operation& op, const std::vector<std::pair<int, int>>&);

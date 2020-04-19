@@ -4,8 +4,16 @@
 #include <vector>
 #include <string>
 
-class FileDoesNotExist {
+class FileDoesNotExist : public std::exception{
+    const char* what() const noexcept override {
+        return "Could not find the file requested";
+    }
+};
 
+class FilePermissionDenied : public std::exception {
+    const char* what() const noexcept override {
+        return "Could not open the file requested";
+    }
 };
 
 class Formater {
