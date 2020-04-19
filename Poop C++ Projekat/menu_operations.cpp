@@ -84,7 +84,7 @@ void Menu_Operation::createOperation() {
     setClean();
     std::string name;
     std::cout << "Insert name:\n>>> ";
-    std::cin >> name;
+    std::getline(std::cin, name);
     /*getchar();
     scanf("%[^\n]", &name);*/
     std::cout << "End with -1" << std::endl;

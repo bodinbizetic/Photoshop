@@ -13,7 +13,7 @@ void Menu::loopMenu() {
         showMenu();
         std::string command;
         std::cout << ">>> ";
-        std::cin >> command;
+        std::getline(std::cin, command);
         try{
             functionCall(command);
         } catch(std::exception& e) {

@@ -29,10 +29,10 @@ void Menu_Main::functionCall(std::string x) {
 std::pair<std::string, std::string> Menu_Main::createProjectFolder() {
     std::string name;
     std::cout << "Enter new name:\n>>> ";
-    std::cin >> name;
+    std::getline(std::cin, name);
     std::cout << "Enter new path:\n>>> ";
     std::string path;
-    std::cin >> path;
+    std::getline(std::cin, path);
     std::ofstream test(path + OS_SEP + "testtest123.txt");
     if(!test) {
         test.close();
@@ -52,6 +52,6 @@ void Menu_Main::createProjectResource(Image& project) {
 std::pair<std::string, std::string> Menu_Main::openProject() {
     std::string path;
     std::cout << "Insert project location:\n>>> ";
-    std::cin >> path; // TODO: check validity - project file
+    std::getline(std::cin, path); // TODO: check validity - project file
     return { path, "name" }; // TODO: add name
 }

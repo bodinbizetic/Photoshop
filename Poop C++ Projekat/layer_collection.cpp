@@ -17,7 +17,8 @@ void LayerCollection::addLayer(int position, std::string name_, std::string path
 }
 
 void LayerCollection::addLayer(std::pair<int, int> dimensions_, std::string name_) {
-    Layer newLayer(dimensions_, name_);
+    updateDim(dimensions_);
+    Layer newLayer = createLayer(name_, "");
     all_layers.push_back(newLayer);
     updateDim(dimensions_);
     fitAll();
@@ -136,9 +137,10 @@ void LayerCollection::saveLayerBMP(int pos, std::string working_dir) {
 
 /*
 1
+MojProj
+C:\Users\Dinbo\Desktop
 1
 1
-name
-resource/leopard.bmp
-9
+Name2
+C:\Users\Dinbo\Desktop\PROJEKAT1\resource\leo.bmp
 */

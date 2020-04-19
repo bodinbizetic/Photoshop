@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <regex>
 #include <fstream>
+#include <string>
+#include <iostream>
 #include "menu_layer.h"
 #include "menu_main.h"
 #include "utilities.h"
@@ -36,13 +38,13 @@ void Menu_Layer::addLayer() {
     LayerCollection &layers = project.getLayerCollection();
     std::string name;
     std::cout << "Layer name:\n>>> ";
-    std::cin >> name; // TODO: Check if layer exists
+    std::getline(std::cin, name);
 
     checkIfLayerExists(layers, name);
 
     std::string path;
     std::cout << "Path of BMP/PAM file to be loaded:\n>>> ";
-    std::cin >> path;
+    std::getline(std::cin, path);
     std::ifstream file(path);
     if(!file){
         file.close();
@@ -136,7 +138,7 @@ void Menu_Layer::draw() {
     system("cls");
     consoleDraw(matrix, dim);
     std::string unused;
-    std::cin >> unused;
+    std::getline(std::cin, unused);
 }
 
 void Menu_Layer::swapLayers() {
@@ -149,7 +151,7 @@ void Menu_Layer::swapLayers() {
 void Menu_Layer::showCombined() {
     consoleDraw(project.getFinalResult(), project.Dimensions());
     std::string x;
-    std::cin >> x;
+    std::getline(std::cin, x);
 }
 
 void Menu_Layer::saveAll(std::string ext) {

@@ -19,7 +19,7 @@ bool isInteger(std::string s) {
 int inputIntMsg(std::string x) {
     std::string command;
     std::cout << x;
-    std::cin >> command;
+    std::getline(std::cin, command);
     if(!isInteger(command))
         throw WrongCommand();
     

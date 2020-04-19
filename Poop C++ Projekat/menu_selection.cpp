@@ -26,7 +26,7 @@ void Menu_Selection::addSelection() {
     SelectionCollection &selections = project.getSelectionCollection();
     std::string name;
     std::cout << "Insert a name for new selection:\n>>> ";
-    std::cin >> name;
+    std::getline(std::cin, name);
     std::vector<std::pair<std::string, std::string>> all_names = selections.getSelectionNames();
     
     if(std::find_if(all_names.begin(), all_names.end(), [name](std::pair<std::string, std::string> s) -> bool {
