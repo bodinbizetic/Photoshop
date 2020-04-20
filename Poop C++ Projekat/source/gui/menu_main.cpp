@@ -11,14 +11,15 @@ void Menu_Main::functionCall(std::string x) {
     if(x == "0")
         running = false;
     else if(x == "1"){
-        std::pair<std::string, std::string> p = createProject();
-        Image project(p.first, p.second);
-        project.getProjectManager().createProject();
+        std::pair<std::string, std::string> p = getProjectNameAndPath();
+        Image project(p.first);
+        project.getProjectManager().createProject(p.second);
         Menu_Image mi(project);
         mi.start();
     } else if(x == "2") {
-        std::pair<std::string, std::string> p = openProject();
-        Image project(p.first, p.second);
+        std::string path = getProjectPath();
+        Image project(path);
+        project.getProjectManager().openProject();
         Menu_Image mi(project);
         mi.start();
     } else {
@@ -26,7 +27,7 @@ void Menu_Main::functionCall(std::string x) {
     }
 }
 
-std::pair<std::string, std::string> Menu_Main::createProject() {
+std::pair<std::string, std::string> Menu_Main::getProjectNameAndPath() {
     std::string name;
     std::cout << "Enter new name:\n>>> ";
     std::getline(std::cin, name);
@@ -45,9 +46,9 @@ std::pair<std::string, std::string> Menu_Main::createProject() {
     return { path, name };
 }
 
-std::pair<std::string, std::string> Menu_Main::openProject() {
+std::string Menu_Main::getProjectPath() {
     std::string path;
-    std::cout << "Insert project location:\n>>> ";
+    std::cout << "Insert project file location:\n>>> ";
     std::getline(std::cin, path); // TODO: check validity - project file
-    return { path, "name" }; // TODO: add name
+    return path; // TODO: add name
 }

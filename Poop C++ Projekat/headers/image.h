@@ -21,7 +21,7 @@ class ImageIndexOutOfBounds : public std::exception{
 
 class Image {
 public:
-    Image(std::string path, std::string name);
+    Image(std::string path);
     ~Image(); // TODO: remove all operations
 
     LayerCollection& getLayerCollection() { return all_layers; }

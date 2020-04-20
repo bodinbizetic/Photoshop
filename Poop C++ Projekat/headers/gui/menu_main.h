@@ -16,10 +16,10 @@ public:
         "Open existing project"
     }) {}
 private:
-    std::string path_="";
+    std::string path_= "";
     void functionCall(std::string x) override;
 
-    std::pair<std::string, std::string> createProject();
+    std::pair<std::string, std::string> getProjectNameAndPath();
 
-    std::pair<std::string, std::string> openProject();
+    std::string getProjectPath();
 };

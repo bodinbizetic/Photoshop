@@ -6,7 +6,7 @@
 #include "image.h"
 #include "simple_operation.h"
 
-Image::Image(std::string path, std::string name) : project_manager(path, name){
+Image::Image(std::string path) : project_manager(path) {
 
 }
 
