@@ -4,14 +4,21 @@
 #include "formater_pam.h"
 
 std::vector<int> Formater_PAM::load() {
-	std::ifstream file(path);
+	std::ifstream file(path, std::ios::binary);
 	if (file.fail())
 		throw FilePermissionDenied();
 	loadHeader(file);
+	std::vector<int> vi = readMatrix(file);
 	file.close();
+	return vi;
 }
 
-PAM_Header Formater_PAM::loadHeader(std::ifstream& file) {
+std::pair<int, int> Formater_PAM::Dimensions() const {
+	
+	return { header.width, header.height};
+}
+
+void Formater_PAM::loadHeader(std::ifstream& file) {
 	std::string line;
 	int num = 0;
 	while (std::getline(file, line)) {
@@ -34,13 +41,54 @@ PAM_Header Formater_PAM::loadHeader(std::ifstream& file) {
 			throw CorruptedPamFile();
 		pam_attributes[cm[1]] = cm[2].str();
 	}
-	PAM_Header header;
+	
+	configureHeader();
+}
+
+void Formater_PAM::configureHeader() {
+
+	std::regex p7("[^#]*(ALPHA)");
+	std::cmatch cm;
+	std::regex_match(pam_attributes["TUPLTYPE"].c_str(), cm, p7);
+	if (cm[1] == "ALPHA")
+		header.hasAlfa = true;
+	else
+		header.hasAlfa = false;
+
+
 	header.tupltype = pam_attributes["TUPLTYPE"];
-	header.maxval   = atoi(pam_attributes["MAXVAL"].c_str());
-	header.depth    = atoi(pam_attributes["DEPTH"].c_str());
-	header.width	= atoi(pam_attributes["WIDTH"].c_str());
-	header.height	= atoi(pam_attributes["HEIGHT"].c_str());
-	return header;
+	header.maxval = atoi(pam_attributes["MAXVAL"].c_str());
+	header.depth = atoi(pam_attributes["DEPTH"].c_str());
+	header.width = atoi(pam_attributes["WIDTH"].c_str());
+	header.height = atoi(pam_attributes["HEIGHT"].c_str());
+
+}
+
+std::vector<int> Formater_PAM::readMatrix(std::ifstream& file) {
+	std::vector<int> pixels;
+	for (int i = 0; i < header.width; i++) {
+		for (int j = 0; j < header.height; j++) {
+			int in = 0;
+			
+			file.read((char*)&in, (header.hasAlfa ? 4 : 3));
+			if (!header.hasAlfa) in |= 0xff000000;
+			int blue = in & 0x00ff0000;
+			int red = in & 0x000000ff;
+			blue >>= 16;
+			red <<= 16;
+			in = (in & 0xff00ff00) + blue + red;
+			pixels.push_back(in);
+		}
+	}
+	flipImage(pixels);
+	return pixels;
+}
+
+void Formater_PAM::flipImage(std::vector<int>& image) {
+	for (int i = 0; i < header.height / 2; i++) {
+		for (int j = 0; j < header.width; j++)
+			std::swap(image[i * header.width + j], image[(header.height - i - 1) * header.width + j]);
+	}
 }
 
 void Formater_PAM::initAttributes() {

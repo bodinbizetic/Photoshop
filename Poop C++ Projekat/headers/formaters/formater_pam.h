@@ -24,12 +24,17 @@ class Formater_PAM : public Formater {
 public:
 	Formater_PAM(std::string path) : Formater(path) { initAttributes();  }
 	virtual std::vector<int> load();
-	virtual void store(std::vector<int>, std::pair<int, int> dimensions);
+	virtual void store(std::vector<int>, std::pair<int, int> dimensions) {}
 	virtual std::pair<int, int> Dimensions() const;
 protected:
 	std::map<std::string, std::string> pam_attributes;
+	PAM_Header header;
 private:
-	PAM_Header loadHeader(std::ifstream& file);
+	void loadHeader(std::ifstream& file);
+	void configureHeader();
+
+	std::vector<int> readMatrix(std::ifstream& file);
+	void flipImage(std::vector<int>& image);
 	void initAttributes();
 };
 
