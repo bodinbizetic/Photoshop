@@ -13,6 +13,18 @@ std::vector<int> Formater_PAM::load() {
 	return vi;
 }
 
+void Formater_PAM::store(std::vector<int> matrix, std::pair<int, int> dimensions) {
+	std::ofstream output(path, std::ios::binary);
+	header = PAM_Header();
+	header.width = dimensions.first;
+	header.height = dimensions.second;
+	storeHeader(output);
+	flipImage(matrix);
+	storeMatrix(output, matrix);
+
+	output.close();
+}
+
 std::pair<int, int> Formater_PAM::Dimensions() const {
 	
 	return { header.width, header.height};
@@ -76,6 +88,7 @@ std::vector<int> Formater_PAM::readMatrix(std::ifstream& file) {
 			int red = in & 0x000000ff;
 			blue >>= 16;
 			red <<= 16;
+			std::swap(blue, red);
 			in = (in & 0xff00ff00) + blue + red;
 			pixels.push_back(in);
 		}
@@ -97,4 +110,25 @@ void Formater_PAM::initAttributes() {
 	pam_attributes["DEPTH"] = "1";
 	pam_attributes["MAXVAL"] = "1";
 	pam_attributes["TUPLTYPE"] = "RGB";
+}
+
+void Formater_PAM::storeHeader(std::ofstream& output) {
+	output << "P7" << "\n";
+	output << "WIDTH " << header.width << "\n";
+	output << "HEIGHT " << header.height << "\n";
+	output << "DEPTH " << header.depth << "\n";
+	output << "MAXVAL " << header.maxval << "\n";
+	output << "TUPLTYPE " << header.tupltype << "\n";
+	output << "ENDHDR" << "\n";
+}
+
+void Formater_PAM::storeMatrix(std::ofstream& output, std::vector<int> matrix) {
+	for (int out : matrix) {
+		int blue = out & 0x00ff0000;
+		int red = out & 0x000000ff;
+		blue >>= 16;
+		red <<= 16;
+		out = (out & 0xff00ff00) + blue + red;
+		output.write((char*)&out, (header.hasAlfa ? 4 : 3));
+	}
 }
