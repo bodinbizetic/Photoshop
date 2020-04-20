@@ -17,8 +17,8 @@ public:
     void swapLayers(int, int);
 
     Layer combineLayers() const;
-    void saveAllLayersBMP(std::string working_dir = "");
-    void saveLayerBMP(int pos, std::string working_dir = "");
+    void saveAllLayers(std::string working_dir = "");
+    void saveLayer(const Layer& layer, std::string working_dir = "");
 private:
     std::vector<Layer> all_layers;
     std::pair<int, int> dimensions;

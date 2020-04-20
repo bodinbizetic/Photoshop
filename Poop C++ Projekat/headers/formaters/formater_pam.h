@@ -22,7 +22,7 @@ struct PAM_Header {
 
 class Formater_PAM : public Formater {
 public:
-	Formater_PAM(std::string path) : Formater(path) { initAttributes();  }
+	Formater_PAM(std::string path);
 	virtual std::vector<int> load();
 	virtual void store(std::vector<int>, std::pair<int, int> dimensions);
 	virtual std::pair<int, int> Dimensions() const;

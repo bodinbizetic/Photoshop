@@ -16,8 +16,16 @@ class FilePermissionDenied : public std::exception {
     }
 };
 
+class FileNotSupported : public std::exception {
+    const char* what() const noexcept override {
+        return "This type of file is not supported";
+    }
+};
+
 class Formater {
 public:
+    static Formater* getFormater(std::string path);
+
     Formater(std::string path_) : path(path_) {}
     virtual std::vector<int> load() = 0;
     virtual void store(std::vector<int>, std::pair<int, int> dimensions) = 0;

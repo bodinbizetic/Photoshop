@@ -3,6 +3,10 @@
 #include <regex>
 #include "formater_pam.h"
 
+Formater_PAM::Formater_PAM(std::string path) : Formater(path) {
+	initAttributes();
+}
+
 std::vector<int> Formater_PAM::load() {
 	std::ifstream file(path, std::ios::binary);
 	if (file.fail())

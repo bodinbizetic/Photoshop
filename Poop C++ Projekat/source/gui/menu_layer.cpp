@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <filesystem>
 #include "menu_layer.h"
 #include "menu_main.h"
 #include "utilities.h"
@@ -51,9 +52,9 @@ void Menu_Layer::addLayer() {
         addHeader("Not valid path: created empty layer");
         path="";
     }else {
-        // TODO: copy to resource folder path
+        
         std::string newPath = getRelativePath(path);
-        newPath = ProjectManager::resource_folder + OS_SEP + newPath;
+        newPath = ProjectManager::resource_folder + OS_SEP + name + std::filesystem::path(path).extension().string();
         if(path != project.getProjectManager().getCwd() + OS_SEP + newPath)
             ProjectManager::copy(path, newPath);
         path = newPath;
@@ -157,7 +158,7 @@ void Menu_Layer::showCombined() {
 void Menu_Layer::saveAll(std::string ext) {
     LayerCollection& layers = project.getLayerCollection();
     if(ext == "bmp")
-        layers.saveAllLayersBMP("resource");
+        layers.saveAllLayers("resource");
 }
 
 /* Create empty layer and show

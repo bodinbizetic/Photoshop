@@ -30,6 +30,8 @@ void ProjectManager::createResourceFolder() {
 }
 
 void ProjectManager::copy(std::string src, std::string dst) {
+    if (src == dst || src == std::filesystem::current_path().string() + OS_SEP + dst)
+        return;
     std::ifstream input(src, std::ios::binary);
     std::ofstream output(dst, std::ios::binary);
     if(input.fail() || output.fail()){

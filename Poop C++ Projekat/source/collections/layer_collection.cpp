@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <memory>
 #include "project_manager.h"
 #include "formater_bmp.h"
 #include "layer_collection.h"
@@ -7,12 +8,12 @@
 void LayerCollection::addLayer(int position, std::string name_, std::string path_) {
     Layer newLayer = createLayer(name_, path_);
 
-    
     if(position >= all_layers.size() || position < 0)
         all_layers.push_back(newLayer);
     else 
         all_layers.insert(all_layers.begin() + position, newLayer);
 
+    fitAll();
     fitAll();
 }
 
@@ -91,18 +92,16 @@ Layer LayerCollection::createLayer(std::string name_, std::string path_) {
         return Layer(dimensions, name_);
     }
     else {
-        Formater &f = * new Formater_BMP(path_);
-        std::vector<int> vi = f.load();
+        std::shared_ptr<Formater> f(Formater::getFormater(path_));
+        std::vector<int> vi = f->load();
         std::vector<Pixel> vp;
         for(int i : vi) { // TODO: Add constructor from vi to vp
             vp.push_back((Pixel) i);
         }
-        std::pair<int, int> dim = f.Dimensions();
+        std::pair<int, int> dim = f->Dimensions();
         layer_paths[name_] = path_;
         Layer newLayer(dim, vp, name_);
-        // TODO: call fit layers
         updateDim(dim);
-        delete &f;
         return newLayer;
     }
 }
@@ -117,22 +116,18 @@ void LayerCollection::updateDim(std::pair<int, int> newDim) {
     dimensions.second = std::max(dimensions.second, newDim.second);
 }
 
-void LayerCollection::saveAllLayersBMP(std::string workind_dir) {
-    for(int i=0; i<all_layers.size(); i++)
-        saveLayerBMP(i, workind_dir);
+void LayerCollection::saveAllLayers(std::string workind_dir) {
+    for(const Layer& l : all_layers)
+        saveLayer(l, workind_dir);
 }
 
-void LayerCollection::saveLayerBMP(int pos, std::string working_dir) {
-    if(pos < 0 || pos >= all_layers.size())
-        throw LayerIndexOutOfBounds();
-    const Layer& curr_layer = all_layers[pos];
-    Formater_BMP formater(layer_paths[curr_layer.getName()]); // TODO: force relative paths
-    
+void LayerCollection::saveLayer(const Layer& layer, std::string working_dir) {
+    std::shared_ptr<Formater> formater(Formater::getFormater(layer_paths[layer.getName()])); 
     std::vector<int> vi;
-    for(auto i : curr_layer.Matrix())
+    for(auto i : layer.Matrix())
         vi.push_back(i);
 
-    formater.store(vi, curr_layer.Dimension());
+    formater->store(vi, layer.Dimension());
 }
 
 /*
