@@ -22,6 +22,9 @@ void ProjectManager::createProject() {
 
 void ProjectManager::createProjectFolderAndMove() {
     std::string project_path = current_working_directory + OS_SEP + name;
+    /*if(!std::filesystem::exists(current_working_directory))
+        throw DirectoryAlreadyExists();*/
+    
 
     _mkdir(project_path.c_str());
     _chdir(project_path.c_str());

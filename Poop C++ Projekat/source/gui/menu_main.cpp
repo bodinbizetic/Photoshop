@@ -11,9 +11,9 @@ void Menu_Main::functionCall(std::string x) {
     if(x == "0")
         running = false;
     else if(x == "1"){
-        std::pair<std::string, std::string> p = createProjectFolder();
+        std::pair<std::string, std::string> p = createProject();
         Image project(p.first, p.second);
-        createProjectResource(project);
+        project.getProjectManager().createProject();
         Menu_Image mi(project);
         mi.start();
     } else if(x == "2") {
@@ -26,7 +26,7 @@ void Menu_Main::functionCall(std::string x) {
     }
 }
 
-std::pair<std::string, std::string> Menu_Main::createProjectFolder() {
+std::pair<std::string, std::string> Menu_Main::createProject() {
     std::string name;
     std::cout << "Enter new name:\n>>> ";
     std::getline(std::cin, name);
@@ -43,10 +43,6 @@ std::pair<std::string, std::string> Menu_Main::createProjectFolder() {
         system(command.c_str());
     }
     return { path, name };
-}
-
-void Menu_Main::createProjectResource(Image& project) {
-    project.getProjectManager().createResourceFolder();
 }
 
 std::pair<std::string, std::string> Menu_Main::openProject() {

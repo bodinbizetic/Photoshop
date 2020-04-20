@@ -37,6 +37,9 @@
     <Filter Include="Header Files\operations">
       <UniqueIdentifier>{01fcd18e-2b69-4d95-b3b1-f00723d3b347}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\rapidXml">
+      <UniqueIdentifier>{1bebfc63-2f7e-4733-a6cf-b0db137f5c96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\collections\layer_collection.h">
@@ -113,6 +116,18 @@
     </ClInclude>
     <ClInclude Include="headers\gui\menu_export.h">
       <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml.hpp">
+      <Filter>Header Files\rapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_iterators.hpp">
+      <Filter>Header Files\rapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_print.hpp">
+      <Filter>Header Files\rapidXml</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_utils.hpp">
+      <Filter>Header Files\rapidXml</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

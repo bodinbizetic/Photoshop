@@ -22,11 +22,14 @@ public:
 
     ProjectManager(std::string cwd_, std::string name);
     std::string getCwd() { return current_working_directory; }
-    void createProjectFolder();
-    void createResourceFolder();
+    void createProject();
 private:
     std::string current_working_directory;
     std::string name;
+
+    void createProjectFolderAndMove();
+    void createResourceFolder();
+    void createProjectFile();
 };
 
 #endif // __PROJECT_MANAGER_H__

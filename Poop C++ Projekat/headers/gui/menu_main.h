@@ -19,8 +19,7 @@ private:
     std::string path_="";
     void functionCall(std::string x) override;
 
-    std::pair<std::string, std::string> createProjectFolder();
-    void createProjectResource(Image& project);
+    std::pair<std::string, std::string> createProject();
 
     std::pair<std::string, std::string> openProject();
 };

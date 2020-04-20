@@ -158,7 +158,7 @@ void Menu_Layer::showCombined() {
 void Menu_Layer::saveAll(std::string ext) {
     LayerCollection& layers = project.getLayerCollection();
     if(ext == "bmp")
-        layers.saveAllLayers("resource");
+        layers.saveAllLayers(ProjectManager::resource_folder);
 }
 
 /* Create empty layer and show
