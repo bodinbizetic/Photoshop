@@ -148,6 +148,7 @@
     <ClInclude Include="headers\formaters\formater_bmp.h" />
     <ClInclude Include="headers\formaters\formater_pam.h" />
     <ClInclude Include="headers\gui\menu.h" />
+    <ClInclude Include="headers\gui\menu_export.h" />
     <ClInclude Include="headers\gui\menu_image.h" />
     <ClInclude Include="headers\gui\menu_layer.h" />
     <ClInclude Include="headers\gui\menu_main.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="headers\utilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="headers\formaters\formater.cpp" />
     <ClCompile Include="source\collections\layer_collection.cpp" />
     <ClCompile Include="source\collections\operation_collection.cpp" />
     <ClCompile Include="source\collections\project_manager.cpp" />
@@ -173,6 +175,7 @@
     <ClCompile Include="source\formaters\formater_bmp.cpp" />
     <ClCompile Include="source\formaters\formater_pam.cpp" />
     <ClCompile Include="source\gui\menu.cpp" />
+    <ClCompile Include="source\gui\menu_export.cpp" />
     <ClCompile Include="source\gui\menu_image.cpp" />
     <ClCompile Include="source\gui\menu_layer.cpp" />
     <ClCompile Include="source\gui\menu_main.cpp" />
@@ -190,6 +193,9 @@
     <ClCompile Include="source\rectangle.cpp" />
     <ClCompile Include="source\selection.cpp" />
     <ClCompile Include="source\utilities.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Desktop\sample_640426.pam" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

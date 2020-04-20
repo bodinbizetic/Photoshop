@@ -111,6 +111,9 @@
     <ClInclude Include="headers\utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\gui\menu_export.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\collections\layer_collection.cpp">
@@ -185,5 +188,16 @@
     <ClCompile Include="source\utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="headers\formaters\formater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gui\menu_export.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Desktop\sample_640426.pam">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

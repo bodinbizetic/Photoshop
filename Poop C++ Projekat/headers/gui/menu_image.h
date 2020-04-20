@@ -10,7 +10,8 @@ public:
         "Return",
         "Layer", 
         "Operation",
-        "Selection"
+        "Selection",
+        "Export"
         }) {}
 private:
     Image& project;

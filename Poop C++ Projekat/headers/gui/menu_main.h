@@ -13,7 +13,7 @@ public:
     Menu_Main() : Menu({
         "Exit",
         "Create new Project", 
-        "Open existing project",
+        "Open existing project"
     }) {}
 private:
     std::string path_="";
