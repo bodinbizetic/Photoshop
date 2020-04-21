@@ -5,6 +5,7 @@
 #include "simple_operation.h"
 #include "diadic_operation.h"
 #include "gray_operation.h"
+#include "median_operation.h"
 
 OperationCollection::~OperationCollection() {
     for(Operation*& o : all_operations) {
@@ -67,7 +68,7 @@ void OperationCollection::initOperations() {
     DiadicOperation op9([](int x, int y) -> int  { return std::min(x, y); }, 255, "min");
     SimpleOperation sop1([](int x) -> int { return log(x); }, "Log");
     SimpleOperation sop2([](int x) -> int { return abs(x); }, "Abs");
-    GrayTransformation gop1("Gray");
+    SimpleOperation invert([](int x) -> int { return 255 - x; }, "rsub");
     all_operations.push_back(op1.copy());
     all_operations.push_back(op2.copy());
     all_operations.push_back(op3.copy());
@@ -79,8 +80,46 @@ void OperationCollection::initOperations() {
     all_operations.push_back(op9.copy());
     all_operations.push_back(sop1.copy());
     all_operations.push_back(sop2.copy());
-    all_operations.push_back(gop1.copy());
+    all_operations.push_back(invert.copy());
+    initOperationsTransformations();
     
+}
+
+void OperationCollection::initOperationsTransformations() {
+    initOperationsTransformationsGray();
+    initOperationsTransformationsBlackWhite();
+    initOperationsTransformationsMedian();
+    
+}
+
+void OperationCollection::initOperationsTransformationsGray() {
+    std::function<OperationalPixel& (OperationalPixel&)> gray([](OperationalPixel& p) -> OperationalPixel& {
+        int average = (p.red + p.green + p.blue) / 3;
+        p.red = average;
+        p.green = average;
+        p.blue = average;
+        return p;
+    });
+    PixelTransformation top1(gray, "Gray");
+    all_operations.push_back(top1.copy());
+}
+
+void OperationCollection::initOperationsTransformationsBlackWhite() {
+    std::function<OperationalPixel& (OperationalPixel&)> blackwhite([](OperationalPixel& p) -> OperationalPixel& {
+        int average = (p.red + p.green + p.blue) / 3;
+        average = (average > 127 ? 255 : 0);
+        p.red = average;
+        p.green = average;
+        p.blue = average;
+        return p;
+    });
+    PixelTransformation top2(blackwhite, "Black and white");
+    all_operations.push_back(top2.copy());
+}
+
+void OperationCollection::initOperationsTransformationsMedian() {
+    MedianOperation mop("Median");
+    all_operations.push_back(mop.copy());
 }
 
 void OperationCollection::toggleModeColor(std::string name) {

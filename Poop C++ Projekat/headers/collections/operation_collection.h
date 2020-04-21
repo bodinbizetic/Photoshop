@@ -24,12 +24,16 @@ public:
 
     void toggleModeColor(std::string c);
     int getModeBinary();
-    void initOperations();
 
 private:
     std::map<std::string, bool> operation_mode{{"Red", true}, {"Green", true}, {"Blue", true}, {"Alfa", false}};
     std::vector<Operation*> all_operations;
     
+    void initOperations();
+    void initOperationsTransformations();
+    void initOperationsTransformationsGray();
+    void initOperationsTransformationsBlackWhite();
+    void initOperationsTransformationsMedian();
 };
 
 #endif // __OPERATION_COLLECTION_H__

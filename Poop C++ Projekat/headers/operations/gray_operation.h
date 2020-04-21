@@ -1,19 +1,21 @@
 #ifndef __GRAY_OPERATION_H__
 #define __GRAY_OPERATION_H__
 
+#include <functional>
 #include "operation.h"
 
-class GrayTransformation : public Operation {
+class PixelTransformation : public Operation {
 public:
-    GrayTransformation(std::string name_ = Operation::DEFAULT_OP_NAME)
-        : Operation(name_) {
+    PixelTransformation(std::function<OperationalPixel&(OperationalPixel&)> function, std::string name_ = Operation::DEFAULT_OP_NAME)
+        : Operation(name_), operation_function(function) {
     }
-    ~GrayTransformation() {}
+    ~PixelTransformation() {}
 
     virtual OperationalLayer& operator()  (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const override;
-    virtual std::vector<Operation*> copyVector() const override { return { new GrayTransformation(*this) }; }
-    
-    virtual Operation* copy() const override { return new GrayTransformation(*this); }
+    virtual std::vector<Operation*> copyVector() const override { return { new PixelTransformation(*this) }; }
+    virtual Operation* copy() const override { return new PixelTransformation(*this); }
+private:    
+    std::function<OperationalPixel&(OperationalPixel&)> operation_function;
 
 };
 

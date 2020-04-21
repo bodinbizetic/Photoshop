@@ -28,6 +28,9 @@ struct OperationalPixel {
 struct OperationalLayer {
     std::vector<OperationalPixel> matrix;
     std::pair<int, int> dimensions;
+    OperationalPixel& operator[] (std::pair<int, int> c) { return matrix[dimensions.first * c.second + c.first]; }
+    const OperationalPixel& operator[] (std::pair<int, int> c) const { return matrix[dimensions.first * c.second + c.first]; }
+
 };
 
 class Operation {

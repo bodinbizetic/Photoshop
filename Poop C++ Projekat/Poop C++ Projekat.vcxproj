@@ -160,6 +160,7 @@
     <ClInclude Include="headers\operations\complex_operation.h" />
     <ClInclude Include="headers\operations\diadic_operation.h" />
     <ClInclude Include="headers\operations\gray_operation.h" />
+    <ClInclude Include="headers\operations\median_operation.h" />
     <ClInclude Include="headers\operations\operation.h" />
     <ClInclude Include="headers\operations\simple_operation.h" />
     <ClInclude Include="headers\pixel.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="source\operations\complex_operation.cpp" />
     <ClCompile Include="source\operations\diadic_operation.cpp" />
     <ClCompile Include="source\operations\gray_operation.cpp" />
+    <ClCompile Include="source\operations\median_operation.cpp" />
     <ClCompile Include="source\operations\operation.cpp" />
     <ClCompile Include="source\operations\simple_operation.cpp" />
     <ClCompile Include="source\pixel.cpp" />

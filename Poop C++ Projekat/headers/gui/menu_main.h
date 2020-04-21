@@ -4,8 +4,10 @@
 #include "image.h"
 #include "menu.h"
 
-class PathNotExists {
-
+class PathNotExists : public std::exception{
+    const char* what() const noexcept override {
+        return "Path does not exists";
+    }
 };
 
 class Menu_Main : public Menu{

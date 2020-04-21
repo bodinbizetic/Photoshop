@@ -132,6 +132,9 @@
     <ClInclude Include="headers\operations\diadic_operation.h">
       <Filter>Header Files\operations</Filter>
     </ClInclude>
+    <ClInclude Include="headers\operations\median_operation.h">
+      <Filter>Header Files\operations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\collections\layer_collection.cpp">
@@ -213,6 +216,9 @@
       <Filter>Source Files\formaters</Filter>
     </ClCompile>
     <ClCompile Include="source\operations\diadic_operation.cpp">
+      <Filter>Source Files\operations</Filter>
+    </ClCompile>
+    <ClCompile Include="source\operations\median_operation.cpp">
       <Filter>Source Files\operations</Filter>
     </ClCompile>
   </ItemGroup>
