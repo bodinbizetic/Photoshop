@@ -203,11 +203,11 @@
     <ClCompile Include="source\utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="headers\formaters\formater.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\gui\menu_export.cpp">
       <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="headers\formaters\formater.cpp">
+      <Filter>Source Files\formaters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

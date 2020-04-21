@@ -1,3 +1,4 @@
+#include <iostream>
 #include <direct.h>
 #include <fstream>
 #include <sstream>
@@ -46,15 +47,12 @@ void ProjectManager::createResourceFolder() {
 }
 
 void ProjectManager::createProjectFile() {
-    xml::xml_document<>* doc = new xml::xml_document<>;
-    xml::xml_node<char>* project = doc->allocate_node(xml::node_element, "Project");
-    project->append_attribute(doc->allocate_attribute("name", name.c_str()));
-    doc->append_node(project);
+    std::shared_ptr< xml::xml_document<> > doc(initXmlReader(), [](xml::xml_document<>* doc) { doc->clear(); });
+    storeProjectInfo(doc);
     std::ofstream xml_file(project_file_name);
     xml_file << *doc;
     xml_file.close();
     
-    delete doc;
 }
 
 void ProjectManager::checkProjectFile() {
@@ -63,24 +61,32 @@ void ProjectManager::checkProjectFile() {
 }
 
 void ProjectManager::loadProject() {
-    std::shared_ptr< xml::xml_document<> > doc(initXmlReader(), [](xml::xml_document<>* doc) { doc->clear(); });
-    
+    std::shared_ptr< xml::xml_document<> > doc(initXmlReader(), [](xml::xml_document<>* doc) { /*doc->clear();*/ });
     loadProjectInfo(doc);
     
 }
 
 xml::xml_document<>* ProjectManager::initXmlReader() {
-    xml::xml_document<>* doc = new xml::xml_document<>;
+    xml::xml_document<>* doc = new xml::xml_document<>();
     std::ifstream xml_file(project_file_name);
     std::stringstream buffer;
     buffer << xml_file.rdbuf();
-    std::string content = buffer.str();
+    static std::string content = buffer.str();
     doc->parse<0>(&content[0]);
+    name = doc->first_node()->name();
+    xml_file.close();
+    std::cout << doc << std::endl;
     return doc;
 }
 
 void ProjectManager::loadProjectInfo(std::shared_ptr< xml::xml_document<> > doc) {
-    name = doc->first_node()->value();
+    name = doc->first_node()->name();
+}
+
+void ProjectManager::storeProjectInfo(std::shared_ptr<xml::xml_document<>> doc) {
+    xml::xml_node<char>* project = doc->allocate_node(xml::node_element, "Project");
+    project->append_attribute(doc->allocate_attribute("name", name.c_str()));
+    doc->append_node(project);
 }
 
 void ProjectManager::copy(std::string src, std::string dst) {

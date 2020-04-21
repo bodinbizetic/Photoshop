@@ -25,12 +25,12 @@ public:
     ~Image(); // TODO: remove all operations
 
     LayerCollection& getLayerCollection() { return all_layers; }
-
     SelectionCollection& getSelectionCollection() { return all_selections; }
-
     OperationCollection& getOperationCollection() { return all_operations; }
-
     ProjectManager& getProjectManager() { return project_manager;  }
+
+
+
 
     void useDiadic(int pos, int arg); // TODO
     void useOperation(int pos);
@@ -44,11 +44,9 @@ private:
     OperationCollection all_operations;
     ProjectManager project_manager;
 
-
     void applyOperation(const Operation& op);
     void applyOperationCoordinates(const Operation& op, const std::vector<std::pair<int, int>>&);
     OperationalLayer makeOperationalLayer(Layer& l);
-    
 };
 
 #endif // _image_h_

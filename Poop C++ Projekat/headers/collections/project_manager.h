@@ -23,7 +23,7 @@ class ProjectFileNotFound : public std::exception {
 public:
     ProjectFileNotFound(std::string path_) : path(path_) {}
     const char* what() const noexcept override {
-        std::string ret = "Could not find project file at " + path;
+        std::string ret = "Could not find project file at ";
         return ret.c_str();
     }
 private:
@@ -41,6 +41,7 @@ public:
     std::string getCwd() { return current_working_directory; }
     void createProject(std::string name_);
     void openProject();
+
 private:
     std::string current_working_directory;
     std::string name;
@@ -53,6 +54,8 @@ private:
     void loadProject();
     xml::xml_document<>* initXmlReader();
     void loadProjectInfo(std::shared_ptr< xml::xml_document<> > doc);
+
+    void storeProjectInfo(std::shared_ptr< xml::xml_document<> > doc);
 };
 
 #endif // __PROJECT_MANAGER_H__
