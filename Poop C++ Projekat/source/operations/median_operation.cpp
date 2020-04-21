@@ -7,7 +7,7 @@
 OperationalLayer& MedianOperation::operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const {
 	OperationalLayer copy_op = op;
 	for (const std::pair<int, int>& c : toChange) {
-		getMedianPixel(op, copy_op, c);
+		getMedianPixel(copy_op, op, c);
 	}
 	return op;
 }
@@ -21,7 +21,7 @@ bool MedianOperation::checkCoordinate(const std::pair<int, int>& dimension, cons
 }
 
 void MedianOperation::getMedianPixel(const OperationalLayer& op_p, OperationalLayer& op_change, const std::pair<int, int>& c) const {
-	std::vector<int> red(8), green(8), blue(8);
+	std::vector<int> red(8, INT_MAX), green(8, INT_MAX), blue(8, INT_MAX);
 	int size=0;
 	std::function<void(const OperationalPixel&)> add = [&](const OperationalPixel& p) {
 		red[size] = p.red;
@@ -38,7 +38,7 @@ void MedianOperation::getMedianPixel(const OperationalLayer& op_p, OperationalLa
 	if (checkCoordinate(op_p.dimensions, { c.first, c.second + 1 }))
 		add(op_p[{c.first, c.second + 1}]);
 	if (checkCoordinate(op_p.dimensions, { c.first, c.second - 1 }))
-		add(op_p[ {c.first, c.second - 1}]);
+		add(op_p[{c.first, c.second - 1}]);
 	op_change[c].red = getMedianValueSort(red, size);
 	op_change[c].green = getMedianValueSort(green, size);
 	op_change[c].blue = getMedianValueSort(blue, size);
