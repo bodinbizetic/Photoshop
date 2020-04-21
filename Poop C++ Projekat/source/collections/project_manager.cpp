@@ -47,7 +47,7 @@ void ProjectManager::createResourceFolder() {
 }
 
 void ProjectManager::createProjectFile() {
-    std::shared_ptr< xml::xml_document<> > doc(initXmlReader(), [](xml::xml_document<>* doc) { doc->clear(); });
+    std::shared_ptr< xml::xml_document<> > doc(new xml::xml_document<>(), [](xml::xml_document<>* doc) { doc->clear(); });
     storeProjectInfo(doc);
     std::ofstream xml_file(project_file_name);
     xml_file << *doc;
@@ -75,7 +75,6 @@ xml::xml_document<>* ProjectManager::initXmlReader() {
     doc->parse<0>(&content[0]);
     name = doc->first_node()->name();
     xml_file.close();
-    std::cout << doc << std::endl;
     return doc;
 }
 
