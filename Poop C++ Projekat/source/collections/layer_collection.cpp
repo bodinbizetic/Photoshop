@@ -129,13 +129,3 @@ void LayerCollection::saveLayer(const Layer& layer, std::string working_dir) {
 
     formater->store(vi, layer.Dimension());
 }
-
-/*
-1
-MojProj
-C:\Users\Dinbo\Desktop
-1
-1
-Name2
-C:\Users\Dinbo\Desktop\PROJEKAT1\resource\leo.bmp
-*/

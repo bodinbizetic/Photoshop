@@ -68,9 +68,6 @@ void OperationCollection::initOperations() {
     SimpleOperation sop1([](int x) -> int { return log(x); }, "Log");
     SimpleOperation sop2([](int x) -> int { return abs(x); }, "Abs");
     GrayTransformation gop1("Gray");
-    all_operations.push_back(sop1.copy());
-    all_operations.push_back(sop2.copy());
-    all_operations.push_back(gop1.copy());
     all_operations.push_back(op1.copy());
     all_operations.push_back(op2.copy());
     all_operations.push_back(op3.copy());
@@ -80,6 +77,9 @@ void OperationCollection::initOperations() {
     all_operations.push_back(op7.copy());
     all_operations.push_back(op8.copy());
     all_operations.push_back(op9.copy());
+    all_operations.push_back(sop1.copy());
+    all_operations.push_back(sop2.copy());
+    all_operations.push_back(gop1.copy());
     
 }
 
