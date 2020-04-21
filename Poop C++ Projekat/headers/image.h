@@ -29,11 +29,7 @@ public:
     OperationCollection& getOperationCollection() { return all_operations; }
     ProjectManager& getProjectManager() { return project_manager;  }
 
-
-
-
-    void useDiadic(int pos, int arg); // TODO
-    void useOperation(int pos);
+    void useOperation(std::pair<int, int> op_id_arg);
 
     std::pair<int, int> Dimensions() const { return all_layers.Dimensions(); };
     std::vector<int> getFinalResult();

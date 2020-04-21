@@ -22,12 +22,9 @@ private:
     void functionCall(std::string x) override;
 
     void showAllOperations();
-    void showDiadic(int& x) const;
-    void showMonadic(int& x) const;
 
     void useOperation();
-    void useDiadic(int);
-    void useMonadicOperation(int);
+    void applyOperation(std::pair<int, int> op_id_arg);
 
     void createOperation();
     std::pair<int, int> insertOperation();

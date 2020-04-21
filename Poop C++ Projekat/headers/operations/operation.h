@@ -42,6 +42,7 @@ public:
     virtual OperationalLayer& operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const = 0;
     virtual Operation* copy() const = 0;
     virtual std::vector<Operation*> copyVector() const = 0;
+    virtual void setParam(int arg) {}
 
 protected:
     int RGBA_mask;

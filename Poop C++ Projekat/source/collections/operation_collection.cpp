@@ -3,6 +3,7 @@
 #include "operation_collection.h"
 #include "complex_operation.h"
 #include "simple_operation.h"
+#include "diadic_operation.h"
 #include "gray_operation.h"
 
 OperationCollection::~OperationCollection() {
@@ -11,14 +12,6 @@ OperationCollection::~OperationCollection() {
         o = nullptr;
     }
     all_operations.clear();
-}
-
-std::vector<std::string> OperationCollection::getDiadicNames() const {
-    std::vector<std::string> names;
-    for(auto p : diadic_functions)
-        names.push_back(p.first);
-    
-    return names;
 }
 
 std::vector<std::string> OperationCollection::getOperationNames() const {
@@ -45,13 +38,6 @@ void OperationCollection::removeOperation(int position) {
     all_operations.erase(all_operations.begin() + position);
 }
 
-std::function<int(int,int)> OperationCollection::getDiadic(int pos) {
-    if(pos < 0 || pos >= diadic_functions.size())
-        throw CollectionIndexOutOfBounds();
-    
-    return diadic_functions[getDiadicNames()[pos]];
-}
-
 Operation* OperationCollection::getOperation(int pos) {
     if(pos < 0 || pos >= all_operations.size())
         throw CollectionIndexOutOfBounds();
@@ -60,35 +46,41 @@ Operation* OperationCollection::getOperation(int pos) {
 }
 
 void OperationCollection::createOperation(std::vector<std::pair<int, int>> op_arg, std::string name_) {
-    std::vector<std::string> diadic = getDiadicNames();
     ComplexOperation cop(name_);
     for(std::pair<int, int> op : op_arg) {
-        if(op.first < diadic.size()){
-            auto fun = std::bind(diadic_functions[diadic[op.first]], std::placeholders::_1, op.second);
-            cop.add(SimpleOperation(fun, diadic[op.first]));
-        } else {
-            cop.add(*all_operations[op.first - diadic.size()]);
-        }
+        Operation* stored_operation = all_operations[op.first];
+        stored_operation->setParam(op.second);
+        cop.add(*stored_operation);
     }
     addOperation(cop);
 }
 
 void OperationCollection::initOperations() {
-    diadic_functions["add"] = std::plus<int>();
-    diadic_functions["sub"] = std::minus<int>();
-    diadic_functions["div"] = [](int y, int x) -> int { if(x ==0) return 255; return y/x; };
-    diadic_functions["mul"] = std::multiplies<int>();
-    diadic_functions["rdiv"] = [](int x, int y) -> int { if(x ==0) return 255; return y/x; };
-    diadic_functions["rsub"] = [](int x, int y) -> int { return y-x; };
-    diadic_functions["pow"] = [](int x, int y) -> int  { return pow(x, y); };
-    diadic_functions["max"] = [](int x, int y) -> int  { return std::max(x, y); };
-    diadic_functions["min"] = [](int x, int y) -> int  { return std::min(x, y); };
+    DiadicOperation op1(std::plus<int>(), 0, "add");
+    DiadicOperation op2(std::minus<int>(), 0, "sub");
+    DiadicOperation op3([](int y, int x) -> int { if(x ==0) return 255; return y/x; }, 1, "div");
+    DiadicOperation op4(std::multiplies<int>(), 1, "mul");
+    DiadicOperation op5([](int x, int y) -> int { if(x ==0) return 255; return y/x; }, 1, "rdiv");
+    DiadicOperation op6([](int x, int y) -> int { return y-x; }, 0, "rsub");
+    DiadicOperation op7([](int x, int y) -> int  { return pow(x, y); }, 0, "pow");
+    DiadicOperation op8([](int x, int y) -> int  { return std::max(x, y); }, 0, "max");
+    DiadicOperation op9([](int x, int y) -> int  { return std::min(x, y); }, 255, "min");
     SimpleOperation sop1([](int x) -> int { return log(x); }, "Log");
     SimpleOperation sop2([](int x) -> int { return abs(x); }, "Abs");
     GrayTransformation gop1("Gray");
     all_operations.push_back(sop1.copy());
     all_operations.push_back(sop2.copy());
     all_operations.push_back(gop1.copy());
+    all_operations.push_back(op1.copy());
+    all_operations.push_back(op2.copy());
+    all_operations.push_back(op3.copy());
+    all_operations.push_back(op4.copy());
+    all_operations.push_back(op5.copy());
+    all_operations.push_back(op6.copy());
+    all_operations.push_back(op7.copy());
+    all_operations.push_back(op8.copy());
+    all_operations.push_back(op9.copy());
+    
 }
 
 void OperationCollection::toggleModeColor(std::string name) {

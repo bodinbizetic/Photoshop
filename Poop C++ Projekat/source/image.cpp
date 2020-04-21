@@ -14,14 +14,11 @@ Image::~Image() {
     
 }
 
-void Image::useDiadic(int pos, int arg) {
-    std::function<int(int, int)> fun = all_operations.getDiadic(pos);
-    SimpleOperation op(fun, arg, "", all_operations.getModeBinary());
-    applyOperation(op);
-}
-
-void Image::useOperation(int pos) {
-    applyOperation(*all_operations.getOperation(pos));
+void Image::useOperation(std::pair<int, int> op_id_arg) {
+    Operation* operation_to_use = all_operations.getOperation(op_id_arg.first)->copy();
+    operation_to_use->setParam(op_id_arg.second);
+    applyOperation(*operation_to_use);
+    delete operation_to_use;
 }
 
 void Image::applyOperation(const Operation& op) {

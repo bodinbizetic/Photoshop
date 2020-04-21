@@ -29,53 +29,31 @@ void Menu_Operation::functionCall(std::string x) {
 
 void Menu_Operation::showAllOperations() {
     int x = 0;
-    showDiadic(x);
-    showMonadic(x);
-    setClean();
-}
-
-void Menu_Operation::showDiadic(int& x) const {
-    OperationCollection &operations = project.getOperationCollection();
-    std::vector<std::string> names = operations.getDiadicNames();
-    for(std::string name : names) {
-        std::cout << x++ << " " << name << std::endl;
-    }
-}
-
-void Menu_Operation::showMonadic(int& x) const {
-    OperationCollection &operations = project.getOperationCollection();
+    OperationCollection& operations = project.getOperationCollection();
     std::vector<std::string> names = operations.getOperationNames();
-    for(std::string name : names) {
+    for (std::string name : names) {
         std::cout << x++ << " " << name << std::endl;
     }
+    setClean();
 }
 
 void Menu_Operation::useOperation() {
+    OperationCollection &operations = project.getOperationCollection();
     showAllOperations();
     setClean();
-
-OperationCollection &operations = project.getOperationCollection();
-    int diadic_num = operations.getDiadicNames().size();
-    int oper_num   = operations.getOperationNames().size();
-    int operation_id = inputIntMsg("Insert id of operation you want to use\n>>> ");
-    if(operation_id < 0 || operation_id >= diadic_num + oper_num) {
+    
+    int oper_num = operations.getOperationNames().size();
+    std::pair<int, int> operation_id_arg = insertOperation();
+    if(operation_id_arg.first < 0 || operation_id_arg.first >= oper_num) {
         addHeader("Wrong ID");
         return;
     }
 
-    if(operation_id < diadic_num)
-        useDiadic(operation_id);
-    else
-        useMonadicOperation(operation_id - diadic_num);
+    applyOperation(operation_id_arg);
 }
 
-void Menu_Operation::useDiadic(int op_id) {
-    int arg = inputIntMsg("Insert constant for other operand:\n>>> ");
-    project.useDiadic(op_id, arg);
-}
-
-void Menu_Operation::useMonadicOperation(int op_id) {
-    project.useOperation(op_id);
+void Menu_Operation::applyOperation(std::pair<int, int> op_id_arg) {
+    project.useOperation(op_id_arg);
 }
 
 void Menu_Operation::createOperation() {
@@ -85,8 +63,6 @@ void Menu_Operation::createOperation() {
     std::string name;
     std::cout << "Insert name:\n>>> ";
     std::getline(std::cin, name);
-    /*getchar();
-    scanf("%[^\n]", &name);*/
     std::cout << "End with -1" << std::endl;
     while(1) {
         std::pair<int, int> op = insertOperation();
@@ -95,24 +71,16 @@ void Menu_Operation::createOperation() {
         op_scheme.push_back(op);
     }
 
-OperationCollection &operations = project.getOperationCollection();
+    OperationCollection &operations = project.getOperationCollection();
     operations.createOperation(op_scheme, name);
 }
 
 std::pair<int, int> Menu_Operation::insertOperation() {
-    OperationCollection &operations = project.getOperationCollection();
-    int diadic_num = operations.getDiadicNames().size();
-    int oper_num   = operations.getOperationNames().size();
-    int operation_id = inputIntMsg("OPERATION:\n>>> ");
-    if(operation_id < 0 || operation_id >= diadic_num + oper_num) {
-        return {-1, -1};
-    }
-
-    if(operation_id < diadic_num) {
-        int arg = inputIntMsg("ARGUMENT:\n>>> ");
-        return {operation_id, arg};
-    }
-    else
-        return {operation_id, -1};
-        
+    std::cout << "Insert operation name and argument:\n>>> ";
+    std::string line;
+    std::getline(std::cin, line);
+    std::pair<int, int> op_id_arg{ 0,0 };
+    if(sscanf_s(line.c_str(), "%d %d", &op_id_arg.first, &op_id_arg.second) == 0)
+        throw WrongCommand();
+    return op_id_arg;
 }
