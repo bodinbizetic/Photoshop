@@ -11,7 +11,7 @@ public:
         "Layer", 
         "Operation",
         "Selection",
-        "Export"
+        "File"
         }) {}
 private:
     Image& project;

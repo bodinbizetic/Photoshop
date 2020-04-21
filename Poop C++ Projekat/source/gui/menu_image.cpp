@@ -4,7 +4,7 @@
 #include "menu_image.h"
 #include "menu_layer.h"
 #include "menu_operations.h"
-#include "menu_export.h"
+#include "menu_file.h"
 
 void Menu_Image::functionCall(std::string x) {
     if(x == "0")
@@ -19,7 +19,7 @@ void Menu_Image::functionCall(std::string x) {
         Menu_Selection m(project);
         m.start();
     } else if (x == "4") {
-        Menu_Export m(project);
+        Menu_File m(project);
         m.start();
     }
     else {

@@ -10,8 +10,11 @@
 #include "rapidxml.hpp"
 #include "rapidxml_print.hpp"
 
-const std::string ProjectManager::resource_folder = "resource";
-const std::string ProjectManager::project_file_name = "Project.xml";
+const std::string ProjectManager::resource_folder   = "resource";
+const char *ProjectManager::project_file_name = "Project.xml";
+const char *ProjectManager::xml_project_name = "Project";
+const char *ProjectManager::xml_layers_name   = "Layers";
+
 
 
 ProjectManager::ProjectManager(std::string cwd_) : current_working_directory(cwd_) {
@@ -26,10 +29,12 @@ void ProjectManager::createProject(std::string name_) {
     createProjectFile();
 }
 
-void ProjectManager::openProject() {
-    _chdir(current_working_directory.c_str());
-    checkProjectFile();
-    loadProject();
+void ProjectManager::saveLayers(std::shared_ptr<xml::xml_document<>> doc, const std::vector<LayerInfo>& all_layer_info) {
+    xml::xml_node<char>* layers_node = doc->allocate_node(xml::node_element, xml_layers_name);
+    doc->first_node(xml_project_name)->append_node(layers_node);
+    for (const LayerInfo& info : all_layer_info) {
+        saveLayer(doc, info);
+    }
 }
 
 void ProjectManager::createProjectFolderAndMove() {
@@ -46,13 +51,18 @@ void ProjectManager::createResourceFolder() {
     _mkdir(resource_folder.c_str());
 }
 
-void ProjectManager::createProjectFile() {
+std::shared_ptr<xml::xml_document<>> ProjectManager::createProjectFile() {
     std::shared_ptr< xml::xml_document<> > doc(new xml::xml_document<>(), [](xml::xml_document<>* doc) { doc->clear(); });
-    storeProjectInfo(doc);
-    std::ofstream xml_file(project_file_name);
+    /*std::ofstream xml_file(project_file_name);
     xml_file << *doc;
-    xml_file.close();
-    
+    xml_file.close();*/
+    return doc;
+}
+
+ProjectInfo ProjectManager::openProject() {
+    _chdir(current_working_directory.c_str());
+    checkProjectFile();
+    return loadProject();
 }
 
 void ProjectManager::checkProjectFile() {
@@ -60,20 +70,27 @@ void ProjectManager::checkProjectFile() {
         throw ProjectFileNotFound(project_file_name);
 }
 
-void ProjectManager::loadProject() {
+ProjectInfo ProjectManager::loadProject() {
+    ProjectInfo project_info;
     std::shared_ptr< xml::xml_document<> > doc(initXmlReader(), [](xml::xml_document<>* doc) { /*doc->clear();*/ });
     loadProjectInfo(doc);
-    
+    project_info.layer_info = loadLayersInfo(doc);
+
+    return project_info;
 }
 
 xml::xml_document<>* ProjectManager::initXmlReader() {
     xml::xml_document<>* doc = new xml::xml_document<>();
-    std::ifstream xml_file(project_file_name);
     std::stringstream buffer;
+
+    std::ifstream xml_file(project_file_name);
     buffer << xml_file.rdbuf();
-    static std::string content = buffer.str();
-    doc->parse<0>(&content[0]);
-    name = doc->first_node()->name();
+    static char content[100000];
+    strcpy_s(content, buffer.str().c_str());
+    try {
+        doc->parse<0>(&content[0]);
+    }
+    catch (...) { throw ProjectFileCorrupted(); }
     xml_file.close();
     return doc;
 }
@@ -82,10 +99,43 @@ void ProjectManager::loadProjectInfo(std::shared_ptr< xml::xml_document<> > doc)
     name = doc->first_node()->name();
 }
 
+std::vector<LayerInfo> ProjectManager::loadLayersInfo(std::shared_ptr<xml::xml_document<>> doc) {
+    std::vector<LayerInfo> all_info;
+    xml::xml_node<char>* root = doc->first_node("Project");
+    xml::xml_node<char>* layers_node = root->first_node("Layers");   
+    for (xml::xml_node<char>* layer = layers_node->first_node();
+        layer; layer = layer->next_sibling()) {
+
+        LayerInfo newInfo;
+        newInfo.name = layer->first_attribute("name")->value();
+        newInfo.path = layer->first_attribute("path")->value();
+        newInfo.opacity = atoi(layer->first_attribute("opacity")->value());
+        std::string active = layer->first_attribute("active")->value();
+        newInfo.active = (active == "true" ? true : false);
+        all_info.push_back(newInfo);
+    }
+    return all_info;
+}
+
 void ProjectManager::storeProjectInfo(std::shared_ptr<xml::xml_document<>> doc) {
     xml::xml_node<char>* project = doc->allocate_node(xml::node_element, "Project");
     project->append_attribute(doc->allocate_attribute("name", name.c_str()));
     doc->append_node(project);
+}
+
+void ProjectManager::saveLayer(std::shared_ptr<xml::xml_document<>> doc, const LayerInfo& layer_info) {
+    xml::xml_node<char> *layer_node = doc->first_node("Project")->first_node(xml_layers_name);
+    xml::xml_node<char> *curr_layer = doc->allocate_node(xml::node_element, "Layer");
+    static char buff[20];
+    _itoa_s(layer_info.opacity, buff, 10);
+    static char active[6];
+    strcpy_s(active, (layer_info.active ? "true" : "false"));
+
+    curr_layer->append_attribute(doc->allocate_attribute("name", layer_info.name.c_str()));
+    curr_layer->append_attribute(doc->allocate_attribute("path", layer_info.path.c_str()));
+    curr_layer->append_attribute(doc->allocate_attribute("opacity", buff));
+    curr_layer->append_attribute(doc->allocate_attribute("active", active));
+    layer_node->append_node(curr_layer);
 }
 
 void ProjectManager::copy(std::string src, std::string dst) {

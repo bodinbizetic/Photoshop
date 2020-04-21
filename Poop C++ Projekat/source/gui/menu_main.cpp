@@ -13,13 +13,13 @@ void Menu_Main::functionCall(std::string x) {
     else if(x == "1"){
         std::pair<std::string, std::string> p = getProjectNameAndPath();
         Image project(p.first);
-        project.getProjectManager().createProject(p.second);
+        project.createProject(p.second);
         Menu_Image mi(project);
         mi.start();
     } else if(x == "2") {
         std::string path = getProjectPath();
         Image project(path);
-        project.getProjectManager().openProject();
+        project.openProject();
         Menu_Image mi(project);
         mi.start();
     } else {

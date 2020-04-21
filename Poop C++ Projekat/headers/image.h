@@ -33,6 +33,10 @@ public:
 
     std::pair<int, int> Dimensions() const { return all_layers.Dimensions(); };
     std::vector<int> getFinalResult();
+    
+    void saveAll();
+    void openProject();
+    void createProject(std::string name) { project_manager.createProject(name); }
 
 private:
     SelectionCollection all_selections;
@@ -43,6 +47,10 @@ private:
     void applyOperation(const Operation& op);
     void applyOperationCoordinates(const Operation& op, const std::vector<std::pair<int, int>>&);
     OperationalLayer makeOperationalLayer(Layer& l);
+
+    std::vector<LayerInfo> getLayerInfo() const;
+
+    void loadLayers(const std::vector<LayerInfo>& all_layer_info);
 };
 
 #endif // _image_h_

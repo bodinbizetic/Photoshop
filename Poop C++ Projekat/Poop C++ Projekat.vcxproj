@@ -149,6 +149,7 @@
     <ClInclude Include="headers\formaters\formater_pam.h" />
     <ClInclude Include="headers\gui\menu.h" />
     <ClInclude Include="headers\gui\menu_export.h" />
+    <ClInclude Include="headers\gui\menu_file.h" />
     <ClInclude Include="headers\gui\menu_image.h" />
     <ClInclude Include="headers\gui\menu_layer.h" />
     <ClInclude Include="headers\gui\menu_main.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="source\formaters\formater_pam.cpp" />
     <ClCompile Include="source\gui\menu.cpp" />
     <ClCompile Include="source\gui\menu_export.cpp" />
+    <ClCompile Include="source\gui\menu_file.cpp" />
     <ClCompile Include="source\gui\menu_image.cpp" />
     <ClCompile Include="source\gui\menu_layer.cpp" />
     <ClCompile Include="source\gui\menu_main.cpp" />

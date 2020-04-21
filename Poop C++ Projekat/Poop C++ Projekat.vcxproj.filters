@@ -135,6 +135,9 @@
     <ClInclude Include="headers\operations\median_operation.h">
       <Filter>Header Files\operations</Filter>
     </ClInclude>
+    <ClInclude Include="headers\gui\menu_file.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\collections\layer_collection.cpp">
@@ -220,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="source\operations\median_operation.cpp">
       <Filter>Source Files\operations</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gui\menu_file.cpp">
+      <Filter>Source Files\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

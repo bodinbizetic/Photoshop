@@ -16,6 +16,14 @@ void LayerCollection::addLayer(int position, std::string name_, std::string path
     fitAll();
 }
 
+void LayerCollection::addLayer(std::string name_, std::string path_, int opacity, int active) {
+    Layer newLayer = createLayer(name_, path_);
+    newLayer.setOpacity(opacity);
+    newLayer.setActive(active);
+    all_layers.push_back(newLayer);
+    fitAll();
+}
+
 void LayerCollection::addLayer(std::pair<int, int> dimensions_, std::string name_) {
     updateDim(dimensions_);
     Layer newLayer = createLayer(name_, "");
