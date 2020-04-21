@@ -28,7 +28,6 @@ public:
 
 private:
     std::map<std::string, bool> operation_mode{{"Red", true}, {"Green", true}, {"Blue", true}, {"Alfa", false}};
-    std::map< std::string, std::function<int(int, int)> > diadic_functions;
     std::vector<Operation*> all_operations;
     
 };

@@ -14,7 +14,6 @@ void LayerCollection::addLayer(int position, std::string name_, std::string path
         all_layers.insert(all_layers.begin() + position, newLayer);
 
     fitAll();
-    fitAll();
 }
 
 void LayerCollection::addLayer(std::pair<int, int> dimensions_, std::string name_) {
