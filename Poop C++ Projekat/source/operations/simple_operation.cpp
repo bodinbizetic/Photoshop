@@ -28,6 +28,6 @@ OperationalLayer& SimpleOperation::operator() (OperationalLayer& op, const std::
     return op; 
 }
 
-Operation* SimpleOperation::copy() const {
-    return new SimpleOperation(*this);
+std::vector<Operation*> SimpleOperation::copyVector() const {
+    return { new SimpleOperation(*this) };
 }

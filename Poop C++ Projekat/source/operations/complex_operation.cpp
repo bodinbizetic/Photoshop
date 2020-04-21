@@ -1,14 +1,17 @@
+
 #include <algorithm>
 
 #include "complex_operation.h"
 
 ComplexOperation::ComplexOperation(std::vector<Operation*> operations, std::string name_) : Operation(name_) {
-    operation_functions = copy(operations);
+    for (Operation* op : operations)
+        add(*op);
 }
 
 
-void ComplexOperation::add(const Operation& op) {
-    operation_functions.push_back(op.copy());
+void ComplexOperation::add(const Operation& operation) {
+    std::vector<Operation*> temp = operation.copyVector();
+    operation_functions.insert(operation_functions.end(), temp.begin(), temp.end());
 }
 
 ComplexOperation::ComplexOperation(const ComplexOperation& cop2) {
@@ -29,21 +32,19 @@ OperationalLayer& ComplexOperation::operator() (OperationalLayer& op, const std:
     return op;
 }
 
-Operation* ComplexOperation::copy() const {
-    return new ComplexOperation(*this);
-}
-
-std::vector<Operation*> ComplexOperation::copy(std::vector<Operation*> op) const {
-    std::vector<Operation*> new_vector(op);
-    for(Operation*&o : new_vector) {
-        o = o->copy();
+std::vector<Operation*> ComplexOperation::copyVector() const {
+    std::vector<Operation*> deep_copy;
+    for (Operation* op : operation_functions) {
+        std::vector<Operation*> temp = op->copyVector();
+        deep_copy.insert(deep_copy.end(), temp.begin(), temp.end());
     }
-    return new_vector;
+        
+    return deep_copy;    
 }
 
 void ComplexOperation::copy(const ComplexOperation& cop) {
     setName(cop.Name());
-    operation_functions = cop.copy(cop.operation_functions);
+    operation_functions = cop.copyVector();
 }
 
 

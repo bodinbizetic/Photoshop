@@ -11,7 +11,8 @@ public:
     SimpleOperation(std::function<int(int, int)> operation_function_, int arg, std::string name_ = DEFAULT_OP_NAME, int RGBA_mask = 0b1110);
 
     virtual OperationalLayer& operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const override;
-    virtual Operation* copy() const override;
+    virtual std::vector<Operation*> copyVector() const override;
+    virtual Operation* copy() const override { return new SimpleOperation(*this); }
 private:
     std::function<int(int)> operation_function;
 };
