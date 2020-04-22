@@ -13,6 +13,7 @@ class SelectionCollection {
 public:
     void select(RectangleShape r, int position);
     void addSelection(std::string name_);
+    void addSelection(const Selection& s) { all_selections.push_back(s); }
     std::vector<std::pair<std::string, std::string>> getSelectionNames() const;
     void removeSelection(int pos);
     //void clearSelection(int pos);

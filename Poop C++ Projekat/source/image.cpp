@@ -107,11 +107,41 @@ std::vector<PM_Formater_info> Image::getSelectionInfo() const {
 void Image::openProject() {
     ProjectInfo project_info = project_manager.openProject();
     loadLayers(project_info.layer_info);
+    loadSelections(project_info.selection_info);
 }
 
 void Image::loadLayers(const std::vector<LayerInfo>& all_layer_info) {
     for (const LayerInfo& info : all_layer_info)// TODO: check paths
         all_layers.addLayer(info.name, info.path, info.opacity, info.active);
+}
+void Image::loadSelections(const std::vector<PM_Formater_info>& all_selection_info) {
+    int failed = 0;
+    
+    for (const auto& one_sel : all_selection_info) {
+        try {
+            std::vector<RectangleShape> rect;
+            for (auto i : one_sel.body) {
+                std::function<void(const std::string&)> check = [&i](const std::string& s) {
+                    if (i.find(s) == i.end())
+                        throw SelectionCorruption();
+                };
+                check("width");
+                check("height");
+                check("x");
+                check("y");
+                std::pair<int, int> dimension;
+                
+                rect.push_back({ atoi(i["x"].c_str()), atoi(i["y"].c_str()), atoi(i["width"].c_str()), atoi(i["height"].c_str()) });
+            }
+            Selection s(rect);
+            s.setActive((one_sel.header.at("active") == "true" ? true : false));
+            s.setName(one_sel.header.at("name"));
+            all_selections.addSelection(s);
+        }
+        catch (SelectionCorruption& s) { failed++; }
+    }
+    if (failed)
+        throw SelectionLoadFailed(failed);
 }
 /*
 2

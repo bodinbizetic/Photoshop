@@ -14,9 +14,22 @@
 
 class ImageIndexOutOfBounds : public std::exception{
     const char* what() const noexcept override {
-        std::cout << "Image index out of bounds" << std::endl;
         return "Image index out of bounds";
     }
+};
+
+class SelectionLoadFailed : public std::exception {
+public:
+    SelectionLoadFailed(int n_) : n(n) {}
+    const char* what() const noexcept override {
+        char num[1000];
+        static char text[1000] = "Failed to load selections: ";
+        _itoa_s(n, num, 10);
+        strcat_s(text, num);
+        return text;
+    }
+private:
+    int n;
 };
 
 class Image {
@@ -52,6 +65,7 @@ private:
     std::vector<PM_Formater_info> getSelectionInfo() const;
 
     void loadLayers(const std::vector<LayerInfo>& all_layer_info);
+    void loadSelections(const std::vector<PM_Formater_info>& all_selection_info);
 };
 
 #endif // _image_h_

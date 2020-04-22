@@ -36,3 +36,51 @@ void Project_Manager_Formater::storeBody(const std::vector<std::map<std::string,
 		}
 	}
 }
+
+PM_Formater_info Project_Manager_Formater::load() {
+	PM_Formater_info info;
+	loadDocument();
+	info.header = loadHeader();
+	info.body = loadBody();
+	return info;
+}
+
+void Project_Manager_Formater::loadDocument() {
+	if (!std::filesystem::exists(path))
+		throw PMFormaterFileNotExists();
+	
+	std::ifstream file(path);
+	std::stringstream buff;
+	buff << file.rdbuf();
+	file.close();
+	try {
+		doc->parse<0>(doc->allocate_string(buff.str().c_str()));
+	}
+	catch (...) {
+		throw FileCorrupted();
+	}
+}
+
+std::map<std::string, std::string> Project_Manager_Formater::loadHeader() {
+	std::map<std::string, std::string> ret_val;
+	xml::xml_node<char>* root = doc->first_node(header_name.c_str());
+	for (xml::xml_attribute<char>* attr = root->first_attribute(); attr; attr = attr->next_attribute()) {
+		ret_val[attr->name()] = attr->value();
+	}
+
+	return ret_val;
+}
+
+std::vector<std::map<std::string, std::string>> Project_Manager_Formater::loadBody() {
+	std::vector<std::map<std::string, std::string>> ret_val;
+	xml::xml_node<char>* root = doc->first_node(header_name.c_str());
+	xml::xml_node<char>* body = root->first_node(body_name.c_str());
+
+	for (; body; body = body->next_sibling()) {
+		std::map<std::string, std::string> node;
+		for (xml::xml_attribute<char>* attr = body->first_attribute(); attr; attr = attr->next_attribute())
+			node[attr->name()] = attr->value();
+		ret_val.push_back(node);
+	}
+	return ret_val;
+}

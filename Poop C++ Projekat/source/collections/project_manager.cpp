@@ -35,8 +35,8 @@ std::shared_ptr<xml::xml_document<>> ProjectManager::createProjectFile() {
 void ProjectManager::createProject(std::string name_) {
     name = name_;
     createProjectFolderAndMove();
-    createResourceFolder();
-    createSelectionFolder();
+    createFolder(resource_folder);
+    createFolder(selection_folder);
 
     std::ofstream file(project_file_name);
     file << *createProjectFile();
@@ -51,16 +51,10 @@ void ProjectManager::createProjectFolderAndMove() {
     current_working_directory = project_path;
 }
 
-void ProjectManager::createResourceFolder() {
-    if (std::filesystem::exists(resource_folder))
+void ProjectManager::createFolder(std::string name) {
+    if (std::filesystem::exists(name))
         return;
-    _mkdir(resource_folder.c_str());
-}
-
-void ProjectManager::createSelectionFolder() {
-    if (std::filesystem::exists(selection_folder))
-        return;
-    _mkdir(selection_folder.c_str());
+    _mkdir(name.c_str());
 }
 
 ProjectInfo ProjectManager::openProject() {
@@ -79,7 +73,7 @@ ProjectInfo ProjectManager::loadProject() {
     std::shared_ptr< xml::xml_document<> > doc(initXmlReader(), [](xml::xml_document<>* doc) { doc->clear(); });
     loadProjectInfo(doc);
     project_info.layer_info = loadLayersInfo(doc);
-
+    project_info.selection_info = loadSelectionInfo(doc);
     return project_info;
 }
 
@@ -123,6 +117,22 @@ std::vector<LayerInfo> ProjectManager::loadLayersInfo(std::shared_ptr<xml::xml_d
     return all_info;
 }
 
+std::vector<PM_Formater_info> ProjectManager::loadSelectionInfo(std::shared_ptr<xml::xml_document<>> doc) {
+    std::vector<PM_Formater_info> all_info;
+    xml::xml_node<char>* root = doc->first_node(xml_project_name);
+    xml::xml_node<char>* selection = root->first_node(xml_selection_name);
+    if (!selection) return std::vector<PM_Formater_info>();
+
+    xml::xml_node<char>* one_sel = selection->first_node();
+    for (; one_sel; one_sel = one_sel->next_sibling()) {
+        PM_Formater_info info;
+        Project_Manager_Formater pmf(one_sel->first_attribute("path")->value(), "Selection", "Rectangle");
+        info = pmf.load();
+        all_info.push_back(info);
+    }
+    return all_info;
+}
+
 void ProjectManager::storeProjectInfo(std::shared_ptr<xml::xml_document<>> doc) {
     xml::xml_node<char>* project = doc->allocate_node(xml::node_element, "Project");
     project->append_attribute(doc->allocate_attribute("name", name.c_str()));
@@ -153,6 +163,7 @@ void ProjectManager::saveLayer(std::shared_ptr<xml::xml_document<>> doc, const L
 }
 
 void ProjectManager::saveSelections(std::shared_ptr<xml::xml_document<>> doc, const std::vector<PM_Formater_info>& all_selection_info) {
+    createFolder(selection_folder);
     xml::xml_node<char>* root = doc->first_node(xml_project_name);
     xml::xml_node<char>* selections = doc->allocate_node(xml::node_element, xml_selection_name);
     root->append_node(selections);

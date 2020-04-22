@@ -27,6 +27,12 @@ class DirectoryAlreadyExists : public std::exception {
     }
 };
 
+class SelectionCorruption : public std::exception {
+    const char* what() const noexcept override {
+        return "Selection file was corrupted";
+    }
+};
+
 class ProjectFileNotFound : public std::exception {
 public:
     ProjectFileNotFound(std::string path_) : path(path_) {}
@@ -46,6 +52,7 @@ struct LayerInfo {
 
 struct ProjectInfo {
     std::vector<LayerInfo> layer_info;
+    std::vector<PM_Formater_info> selection_info;
 };
 
 class ProjectManager {
@@ -62,7 +69,6 @@ public:
     ProjectManager(std::string cwd_);
     std::string getCwd() { return current_working_directory; }
     ProjectInfo openProject();
-    std::vector<LayerInfo> loadLayersInfo(std::shared_ptr<xml::xml_document<>> doc);
 
     void saveLayers(std::shared_ptr<xml::xml_document<>> doc, const std::vector<LayerInfo>& all_layer_info);
     void saveSelections(std::shared_ptr<xml::xml_document<>> doc, const std::vector<PM_Formater_info>& all_selection_info);
@@ -76,11 +82,12 @@ private:
 
     void checkProjectFile();
     void createProjectFolderAndMove();
-    void createResourceFolder();
-    void createSelectionFolder();
+    void createFolder(std::string name);
 
     ProjectInfo loadProject();
     void loadProjectInfo(std::shared_ptr< xml::xml_document<> > doc);
+    std::vector<LayerInfo> loadLayersInfo(std::shared_ptr<xml::xml_document<>> doc);
+    std::vector<PM_Formater_info> loadSelectionInfo(std::shared_ptr<xml::xml_document<>> doc);
 
     void storeProjectInfo(std::shared_ptr< xml::xml_document<> > doc);
     void saveLayer(std::shared_ptr<xml::xml_document<>> doc, const LayerInfo& layer_info);
