@@ -20,10 +20,10 @@ public:
     Menu(std::vector<std::string> commands_) : commands(commands_) {};
     ~Menu() {};
     void start();
+    void addHeader(std::string s) { header.push_back(s); }
 protected:
     void setClean() { clean = false; }
     void clClean() { clean = true;}
-    void addHeader(std::string s) { header.push_back(s); }
     bool running = true;
     const std::vector<std::string> commands;
 private:

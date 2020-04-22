@@ -19,8 +19,13 @@ void Menu_Main::functionCall(std::string x) {
     } else if(x == "2") {
         std::string path = getProjectPath();
         Image project(path);
-        project.openProject();
         Menu_Image mi(project);
+        try {
+            project.openProject();
+        }
+        catch (Information& i) {
+            mi.addHeader(i.what());
+        }
         mi.start();
     } else {
         throw WrongCommand();

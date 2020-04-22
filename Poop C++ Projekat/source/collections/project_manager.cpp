@@ -127,7 +127,12 @@ std::vector<PM_Formater_info> ProjectManager::loadSelectionInfo(std::shared_ptr<
     for (; one_sel; one_sel = one_sel->next_sibling()) {
         PM_Formater_info info;
         Project_Manager_Formater pmf(one_sel->first_attribute("path")->value(), "Selection", "Rectangle");
-        info = pmf.load();
+        try {
+            info = pmf.load();
+        }
+        catch (...) {
+
+        }
         all_info.push_back(info);
     }
     return all_info;

@@ -18,11 +18,15 @@ class ImageIndexOutOfBounds : public std::exception{
     }
 };
 
-class SelectionLoadFailed : public std::exception {
+class Information : public std::exception {
+
+};
+
+class SelectionLoadFailed : public Information {
 public:
-    SelectionLoadFailed(int n_) : n(n) {}
+    SelectionLoadFailed(int n_) : n(n_) {}
     const char* what() const noexcept override {
-        char num[1000];
+        char num[1000]={};
         static char text[1000] = "Failed to load selections: ";
         _itoa_s(n, num, 10);
         strcat_s(text, num);

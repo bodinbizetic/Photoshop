@@ -20,7 +20,7 @@ class FileCorrupted : public std::exception {
 
 class PMFormaterFileNotExists : public std::exception {
     const char* what() const noexcept override {
-        return "Corrupted project file";
+        return "Corrupted project files";
     }
 };
 

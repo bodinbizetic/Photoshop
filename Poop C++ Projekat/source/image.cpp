@@ -138,10 +138,9 @@ void Image::loadSelections(const std::vector<PM_Formater_info>& all_selection_in
             s.setName(one_sel.header.at("name"));
             all_selections.addSelection(s);
         }
-        catch (SelectionCorruption& s) { failed++; }
+        catch (std::exception& s) { failed++; }
     }
-    if (failed)
-        throw SelectionLoadFailed(failed);
+
 }
 /*
 2
