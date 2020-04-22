@@ -15,13 +15,13 @@ public:
     Selection(std::vector<Rect> selected_rectangles_) : selected_rectangles(selected_rectangles_) {}
     Selection(Rect r) { add(r); };
 
+    std::vector<Rect> getRectangles() const { return selected_rectangles; }
     bool isActive() const { return active; }
     void setActive(bool active_) { active = active_; }
     void deselectAll() { selected_rectangles.clear(); }
     
     std::string Name() const { return name; }
     void setName(std::string s) { name = s; }
-
 
     void add(Rect r);
     std::vector< std::pair<int, int> > getSelectedCoordinates(std::pair<int, int> dimension) const;

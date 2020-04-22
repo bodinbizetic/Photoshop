@@ -9,6 +9,8 @@ public:
     RectangleShape(std::pair<int, int> coord, std::pair<int, int> dim) : coordinates(coord), dimensions(dim) {}
 
     bool inRectangle(std::pair<int, int>);
+    std::pair<int, int> Dimensions() const { return dimensions; }
+    std::pair<int, int> Coordinates() const { return coordinates; }
 private:
     std::pair<int, int> coordinates;
     std::pair<int, int> dimensions;

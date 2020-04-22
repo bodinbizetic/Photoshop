@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "rectangle.h"
 #include "rapidxml.hpp"
 
 namespace xml = rapidxml;
@@ -42,6 +43,12 @@ struct LayerInfo {
     bool active;
 };
 
+struct SelectionInfo {
+    std::string name;
+    bool active;
+    std::vector<RectangleShape> rectangles;
+};
+
 struct ProjectInfo {
     std::vector<LayerInfo> layer_info;
 };
@@ -49,21 +56,25 @@ struct ProjectInfo {
 class ProjectManager {
 public:
     static const std::string resource_folder;
+    static const std::string selection_folder;
     static const char *project_file_name;
     static const char *xml_project_name;
-    static const char *xml_layers_name;
+    static const char* xml_layers_name;
+    static const char *xml_selection_name;
 
     static void copy(std::string src, std::string dst);
 
     ProjectManager(std::string cwd_);
     std::string getCwd() { return current_working_directory; }
-    void createProject(std::string name_);
-    xml::xml_document<>* initXmlReader();
     ProjectInfo openProject();
-
-    std::shared_ptr<xml::xml_document<>> createProjectFile();
-    void saveLayers(std::shared_ptr<xml::xml_document<>> doc, const std::vector<LayerInfo>& all_layer_info);
     std::vector<LayerInfo> loadLayersInfo(std::shared_ptr<xml::xml_document<>> doc);
+
+    void saveLayers(std::shared_ptr<xml::xml_document<>> doc, const std::vector<LayerInfo>& all_layer_info);
+    void saveSelections(std::shared_ptr<xml::xml_document<>> doc, const std::vector<SelectionInfo>& all_selection_info);
+
+    void createProject(std::string name_);
+    std::shared_ptr<xml::xml_document<>> createProjectFile();
+    xml::xml_document<>* initXmlReader();
 private:
     std::string current_working_directory;
     std::string name;
@@ -71,12 +82,15 @@ private:
     void checkProjectFile();
     void createProjectFolderAndMove();
     void createResourceFolder();
+    void createSelectionFolder();
 
     ProjectInfo loadProject();
     void loadProjectInfo(std::shared_ptr< xml::xml_document<> > doc);
 
     void storeProjectInfo(std::shared_ptr< xml::xml_document<> > doc);
     void saveLayer(std::shared_ptr<xml::xml_document<>> doc, const LayerInfo& layer_info);
+    void saveSelection(std::shared_ptr<xml::xml_document<>> doc, const SelectionInfo& selecetion_info);
+    std::string saveSelectionFile(const SelectionInfo& selection_info);
 
 };
 

@@ -15,9 +15,12 @@ public:
     void addSelection(std::string name_);
     std::vector<std::pair<std::string, std::string>> getSelectionNames() const;
     void removeSelection(int pos);
-    void clearSelection(int pos);
+    //void clearSelection(int pos);
     void toggleSelection(int position);
     std::vector<std::pair<int, int>> getActiveCoordinates(std::pair<int, int> dimensions) const;
+
+    std::vector<Selection>::const_iterator begin() const { return all_selections.cbegin(); }
+    std::vector<Selection>::const_iterator end() const { return all_selections.cend(); }
 private:
     std::vector<Selection> all_selections;
 };

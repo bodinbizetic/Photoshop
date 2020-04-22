@@ -61,6 +61,8 @@ void Image::saveAll() {
     std::vector<LayerInfo> layer_information = getLayerInfo();
     project_manager.saveLayers(doc, layer_information);
 
+    std::vector<SelectionInfo> selection_info = getSelectionInfo();
+    project_manager.saveSelections(doc, selection_info);
     
     std::ofstream xml_file(ProjectManager::project_file_name);
     xml_file << *doc;
@@ -77,6 +79,18 @@ std::vector<LayerInfo> Image::getLayerInfo() const {
         newInfo.active = l.Active();
 
         all_info.push_back(newInfo);
+    }
+    return all_info;
+}
+
+std::vector<SelectionInfo> Image::getSelectionInfo() const {
+    std::vector<SelectionInfo> all_info;
+    for (const Selection& s : all_selections) {
+        SelectionInfo info;
+        info.name = s.Name();
+        info.active = s.isActive();
+        info.rectangles = s.getRectangles();
+        all_info.push_back(info);
     }
     return all_info;
 }

@@ -49,6 +49,7 @@ private:
     OperationalLayer makeOperationalLayer(Layer& l);
 
     std::vector<LayerInfo> getLayerInfo() const;
+    std::vector<SelectionInfo> getSelectionInfo() const;
 
     void loadLayers(const std::vector<LayerInfo>& all_layer_info);
 };
