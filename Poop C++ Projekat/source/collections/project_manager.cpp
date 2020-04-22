@@ -26,7 +26,10 @@ void ProjectManager::createProject(std::string name_) {
     name = name_;
     createProjectFolderAndMove();
     createResourceFolder();
-    createProjectFile();
+    
+    std::ofstream file(project_file_name);
+    file << *createProjectFile();
+    file.close();
 }
 
 void ProjectManager::saveLayers(std::shared_ptr<xml::xml_document<>> doc, const std::vector<LayerInfo>& all_layer_info) {
@@ -53,9 +56,10 @@ void ProjectManager::createResourceFolder() {
 
 std::shared_ptr<xml::xml_document<>> ProjectManager::createProjectFile() {
     std::shared_ptr< xml::xml_document<> > doc(new xml::xml_document<>(), [](xml::xml_document<>* doc) { doc->clear(); });
-    /*std::ofstream xml_file(project_file_name);
-    xml_file << *doc;
-    xml_file.close();*/
+    xml::xml_node<char>* root = doc->allocate_node(xml::node_element, xml_project_name);
+    root->append_attribute(doc->allocate_attribute("name", name.c_str()));
+    doc->append_node(root);
+
     return doc;
 }
 
@@ -72,7 +76,7 @@ void ProjectManager::checkProjectFile() {
 
 ProjectInfo ProjectManager::loadProject() {
     ProjectInfo project_info;
-    std::shared_ptr< xml::xml_document<> > doc(initXmlReader(), [](xml::xml_document<>* doc) { /*doc->clear();*/ });
+    std::shared_ptr< xml::xml_document<> > doc(initXmlReader(), [](xml::xml_document<>* doc) { doc->clear(); });
     loadProjectInfo(doc);
     project_info.layer_info = loadLayersInfo(doc);
 
@@ -96,7 +100,7 @@ xml::xml_document<>* ProjectManager::initXmlReader() {
 }
 
 void ProjectManager::loadProjectInfo(std::shared_ptr< xml::xml_document<> > doc) {
-    name = doc->first_node()->name();
+    name = doc->first_node()->first_attribute()->value();
 }
 
 std::vector<LayerInfo> ProjectManager::loadLayersInfo(std::shared_ptr<xml::xml_document<>> doc) {
@@ -126,15 +130,15 @@ void ProjectManager::storeProjectInfo(std::shared_ptr<xml::xml_document<>> doc) 
 void ProjectManager::saveLayer(std::shared_ptr<xml::xml_document<>> doc, const LayerInfo& layer_info) {
     xml::xml_node<char> *layer_node = doc->first_node("Project")->first_node(xml_layers_name);
     xml::xml_node<char> *curr_layer = doc->allocate_node(xml::node_element, "Layer");
-    static char buff[20];
+    char buff[20];
     _itoa_s(layer_info.opacity, buff, 10);
-    static char active[6];
+    char active[6];
     strcpy_s(active, (layer_info.active ? "true" : "false"));
 
     curr_layer->append_attribute(doc->allocate_attribute("name", layer_info.name.c_str()));
     curr_layer->append_attribute(doc->allocate_attribute("path", layer_info.path.c_str()));
-    curr_layer->append_attribute(doc->allocate_attribute("opacity", buff));
-    curr_layer->append_attribute(doc->allocate_attribute("active", active));
+    curr_layer->append_attribute(doc->allocate_attribute("opacity", doc->allocate_string(buff)));
+    curr_layer->append_attribute(doc->allocate_attribute("active", doc->allocate_string(active)));
     layer_node->append_node(curr_layer);
 }
 
