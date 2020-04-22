@@ -5,6 +5,7 @@
 #include <vector>
 #include "rectangle.h"
 #include "rapidxml.hpp"
+#include "project_manager_formater.h"
 
 namespace xml = rapidxml;
 
@@ -43,12 +44,6 @@ struct LayerInfo {
     bool active;
 };
 
-struct SelectionInfo {
-    std::string name;
-    bool active;
-    std::vector<RectangleShape> rectangles;
-};
-
 struct ProjectInfo {
     std::vector<LayerInfo> layer_info;
 };
@@ -70,7 +65,7 @@ public:
     std::vector<LayerInfo> loadLayersInfo(std::shared_ptr<xml::xml_document<>> doc);
 
     void saveLayers(std::shared_ptr<xml::xml_document<>> doc, const std::vector<LayerInfo>& all_layer_info);
-    void saveSelections(std::shared_ptr<xml::xml_document<>> doc, const std::vector<SelectionInfo>& all_selection_info);
+    void saveSelections(std::shared_ptr<xml::xml_document<>> doc, const std::vector<PM_Formater_info>& all_selection_info);
 
     void createProject(std::string name_);
     std::shared_ptr<xml::xml_document<>> createProjectFile();
@@ -89,8 +84,6 @@ private:
 
     void storeProjectInfo(std::shared_ptr< xml::xml_document<> > doc);
     void saveLayer(std::shared_ptr<xml::xml_document<>> doc, const LayerInfo& layer_info);
-    void saveSelection(std::shared_ptr<xml::xml_document<>> doc, const SelectionInfo& selecetion_info);
-    std::string saveSelectionFile(const SelectionInfo& selection_info);
 
 };
 

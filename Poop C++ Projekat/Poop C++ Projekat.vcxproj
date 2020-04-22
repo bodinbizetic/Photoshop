@@ -147,6 +147,7 @@
     <ClInclude Include="headers\formaters\formater.h" />
     <ClInclude Include="headers\formaters\formater_bmp.h" />
     <ClInclude Include="headers\formaters\formater_pam.h" />
+    <ClInclude Include="headers\formaters\project_manager_formater.h" />
     <ClInclude Include="headers\gui\menu.h" />
     <ClInclude Include="headers\gui\menu_export.h" />
     <ClInclude Include="headers\gui\menu_file.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="source\collections\selection_collection.cpp" />
     <ClCompile Include="source\formaters\formater_bmp.cpp" />
     <ClCompile Include="source\formaters\formater_pam.cpp" />
+    <ClCompile Include="source\formaters\project_manager_formater.cpp" />
     <ClCompile Include="source\gui\menu.cpp" />
     <ClCompile Include="source\gui\menu_export.cpp" />
     <ClCompile Include="source\gui\menu_file.cpp" />

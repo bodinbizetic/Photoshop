@@ -138,6 +138,9 @@
     <ClInclude Include="headers\gui\menu_file.h">
       <Filter>Header Files\gui</Filter>
     </ClInclude>
+    <ClInclude Include="headers\formaters\project_manager_formater.h">
+      <Filter>Header Files\formaters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\collections\layer_collection.cpp">
@@ -226,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="source\gui\menu_file.cpp">
       <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="source\formaters\project_manager_formater.cpp">
+      <Filter>Source Files\formaters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

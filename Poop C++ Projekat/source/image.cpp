@@ -61,7 +61,7 @@ void Image::saveAll() {
     std::vector<LayerInfo> layer_information = getLayerInfo();
     project_manager.saveLayers(doc, layer_information);
 
-    std::vector<SelectionInfo> selection_info = getSelectionInfo();
+    std::vector<PM_Formater_info> selection_info = getSelectionInfo();
     project_manager.saveSelections(doc, selection_info);
     
     std::ofstream xml_file(ProjectManager::project_file_name);
@@ -83,13 +83,22 @@ std::vector<LayerInfo> Image::getLayerInfo() const {
     return all_info;
 }
 
-std::vector<SelectionInfo> Image::getSelectionInfo() const {
-    std::vector<SelectionInfo> all_info;
+std::vector<PM_Formater_info> Image::getSelectionInfo() const {
+    std::vector<PM_Formater_info> all_info;
     for (const Selection& s : all_selections) {
-        SelectionInfo info;
+        PM_Formater_info info;
         info.name = s.Name();
-        info.active = s.isActive();
-        info.rectangles = s.getRectangles();
+        info.header["name"] = s.Name();
+        info.header["active"] = (s.isActive() ? "true" : "false");
+        auto rectangles = s.getRectangles();
+        for (auto r : rectangles) {
+            std::map<std::string, std::string> rectangle;
+            rectangle["width"] = std::to_string(r.Dimensions().first);
+            rectangle["height"] = std::to_string(r.Dimensions().second);
+            rectangle["x"] = std::to_string(r.Coordinates().first);
+            rectangle["y"] = std::to_string(r.Coordinates().second);
+            info.body.push_back(rectangle);
+        }
         all_info.push_back(info);
     }
     return all_info;
