@@ -64,6 +64,9 @@ void Image::saveAll() {
     std::vector<PM_Formater_info> selection_info = getSelectionInfo();
     project_manager.saveSelections(doc, selection_info);
     
+    std::vector<PM_Formater_info> operation_info = getOperationInfo();
+    project_manager.saveOperations(doc, operation_info);
+
     std::ofstream xml_file(ProjectManager::project_file_name);
     xml_file << *doc;
     xml_file.close();
@@ -104,10 +107,35 @@ std::vector<PM_Formater_info> Image::getSelectionInfo() const {
     return all_info;
 }
 
+std::vector<PM_Formater_info> Image::getOperationInfo() const {
+    std::vector<PM_Formater_info> all_info;
+    int i = 0;
+    for (const Operation* const & op : all_operations) {
+        if (i < all_operations.getDefaultOpNum()) {
+            i++;
+            continue;
+        }
+        PM_Formater_info info;
+        info.header["name"] = op->Name();
+        info.name = op->Name();
+        auto op_all = op->copyVector();
+        for (const Operation* const& one_op : op_all) {
+            std::map<std::string, std::string> one_op_info;
+            one_op_info["name"] = one_op->Name();
+            one_op_info["arg"] = std::to_string(one_op->getParam());
+            info.body.push_back(one_op_info);
+        }
+        all_info.push_back(info);
+    }
+
+    return all_info;
+}
+
 void Image::openProject() {
     ProjectInfo project_info = project_manager.openProject();
     loadLayers(project_info.layer_info);
     loadSelections(project_info.selection_info);
+    loadOperations(project_info.operation_info);
 }
 
 void Image::loadLayers(const std::vector<LayerInfo>& all_layer_info) {
@@ -141,6 +169,33 @@ void Image::loadSelections(const std::vector<PM_Formater_info>& all_selection_in
         catch (std::exception& s) { failed++; }
     }
 
+}
+void Image::loadOperations(const std::vector<PM_Formater_info>& all_operations_info) {
+    int failed = 0;
+    for (const PM_Formater_info& one_op : all_operations_info) {
+        try {
+            std::vector<std::pair<int, int>> op_arg;
+            for (const auto& i : one_op.body) {
+                std::function<void(const std::string&)> check = [&i](const std::string& s) {
+                    if (i.find(s) == i.end())
+                        throw OperationCorruption();
+                };
+                check("arg");
+                check("name");
+                std::string name = i.at("name");
+                int arg = atoi(i.at("arg").c_str());
+                int id = std::find_if(all_operations.begin(), all_operations.end(), [&name](const Operation* const& iter_op) {
+                    return name == iter_op->Name();
+                }) - all_operations.begin();
+                op_arg.push_back({ id, arg });
+            }
+            std::string name = one_op.header.at("name");
+            all_operations.createOperation(op_arg, name);
+        }
+        catch (std::exception&) {
+            failed++;
+        }
+    }
 }
 /*
 2

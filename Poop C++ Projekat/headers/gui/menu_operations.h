@@ -10,12 +10,7 @@ public:
         "Return",
         "Show all operations",
         "Use operation",
-        "Create operation",
-        "Turn picture to gray",
-        "Turn picture to Black and White",
-        "Invert",
-        "Blur",
-        "Choose operation mode"
+        "Create operation"
     }) {}
 private:
     Image& project;

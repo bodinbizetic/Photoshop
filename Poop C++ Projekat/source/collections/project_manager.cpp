@@ -12,10 +12,12 @@
 
 const std::string   ProjectManager::resource_folder         = "resource";
 const std::string   ProjectManager::selection_folder        = "selections";
+const std::string   ProjectManager::operation_folder        = "operations";
 const char *        ProjectManager::project_file_name       = "Project.xml";
 const char *        ProjectManager::xml_project_name        = "Project";
 const char *        ProjectManager::xml_layers_name         = "Layers";
 const char *        ProjectManager::xml_selection_name      = "Selections";
+const char *        ProjectManager::xml_operation_name      = "Operations";
 
 
 ProjectManager::ProjectManager(std::string cwd_) : current_working_directory(cwd_) {
@@ -37,6 +39,7 @@ void ProjectManager::createProject(std::string name_) {
     createProjectFolderAndMove();
     createFolder(resource_folder);
     createFolder(selection_folder);
+    createFolder(operation_folder);
 
     std::ofstream file(project_file_name);
     file << *createProjectFile();
@@ -74,6 +77,7 @@ ProjectInfo ProjectManager::loadProject() {
     loadProjectInfo(doc);
     project_info.layer_info = loadLayersInfo(doc);
     project_info.selection_info = loadSelectionInfo(doc);
+    project_info.operation_info = loadOperationInfo(doc);
     return project_info;
 }
 
@@ -88,7 +92,7 @@ xml::xml_document<>* ProjectManager::initXmlReader() {
     try {
         doc->parse<0>(&content[0]);
     }
-    catch (...) { throw ProjectFileCorrupted(); }
+    catch (std::exception& e) { std::cout << e.what() << std::endl; throw ProjectFileCorrupted(); }
     xml_file.close();
     return doc;
 }
@@ -118,24 +122,34 @@ std::vector<LayerInfo> ProjectManager::loadLayersInfo(std::shared_ptr<xml::xml_d
 }
 
 std::vector<PM_Formater_info> ProjectManager::loadSelectionInfo(std::shared_ptr<xml::xml_document<>> doc) {
-    std::vector<PM_Formater_info> all_info;
-    xml::xml_node<char>* root = doc->first_node(xml_project_name);
-    xml::xml_node<char>* selection = root->first_node(xml_selection_name);
-    if (!selection) return std::vector<PM_Formater_info>();
+    SaveNamespaceInfo namespace_info = getSelectionSaveInfo();
+    return loadfromSpecialFolderHeaderBody(doc, namespace_info);
+}
 
-    xml::xml_node<char>* one_sel = selection->first_node();
+std::vector<PM_Formater_info> ProjectManager::loadOperationInfo(std::shared_ptr<xml::xml_document<>> doc) {
+    SaveNamespaceInfo namespace_info = getOperationSaveInfo();
+    return loadfromSpecialFolderHeaderBody(doc, namespace_info);
+}
+
+std::vector<PM_Formater_info> ProjectManager::loadfromSpecialFolderHeaderBody(std::shared_ptr<xml::xml_document<>> doc, const SaveNamespaceInfo& name_info) {
+    std::vector<PM_Formater_info> ret_info;
+    xml::xml_node<char>* root = doc->first_node(name_info.xml_project_name);
+    xml::xml_node<char>* body_node = root->first_node(name_info.xml_sub_name);
+    if (!body_node) return std::vector<PM_Formater_info>();
+
+    xml::xml_node<char>* one_sel = body_node->first_node();
     for (; one_sel; one_sel = one_sel->next_sibling()) {
         PM_Formater_info info;
-        Project_Manager_Formater pmf(one_sel->first_attribute("path")->value(), "Selection", "Rectangle");
+        Project_Manager_Formater pmf(one_sel->first_attribute("path")->value(), name_info.header, name_info.body);
         try {
             info = pmf.load();
         }
         catch (...) {
 
         }
-        all_info.push_back(info);
+        ret_info.push_back(info);
     }
-    return all_info;
+    return ret_info;
 }
 
 void ProjectManager::storeProjectInfo(std::shared_ptr<xml::xml_document<>> doc) {
@@ -168,20 +182,53 @@ void ProjectManager::saveLayer(std::shared_ptr<xml::xml_document<>> doc, const L
 }
 
 void ProjectManager::saveSelections(std::shared_ptr<xml::xml_document<>> doc, const std::vector<PM_Formater_info>& all_selection_info) {
-    createFolder(selection_folder);
-    xml::xml_node<char>* root = doc->first_node(xml_project_name);
-    xml::xml_node<char>* selections = doc->allocate_node(xml::node_element, xml_selection_name);
-    root->append_node(selections);
-    char* sel = doc->allocate_string("Selection");
-    char *attr_name = doc->allocate_string("path");
-    for (const PM_Formater_info& i : all_selection_info) {
-        std::string path = selection_folder + OS_SEP + i.name + ".sel";
-        Project_Manager_Formater pmf(path, "Selection", "Rectangle");
+    SaveNamespaceInfo namespace_info = getSelectionSaveInfo();
+    saveInSpecialFolderHeaderBody(doc, all_selection_info, namespace_info);
+}
+
+void ProjectManager::saveOperations(std::shared_ptr<xml::xml_document<>> doc, const std::vector<PM_Formater_info>& all_operation_info) {
+    SaveNamespaceInfo namespace_info = getOperationSaveInfo();
+    saveInSpecialFolderHeaderBody(doc, all_operation_info, namespace_info);
+    
+}
+
+void ProjectManager::saveInSpecialFolderHeaderBody(std::shared_ptr<xml::xml_document<>> doc, const std::vector<PM_Formater_info>& all_info, const SaveNamespaceInfo& name_info) {
+    createFolder(name_info.folder_info);
+    xml::xml_node<char>* root = doc->first_node(name_info.xml_project_name);
+    xml::xml_node<char>* operations = doc->allocate_node(xml::node_element, name_info.xml_sub_name);
+    root->append_node(operations);
+    char* sel = doc->allocate_string(name_info.header.c_str());
+    char* attr_name = doc->allocate_string("path");
+    for (const PM_Formater_info& i : all_info) {
+        std::string path = name_info.folder_info + OS_SEP + i.name + name_info.extension;
+        Project_Manager_Formater pmf(path, name_info.header.c_str(), name_info.body.c_str());
         pmf.store(i);
         xml::xml_node<char>* sel_path = doc->allocate_node(xml::node_element, sel);
         sel_path->append_attribute(doc->allocate_attribute(attr_name, doc->allocate_string(path.c_str())));
-        selections->append_node(sel_path);
+        operations->append_node(sel_path);
     }
+}
+
+SaveNamespaceInfo ProjectManager::getOperationSaveInfo() {
+    SaveNamespaceInfo namespace_info;
+    namespace_info.folder_info = operation_folder;
+    namespace_info.xml_project_name = xml_project_name;
+    namespace_info.xml_sub_name = xml_operation_name;
+    namespace_info.header = "CustomOperation";
+    namespace_info.body = "Operation";
+    namespace_info.extension = ".fun";
+    return namespace_info;
+}
+
+SaveNamespaceInfo ProjectManager::getSelectionSaveInfo() {
+    SaveNamespaceInfo namespace_info;
+    namespace_info.folder_info = selection_folder;
+    namespace_info.xml_project_name = xml_project_name;
+    namespace_info.xml_sub_name = xml_selection_name;
+    namespace_info.header = "Selection";
+    namespace_info.body = "Rectangle";
+    namespace_info.extension = ".sel";
+    return namespace_info;
 }
 
 void ProjectManager::copy(std::string src, std::string dst) {

@@ -46,6 +46,7 @@ public:
     virtual Operation* copy() const = 0;
     virtual std::vector<Operation*> copyVector() const = 0;
     virtual void setParam(int arg) {}
+    virtual int getParam() const { return 0; }
 
 protected:
     int RGBA_mask;

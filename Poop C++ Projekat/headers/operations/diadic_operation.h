@@ -13,7 +13,7 @@ public:
 	virtual Operation* copy() const { return new DiadicOperation(*this); }
 	virtual std::vector<Operation*> copyVector() const { return { new DiadicOperation(*this) }; }
 	virtual void setParam(int arg) { argument = arg; }
-
+	virtual int getParam() const override { return argument;  }
 private:
 	int argument;
 	std::function<int(int, int)> operation_function;

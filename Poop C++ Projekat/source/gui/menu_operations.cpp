@@ -9,20 +9,11 @@ void Menu_Operation::functionCall(std::string x) {
         showAllOperations();
     } else if(x == "2") {
         useOperation();
-    } else if(x == "3") {
+    }
+    else if (x == "3") {
         createOperation();
-    } else if(x == "4"){
-        // project.toGray();
-    } else if(x == "5") {
-        // project.toBlackWhite();
-    } else if(x == "6") {
-        // project.invert();
-    } else if(x == "7") {
-        // project.blur();
-    } else if(x == "8") {
-        Menu_Operation_Mode m(project);
-        m.start();
-    } else {
+    }
+    else {
         throw WrongCommand();
     }
 }
@@ -40,7 +31,7 @@ void Menu_Operation::showAllOperations() {
 void Menu_Operation::useOperation() {
     OperationCollection &operations = project.getOperationCollection();
     showAllOperations();
-    setClean();
+    clClean();
     
     int oper_num = operations.getOperationNames().size();
     std::pair<int, int> operation_id_arg = insertOperation();
@@ -59,7 +50,7 @@ void Menu_Operation::applyOperation(std::pair<int, int> op_id_arg) {
 void Menu_Operation::createOperation() {
     std::vector<std::pair<int,int>> op_scheme;
     showAllOperations();
-    setClean();
+    clClean();
     std::string name;
     std::cout << "Insert name:\n>>> ";
     std::getline(std::cin, name);
@@ -68,6 +59,8 @@ void Menu_Operation::createOperation() {
         std::pair<int, int> op = insertOperation();
         if(op.first == -1)
             break;
+        if (op.first < 0 || op.first >= project.getOperationCollection().getOperationNames().size())
+            throw CollectionIndexOutOfBounds();
         op_scheme.push_back(op);
     }
 

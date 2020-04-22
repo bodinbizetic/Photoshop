@@ -67,9 +67,11 @@ private:
 
     std::vector<LayerInfo> getLayerInfo() const;
     std::vector<PM_Formater_info> getSelectionInfo() const;
+    std::vector<PM_Formater_info> getOperationInfo() const;
 
     void loadLayers(const std::vector<LayerInfo>& all_layer_info);
     void loadSelections(const std::vector<PM_Formater_info>& all_selection_info);
+    void loadOperations(const std::vector<PM_Formater_info>& all_operations_info);
 };
 
 #endif // _image_h_

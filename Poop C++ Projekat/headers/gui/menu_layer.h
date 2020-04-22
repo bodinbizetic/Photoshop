@@ -28,7 +28,7 @@ public:
         "Draw layer",
         "Swap layer",
         "Show combined",
-        "Save all as BMP"
+        "Save all"
     }) {}
 private:
     Image& project;

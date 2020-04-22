@@ -24,11 +24,16 @@ public:
 
     void toggleModeColor(std::string c);
     int getModeBinary();
+    int getDefaultOpNum() const { return default_op_num; }
+
+    std::vector<Operation*>::const_iterator begin() const { return all_operations.cbegin(); }
+    std::vector<Operation*>::const_iterator end() const { return all_operations.cend(); }
 
 private:
     std::map<std::string, bool> operation_mode{{"Red", true}, {"Green", true}, {"Blue", true}, {"Alfa", false}};
     std::vector<Operation*> all_operations;
-    
+    unsigned int default_op_num = 0;
+
     void initOperations();
     void initOperationsTransformations();
     void initOperationsTransformationsGray();

@@ -49,6 +49,8 @@ Operation* OperationCollection::getOperation(int pos) {
 void OperationCollection::createOperation(std::vector<std::pair<int, int>> op_arg, std::string name_) {
     ComplexOperation cop(name_);
     for(std::pair<int, int> op : op_arg) {
+        if (op.first < 0 || op.first >= all_operations.size())
+            continue;
         Operation* stored_operation = all_operations[op.first];
         stored_operation->setParam(op.second);
         cop.add(*stored_operation);
@@ -68,7 +70,7 @@ void OperationCollection::initOperations() {
     DiadicOperation op9([](int x, int y) -> int  { return std::min(x, y); }, 255, "min");
     SimpleOperation sop1([](int x) -> int { return log(x); }, "Log");
     SimpleOperation sop2([](int x) -> int { return abs(x); }, "Abs");
-    SimpleOperation invert([](int x) -> int { return 255 - x; }, "rsub");
+    SimpleOperation invert([](int x) -> int { return 255 - x; }, "Invert");
     all_operations.push_back(op1.copy());
     all_operations.push_back(op2.copy());
     all_operations.push_back(op3.copy());
@@ -82,7 +84,7 @@ void OperationCollection::initOperations() {
     all_operations.push_back(sop2.copy());
     all_operations.push_back(invert.copy());
     initOperationsTransformations();
-    
+    default_op_num = all_operations.size();
 }
 
 void OperationCollection::initOperationsTransformations() {
