@@ -43,11 +43,12 @@ public:
     void setName(std::string name_);
     void setMask(int RGBA_mask_) { RGBA_mask = RGBA_mask_; }
     virtual OperationalLayer& operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const = 0;
+    virtual OperationalPixel& operator() (OperationalPixel& op) const { return op; }
+
     virtual Operation* copy() const = 0;
     virtual std::vector<Operation*> copyVector() const = 0;
     virtual void setParam(int arg) {}
     virtual int getParam() const { return 0; }
-
 protected:
     int RGBA_mask;
 private:

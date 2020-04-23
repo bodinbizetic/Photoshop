@@ -32,6 +32,13 @@ OperationalLayer& ComplexOperation::operator() (OperationalLayer& op, const std:
     return op;
 }
 
+OperationalPixel& ComplexOperation::operator()(OperationalPixel& op) const {
+    std::for_each(operation_functions.begin(), operation_functions.end(), [&](Operation* oper) {
+        (*oper)(op);
+    });
+    return op;
+}
+
 std::vector<Operation*> ComplexOperation::copyVector() const {
     std::vector<Operation*> deep_copy;
     for (Operation* op : operation_functions) {

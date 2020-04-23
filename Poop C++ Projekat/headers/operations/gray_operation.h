@@ -14,6 +14,8 @@ public:
     virtual OperationalLayer& operator()  (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const override;
     virtual std::vector<Operation*> copyVector() const override { return { new PixelTransformation(*this) }; }
     virtual Operation* copy() const override { return new PixelTransformation(*this); }
+    virtual OperationalPixel& operator() (OperationalPixel& op) const override;
+
 private:    
     std::function<OperationalPixel&(OperationalPixel&)> operation_function;
 

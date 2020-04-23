@@ -10,6 +10,7 @@ public:
 	DiadicOperation(std::function<int(int, int)> function, int arg = 0, std::string name_ = DEFAULT_OP_NAME, int RGBA_mask = 0b1110);
 
 	virtual OperationalLayer& operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const;
+	virtual OperationalPixel& operator() (OperationalPixel& op) const;
 	virtual Operation* copy() const { return new DiadicOperation(*this); }
 	virtual std::vector<Operation*> copyVector() const { return { new DiadicOperation(*this) }; }
 	virtual void setParam(int arg) { argument = arg; }

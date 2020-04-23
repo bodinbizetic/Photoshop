@@ -198,16 +198,3 @@ void Image::loadOperations(const std::vector<PM_Formater_info>& all_operations_i
         }
     }
 }
-/*
-2
-C:\Users\Dinbo\Desktop\MyProj\MojProj\MojProj\
-1
-1
-a
-C:\Users\Dinbo\Desktop\MyProj\MojProj\MojProj\resource\a.bmp
-
-0
-4
-1
-
-*/

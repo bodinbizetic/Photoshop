@@ -11,3 +11,9 @@ OperationalLayer& DiadicOperation::operator()(OperationalLayer& op, const std::v
 	op = sop(op, toChange);
 	return op;
 }
+
+OperationalPixel& DiadicOperation::operator()(OperationalPixel& op) const {
+	SimpleOperation sop(operation_function, argument, "", RGBA_mask);
+	op = sop(op);
+	return op;
+}

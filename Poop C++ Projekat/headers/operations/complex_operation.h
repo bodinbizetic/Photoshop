@@ -19,6 +19,7 @@ public:
     ComplexOperation operator=(const ComplexOperation& cop2);
 
     virtual OperationalLayer& operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const override;
+    virtual OperationalPixel& operator() (OperationalPixel& p) const override;
     virtual std::vector<Operation*> copyVector() const override;
     virtual Operation* copy() const override { return new ComplexOperation(*this); }
 
