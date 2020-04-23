@@ -21,6 +21,7 @@ const char *        ProjectManager::xml_operation_name      = "Operations";
 
 
 ProjectManager::ProjectManager(std::string cwd_) : current_working_directory(cwd_) {
+    if (current_working_directory == "") current_working_directory = std::filesystem::current_path().string();
     if(!std::filesystem::exists(current_working_directory))
         throw DirectoryNotFound(); // TODO: somewhere there is substr for BMP and PAM: fix it
 }

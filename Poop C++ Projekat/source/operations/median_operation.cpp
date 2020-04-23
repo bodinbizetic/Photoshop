@@ -2,8 +2,6 @@
 #include <functional>
 #include "median_operation.h"
 
-// TODO: clear screen on consoleDraw
-
 OperationalLayer& MedianOperation::operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const {
 	OperationalLayer copy_op = op;
 	for (const std::pair<int, int>& c : toChange) {

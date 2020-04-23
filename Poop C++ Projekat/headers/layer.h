@@ -45,7 +45,7 @@ public:
     Pixel& operator[] (const std::pair<int, int>& coordinateXY);
     const Pixel& operator[] (const std::pair<int, int>& coordinateXY) const;
 
-    friend Layer operator+(const Layer& l1, const Layer& l2); // TODO: Implement
+    friend Layer operator+(const Layer& l1, const Layer& l2);
 
     void convertGray(const std::pair<int, int>& coordinate);        // TODO: Remove if necessary
     void convertBlackWhite(const std::pair<int, int>& coordinate);

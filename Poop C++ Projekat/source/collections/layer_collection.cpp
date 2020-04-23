@@ -103,7 +103,7 @@ Layer LayerCollection::createLayer(std::string name_, std::string path_) {
         std::shared_ptr<Formater> f(Formater::getFormater(path_));
         std::vector<int> vi = f->load();
         std::vector<Pixel> vp;
-        for(int i : vi) { // TODO: Add constructor from vi to vp
+        for(int i : vi) {
             vp.push_back((Pixel) i);
         }
         std::pair<int, int> dim = f->Dimensions();

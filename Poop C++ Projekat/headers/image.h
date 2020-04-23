@@ -39,7 +39,7 @@ private:
 class Image {
 public:
     Image(std::string path);
-    ~Image(); // TODO: remove all operations
+    ~Image();
     Image(const Image&) = delete;
     LayerCollection& getLayerCollection() { return all_layers; }
     SelectionCollection& getSelectionCollection() { return all_selections; }
@@ -72,6 +72,8 @@ private:
     void loadLayers(const std::vector<LayerInfo>& all_layer_info);
     void loadSelections(const std::vector<PM_Formater_info>& all_selection_info);
     void loadOperations(const std::vector<PM_Formater_info>& all_operations_info);
+
+    friend void loadImage(Image& project, int argc, char const* argv[]);
 };
 
 #endif // _image_h_

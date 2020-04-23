@@ -140,8 +140,11 @@ void Image::openProject() {
 }
 
 void Image::loadLayers(const std::vector<LayerInfo>& all_layer_info) {
-    for (const LayerInfo& info : all_layer_info)// TODO: check paths
+    for (const LayerInfo& info : all_layer_info)
+        try {
         all_layers.addLayer(info.name, info.path, info.opacity, info.active);
+    }
+    catch (...) {}
 }
 void Image::loadSelections(const std::vector<PM_Formater_info>& all_selection_info) {
     int failed = 0;

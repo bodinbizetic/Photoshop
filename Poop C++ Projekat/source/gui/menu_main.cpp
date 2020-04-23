@@ -46,8 +46,8 @@ std::pair<std::string, std::string> Menu_Main::getProjectNameAndPath() {
 std::string Menu_Main::getProjectPath() {
     std::string path;
     std::cout << "Insert project location:\n>>> ";
-    std::getline(std::cin, path); // TODO: check validity - project file
-    return path; // TODO: add name
+    std::getline(std::cin, path);
+    return path;
 }
 
 Image* Menu_Main::createProject() {
