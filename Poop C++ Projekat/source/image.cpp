@@ -57,6 +57,7 @@ std::vector<int> Image::getFinalResult() {
 }
 
 void Image::saveAll() {
+    all_layers.saveAllLayers();
     auto doc = project_manager.createProjectFile();
     std::vector<LayerInfo> layer_information = getLayerInfo();
     project_manager.saveLayers(doc, layer_information);

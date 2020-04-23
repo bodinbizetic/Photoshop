@@ -24,4 +24,6 @@ private:
     std::pair<std::string, std::string> getProjectNameAndPath();
 
     std::string getProjectPath();
+    Image* createProject();
+    Image* loadProject();
 };

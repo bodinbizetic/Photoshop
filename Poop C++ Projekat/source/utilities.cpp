@@ -27,6 +27,7 @@ int inputIntMsg(std::string x) {
 }
 
 void consoleDraw(std::vector<int> vvi, std::pair<int, int> dim) {
+    system("cls");
     HWND myconsole = GetConsoleWindow();
     HDC mydc = GetDC(myconsole);
     

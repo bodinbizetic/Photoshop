@@ -16,6 +16,7 @@ public:
 private:
     Image& project;
     void functionCall(std::string cmd) override;
+    void promptSave();
 };
 
 #endif // __MENU_IMAGE_H__

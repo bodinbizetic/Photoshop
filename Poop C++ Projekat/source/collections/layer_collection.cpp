@@ -86,9 +86,10 @@ void LayerCollection::swapLayers(int position1, int position2) {
 
 Layer LayerCollection::combineLayers() const {
     Layer l1(dimensions);
-    for(const Layer& l : all_layers)
-        if(l.Active())
+    std::for_each(all_layers.rbegin(), all_layers.rend(), [&l1](const Layer& l) {
+        if (l.Active())
             l1 = l1 + l;
+    });
 
     return l1;
 }

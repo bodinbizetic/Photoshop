@@ -11,21 +11,13 @@ void Menu_Main::functionCall(std::string x) {
     if(x == "0")
         running = false;
     else if(x == "1"){
-        std::pair<std::string, std::string> p = getProjectNameAndPath();
-        Image project(p.first);
-        project.createProject(p.second);
-        Menu_Image mi(project);
+        Image* project = createProject();
+        Menu_Image mi(*project);
         mi.start();
+        delete project;
     } else if(x == "2") {
-        std::string path = getProjectPath();
-        Image project(path);
-        Menu_Image mi(project);
-        try {
-            project.openProject();
-        }
-        catch (Information& i) {
-            mi.addHeader(i.what());
-        }
+        Image *project(loadProject());
+        Menu_Image mi(*project);
         mi.start();
     } else {
         throw WrongCommand();
@@ -53,7 +45,20 @@ std::pair<std::string, std::string> Menu_Main::getProjectNameAndPath() {
 
 std::string Menu_Main::getProjectPath() {
     std::string path;
-    std::cout << "Insert project file location:\n>>> ";
+    std::cout << "Insert project location:\n>>> ";
     std::getline(std::cin, path); // TODO: check validity - project file
     return path; // TODO: add name
+}
+
+Image* Menu_Main::createProject() {
+    std::pair<std::string, std::string> p = getProjectNameAndPath();
+    Image *project = new Image(p.first);
+    project->createProject(p.second);
+    return project;
+}
+
+Image* Menu_Main::loadProject() {
+    Image* project = new Image(getProjectPath());
+    project->openProject();
+    return project;
 }

@@ -40,7 +40,7 @@ class Image {
 public:
     Image(std::string path);
     ~Image(); // TODO: remove all operations
-
+    Image(const Image&) = delete;
     LayerCollection& getLayerCollection() { return all_layers; }
     SelectionCollection& getSelectionCollection() { return all_selections; }
     OperationCollection& getOperationCollection() { return all_operations; }
