@@ -15,7 +15,7 @@ SimpleOperation::SimpleOperation(std::function<int(int, int)> operation_function
 
 OperationalLayer& SimpleOperation::operator() (OperationalLayer& op, const std::vector<std::pair<int, int>>& toChange) const {
     for(auto coordinate : toChange){
-        OperationalPixel& p = op.matrix[op.dimensions.first * coordinate.second + coordinate.first];
+        OperationalPixel& p = (*this)(op.matrix[op.dimensions.first * coordinate.second + coordinate.first]);
         
     }
     return op; 

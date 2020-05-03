@@ -16,7 +16,7 @@ struct BMP_Header {
     uint32_t image_width;
     uint32_t image_height;
     uint16_t color = 0x01;
-    uint16_t bits_per_pixel;
+    uint16_t bits_per_pixel = 32;
     uint32_t commpression = 0;
     uint32_t size_bmp;
     uint32_t pixels_per_meter_1 = 0x0B13;

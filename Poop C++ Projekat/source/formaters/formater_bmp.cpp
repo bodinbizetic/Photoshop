@@ -23,7 +23,9 @@ std::vector<int> Formater_BMP::load() {
             int newElement = readBytes(file, alfa) | (hasAlfa ? 0 :0xff000000); // TODO: Load check for anomalities
             matrix[i * dimension.first + j] = newElement;
         }
-        readBytes(file, dimension.first * alfa % 4);
+        int padding = 4 - dimension.first * alfa % 4;
+        if (padding == 4) padding = 0;
+        readBytes(file, padding);
     }
 
     file.close();
@@ -39,8 +41,8 @@ void Formater_BMP::store(std::vector<int> matrix, std::pair<int, int> dimensions
     BMP_Header header = configureHeader();
     storeHeader(file, header);
 
-    int alfaSize = (hasAlfa ? 4 : 3);
-
+    hasAlfa = true;
+    int alfaSize = (hasAlfa ? 4 : 4); //
     for(int i=0; i<dimension.second; i++){
         int j;
         for(j=0; j<dimension.first; j++){
@@ -130,6 +132,12 @@ int Formater_BMP::invertNumber(int number, int size) const {
 
 BMP_Header Formater_BMP::configureHeader() const {
     BMP_Header header;
+    if (hasAlfa) {
+        header.offset_pixels = 0x8a;
+        header.commpression = 3;
+        header.num_of_bytes_dib = 0x7c;
+    }
+
     header.image_width = dimension.first;
     header.image_height = dimension.second;
     header.size_bmp = dimension.first * dimension.second * (hasAlfa ? 4 : 3);
@@ -155,4 +163,21 @@ void Formater_BMP::storeHeader(std::ofstream& file, const BMP_Header& header) co
     file.write((char*)&header.pixels_per_meter_2, sizeof(header.pixels_per_meter_2));
     file.write((char*)&header.unused_dib_1, sizeof(header.unused_dib_1));
     file.write((char*)&header.unused_dib_2, sizeof(header.unused_dib_2));
+    if (!hasAlfa) return;
+    unsigned x = 0x00ff0000;
+    file.write((char*)&x, 4);
+    x = 0x0000ff00;
+    file.write((char*)&x, 4);
+    x = 0x000000ff;
+    file.write((char*)&x, 4);
+    x = 0xff000000;
+    file.write((char*)&x, 4);
+    x = 0x57696e20;
+    file.write((char*)&x, 4);
+    x = 0x00000042;
+    file.write((char*)&x, 4);
+    x = 0;
+    for (int i = 0; i < 16; i++)
+        file.write((char*)&x, 4);
+
 }

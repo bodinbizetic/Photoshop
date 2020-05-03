@@ -77,7 +77,7 @@ void Layer::fitLayer(std::pair<int, int> new_dims) {
 }
 
 void Layer::initMatrix() {
-    layer_matrix.assign(dimension.second * dimension.first, 0);
+    layer_matrix.assign(dimension.second * dimension.first, 0x0);
 }
 
 void Layer::checkBounds(const std::pair<int, int>& coordinates) const{

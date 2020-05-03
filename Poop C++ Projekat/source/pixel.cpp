@@ -19,9 +19,9 @@ Pixel::operator int() {
 
 Pixel operator+(Pixel p2, Pixel p1) {
     int alfa = p1.Alfa() + (p2.Alfa() * (255 - p1.Alfa()) / 255);
-
+    if (alfa == 0) alfa = 256;
     std::function<int(int, int, int, int)> calc = [alfa](int rA, int aA, int rB, int aB) -> int {
-        return (rA * aA / 255) + (rB * aB * (255 - aA) / (255*255));
+        return (rA * aA / alfa) + (rB * (255 - aA) * aB / (alfa * 255));
     };
 
     int red = calc(p1.Red(), p1.Alfa(), p2.Red(), p2.Alfa());

@@ -37,9 +37,9 @@ int createCustomOperation(Image& project) {
 }
 
 int main(int argc, char const *argv[]) {
-    argc = 3;
+    /*argc = 3;
     argv[1] = "C:\\Users\\Dinbo\\Desktop\\MyProj\\Test1\\resource\\Layer2.bmp";
-    argv[2] = "C:\\Users\\Dinbo\\Desktop\\MyProj\\Test1\\operations\\BB.fun";
+    argv[2] = "C:\\Users\\Dinbo\\Desktop\\MyProj\\Test1\\operations\\BB.fun";*/
 
     if (argc <= 1) {
         Menu& m = *new Menu_Main();
