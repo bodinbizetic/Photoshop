@@ -177,7 +177,7 @@ void Formater_BMP::storeHeader(std::ofstream& file, const BMP_Header& header) co
     x = 0x00000042;
     file.write((char*)&x, 4);
     x = 0;
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < 15; i++)
         file.write((char*)&x, 4);
 
 }

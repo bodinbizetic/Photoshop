@@ -46,7 +46,7 @@ void MedianOperation::getMedianPixel(const OperationalLayer& op_p, OperationalLa
 int MedianOperation::getMedianValueSort(std::vector<int>& median_vector, const int& size) const {
 	std::sort(median_vector.begin(), median_vector.end());
 	int mid = size / 2;
-	if (size % 2)
+	if (!(size % 2))
 		return (median_vector[mid] + median_vector[mid - 1]) / 2;
 	return median_vector[mid];
 }
