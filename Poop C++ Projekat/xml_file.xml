@@ -1,6 +1,0 @@
-<Project Name="Hello">
-	<Layers>
-		<Layer name="Jej name" path="\googlee" opacity="100"/>
-	</Layers>
-</Project>
-
