@@ -36,6 +36,18 @@ public class Project {
         this.all_layers = all_layers;
     }
 
+    public List<Selection> getAll_selections() {
+        return all_selections;
+    }
+
+    public List<Operation> getAll_operations() {
+        return all_operations;
+    }
+
+    public List<Layer> getAll_layers() {
+        return all_layers;
+    }
+
     public static void main(String[] args) throws FileCorruptedException {
         String path = "C:\\Users\\Dinbo\\Desktop\\POOP C++\\Photoshop\\myProj\\Project.xml";
         ProjectLoader projectLoader = new ProjectLoader(path);

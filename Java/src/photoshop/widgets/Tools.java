@@ -1,5 +1,8 @@
 package photoshop.widgets;
 
+import photoshop.layer.Layer;
+import photoshop.project.Project;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,13 +10,15 @@ public class Tools extends JTabbedPane {
 
     private static final Color bgColor = new Color(0xFFFFFF);
 
-    private JPanel layerPanel;
+    private LayerTab layerPanel;
     private JPanel operationPanel;
     private JPanel selectionPanel;
 
-    public Tools() {
+    private JList layer_list = new JList();
+    private DrawingPanel drawingPanel;
+    public Tools(DrawingPanel drawingPanel) {
         super();
-
+        this.drawingPanel = drawingPanel;
         addOperationPanel();
         addLayerPanel();
         addSelectionPanel();
@@ -27,8 +32,8 @@ public class Tools extends JTabbedPane {
     }
 
     private void addLayerPanel() {
-        layerPanel = new JPanel();
-//        selectionPanel.setBackground(bgColor);
+        layerPanel = new LayerTab(drawingPanel);
+
         addTab("Layers", layerPanel);
     }
 
@@ -36,5 +41,9 @@ public class Tools extends JTabbedPane {
         operationPanel = new JPanel();
 //        selectionPanel.setBackground(Color.WHITE);
         addTab("Operations", operationPanel);
+    }
+
+    public void loadProject(Project project) {
+        layerPanel.loadLayers(project.getAll_layers());
     }
 }

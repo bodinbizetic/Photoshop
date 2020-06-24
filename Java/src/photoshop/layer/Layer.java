@@ -13,6 +13,11 @@ public class Layer {
         this.active = active;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public String getName() {
         return name;
     }
