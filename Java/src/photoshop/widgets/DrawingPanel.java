@@ -32,7 +32,7 @@ public class DrawingPanel extends JPanel implements Runnable{
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if(to_Draw.size() > 0) {
+        if(to_Draw.isEmpty() == false) {
             Layer first = to_Draw.get(0);
             try {
                 File file = new File(System.getProperty("user.dir"), first.getPath());
