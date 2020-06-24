@@ -44,6 +44,6 @@ public class Tools extends JTabbedPane {
     }
 
     public void loadProject(Project project) {
-        layerPanel.loadLayers(project.getAll_layers());
+        layerPanel.loadProject(project);
     }
 }

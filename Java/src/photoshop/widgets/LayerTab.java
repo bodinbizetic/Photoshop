@@ -5,19 +5,24 @@ import photoshop.project.Project;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.util.List;
 
 public class LayerTab extends JPanel {
+
+    private Project project;
 
     private JList<Layer> layerJList;
     private DrawingPanel drawingPanel;
     private Checkbox activeCB;
     private JSlider slider;
+
+    private TextField newLayerName = new TextField();
+
     private Label valueLabel = new Label("Value: 100");
+
     public LayerTab(DrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
-        setLayout(new GridLayout(3, 1));
+        setLayout(new GridLayout(4, 1));
         populateLayer();
     }
 
@@ -30,8 +35,34 @@ public class LayerTab extends JPanel {
         });
         add(layerJList);
 
-        addButtons();
-        addSlider();
+        addButtonsPanel();
+        addSliderPanel();
+        addCreateLayerPanel();
+    }
+
+    private void addCreateLayerPanel() {
+        JPanel controls = new JPanel();
+
+        controls.add(new Label("Name: "));
+        controls.add(newLayerName);
+        Button deleteSelected = new Button("Delete selected");
+        deleteSelected.addActionListener(ev-> {
+            deleteSelectedLayer();
+        });
+
+        controls.add(deleteSelected);
+
+        add(controls);
+    }
+
+    private void deleteSelectedLayer() {
+        try {
+            Layer toDelete = layerJList.getSelectedValue();
+            List<Layer> all_layers = project.getAll_layers();
+            all_layers.remove(toDelete);
+            toDelete.delete();
+            loadLayers();
+        }catch(NullPointerException exception) {}
     }
 
     private void setSlider(int value) {
@@ -39,7 +70,7 @@ public class LayerTab extends JPanel {
         valueLabel.setText("Value: " + value);
     }
 
-    private void addSlider() {
+    private void addSliderPanel() {
         JPanel sliderPanel = new JPanel();
         slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
         slider.addChangeListener(e -> {
@@ -67,7 +98,7 @@ public class LayerTab extends JPanel {
         controls.add(activeCB);
     }
 
-    private void addButtons() {
+    private void addButtonsPanel() {
         JPanel controls = new JPanel();
         controls.setLayout(new FlowLayout());
         Button showOne = new Button("Show selected");
@@ -85,7 +116,13 @@ public class LayerTab extends JPanel {
         add(controls);
     }
 
-    public void loadLayers(List<Layer> all_layers) {
+    public void loadProject(Project project) {
+        this.project = project;
+        loadLayers();
+    }
+
+    private void loadLayers() {
+        List<Layer> all_layers = project.getAll_layers();
         DefaultListModel layerList = new DefaultListModel<>();
         all_layers.forEach(layerList::addElement);
         layerJList.setModel(layerList);
@@ -93,5 +130,6 @@ public class LayerTab extends JPanel {
 
     public void closeLayers() {
         ((DefaultListModel)layerJList.getModel()).clear();
+        project = null;
     }
 }

@@ -1,5 +1,7 @@
 package photoshop.layer;
 
+import java.io.File;
+
 public class Layer {
     private String name;
     private String path;
@@ -48,5 +50,10 @@ public class Layer {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public void delete() {
+        File file = new File(System.getProperty("user.dir"), path);
+        file.delete();
     }
 }
