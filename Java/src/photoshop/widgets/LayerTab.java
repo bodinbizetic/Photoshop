@@ -35,15 +35,25 @@ public class LayerTab extends JPanel {
         });
         add(layerJList);
 
-        addButtonsPanel();
-        addSliderPanel();
-        addCreateLayerPanel();
+        addControls();
+
     }
 
-    private void addCreateLayerPanel() {
+    private void addControls() {
+        JPanel allControls = new JPanel();
+        allControls.setLayout(new FlowLayout());
+        addButtonsPanel(allControls);
+        addSliderPanel(allControls);
+        addCreateLayerPanel(allControls);
+
+        add(allControls);
+    }
+
+    private void addCreateLayerPanel(JPanel allControls) {
         JPanel controls = new JPanel();
 
         controls.add(new Label("Name: "));
+        newLayerName.setPreferredSize(new Dimension(130, 20));
         controls.add(newLayerName);
         Button deleteSelected = new Button("Delete selected");
         deleteSelected.addActionListener(ev-> {
@@ -52,7 +62,7 @@ public class LayerTab extends JPanel {
 
         controls.add(deleteSelected);
 
-        add(controls);
+        allControls.add(controls);
     }
 
     private void deleteSelectedLayer() {
@@ -70,7 +80,7 @@ public class LayerTab extends JPanel {
         valueLabel.setText("Value: " + value);
     }
 
-    private void addSliderPanel() {
+    private void addSliderPanel(JPanel allControls) {
         JPanel sliderPanel = new JPanel();
         slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
         slider.addChangeListener(e -> {
@@ -84,7 +94,7 @@ public class LayerTab extends JPanel {
         sliderPanel.add(slider);
         sliderPanel.add(valueLabel);
 
-        add(sliderPanel);
+        allControls.add(sliderPanel);
     }
 
     private void addActiveControl(JPanel controls) {
@@ -98,7 +108,7 @@ public class LayerTab extends JPanel {
         controls.add(activeCB);
     }
 
-    private void addButtonsPanel() {
+    private void addButtonsPanel(JPanel allControls) {
         JPanel controls = new JPanel();
         controls.setLayout(new FlowLayout());
         Button showOne = new Button("Show selected");
@@ -113,7 +123,7 @@ public class LayerTab extends JPanel {
         });
 
         addActiveControl(controls);
-        add(controls);
+        allControls.add(controls);
     }
 
     public void loadProject(Project project) {
