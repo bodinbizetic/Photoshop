@@ -34,6 +34,8 @@ public class DrawingPanel extends JPanel implements Runnable{
         super.paint(g);
         if(to_Draw.isEmpty() == false) {
             Layer first = to_Draw.get(0);
+            if(first == null)
+                return;
             try {
                 File file = new File(System.getProperty("user.dir"), first.getPath());
                 BufferedImage image = ImageIO.read(file);
