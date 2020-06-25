@@ -1,11 +1,21 @@
 package photoshop.widgets;
 
+import photoshop.exceptions.FileExtensionMissmatch;
+import photoshop.exceptions.FileNameException;
 import photoshop.layer.Layer;
 import photoshop.project.Project;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LayerTab extends JPanel {
 
@@ -51,23 +61,61 @@ public class LayerTab extends JPanel {
 
     private void addCreateLayerPanel(JPanel allControls) {
         JPanel controls = new JPanel();
-
+        JPanel buttons = new JPanel();
         controls.add(new Label("Name: "));
         newLayerName.setPreferredSize(new Dimension(130, 20));
         controls.add(newLayerName);
-        Button deleteSelected = new Button("Delete selected");
+        Button addLayer         = new Button("Add layer");
+        Button deleteSelected   = new Button("Delete selected");
+        addLayer.addActionListener(ev->addLayer());
         deleteSelected.addActionListener(ev-> deleteSelectedLayer());
 
-        controls.add(deleteSelected);
+        buttons.add(addLayer);
+        buttons.add(deleteSelected);
 
         allControls.add(controls);
+        allControls.add(buttons);
+    }
+
+    private void addLayer() {
+        if(project == null)
+            return;
+        try {
+            String name = (newLayerName.getText().isEmpty() ? "Layer" : newLayerName.getText());
+            String src_path = getLayerPathDialog();
+            String dst_path = "resource" + File.separator + name + getExtension(src_path);
+            Files.copy(Paths.get(src_path), Paths.get(System.getProperty("user.dir") + File.separator + dst_path)); // TODO: Call c++ to fit all
+            Layer newLayer = new Layer(name, dst_path, 100, true);
+            project.addLayer(newLayer);
+            loadLayers();
+        } catch(FileExtensionMissmatch | FileNameException | IOException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    private String getExtension(String path) throws FileNameException {
+        Pattern pattern = Pattern.compile(".*\\.(.*)");
+        Matcher matcher = pattern.matcher(path);
+        if(matcher.find())
+            return "." + matcher.group(1);
+        throw new FileNameException(path);
+    }
+
+    private String getLayerPathDialog() throws FileExtensionMissmatch {
+        JFileChooser jf = new JFileChooser();
+        jf.addChoosableFileFilter(new FileNameExtensionFilter("*.bmp", "bmp"));
+        jf.addChoosableFileFilter(new FileNameExtensionFilter("*.pam", "pam"));
+        jf.showOpenDialog(this);
+        File file = jf.getSelectedFile();
+        if(!file.getPath().contains(".bmp") && !file.getPath().contains(".pam"))
+            throw new FileExtensionMissmatch(file.getPath());
+        return jf.getSelectedFile().getPath();
     }
 
     private void deleteSelectedLayer() {
         try {
             Layer toDelete = layerJList.getSelectedValue();
-            List<Layer> all_layers = project.getAll_layers();
-            all_layers.remove(toDelete);
+            project.removeLayer(toDelete);
             toDelete.delete();
             loadLayers();
         }catch(NullPointerException ignored) {}

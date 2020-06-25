@@ -36,16 +36,28 @@ public class Project {
         this.all_layers = all_layers;
     }
 
-    public List<Selection> getAll_selections() {
-        return all_selections;
-    }
-
-    public List<Operation> getAll_operations() {
-        return all_operations;
-    }
-
+//    public List<Selection> getAll_selections() {
+//        return all_selections;
+//    }
+//
+//    public List<Operation> getAll_operations() {
+//        return all_operations;
+//    }
+//
     public List<Layer> getAll_layers() {
         return all_layers;
+    }
+
+    public void addLayer(Layer l) {
+        synchronized (all_layers) {
+            all_layers.add(l);
+        }
+    }
+
+    public void removeLayer(Layer l) {
+        synchronized (all_layers) {
+            all_layers.remove(l);
+        }
     }
 
     public static void main(String[] args) throws FileCorruptedException {
