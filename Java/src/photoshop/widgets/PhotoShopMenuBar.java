@@ -44,7 +44,7 @@ public class PhotoShopMenuBar extends MenuBar {
         JFileChooser folderChooser = new JFileChooser();
         folderChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int result = folderChooser.showOpenDialog(parent);
+        folderChooser.showOpenDialog(parent);
         File selectedFolder = folderChooser.getSelectedFile();
         if(selectedFolder == null)
             throw new ChooseFolderDialogCanceled();
@@ -55,14 +55,12 @@ public class PhotoShopMenuBar extends MenuBar {
         try {
             String path = folderDialog();
             checkIfFileExists(path + File.separator + "Project.xml");
-            System.out.println(System.getProperty("user.dir"));
             System.setProperty("user.dir", path);
-            System.out.println(System.getProperty("user.dir"));
             ProjectLoader projectLoader = new ProjectLoader(path + File.separator + "Project.xml");
             parent.loadProject(projectLoader.loadProject());
         } catch (ProjectFileNotFound | FileCorruptedException e) {
             JOptionPane.showMessageDialog(parent, e.getMessage());
-        } catch (ChooseFolderDialogCanceled e) {
+        } catch (ChooseFolderDialogCanceled ignored) {
         }
     }
 

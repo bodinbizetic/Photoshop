@@ -56,9 +56,7 @@ public class LayerTab extends JPanel {
         newLayerName.setPreferredSize(new Dimension(130, 20));
         controls.add(newLayerName);
         Button deleteSelected = new Button("Delete selected");
-        deleteSelected.addActionListener(ev-> {
-            deleteSelectedLayer();
-        });
+        deleteSelected.addActionListener(ev-> deleteSelectedLayer());
 
         controls.add(deleteSelected);
 
@@ -72,7 +70,7 @@ public class LayerTab extends JPanel {
             all_layers.remove(toDelete);
             toDelete.delete();
             loadLayers();
-        }catch(NullPointerException exception) {}
+        }catch(NullPointerException ignored) {}
     }
 
     private void setSlider(int value) {
@@ -89,7 +87,7 @@ public class LayerTab extends JPanel {
                 Layer activeLayer = layerJList.getSelectedValue();
                 activeLayer.setOpacity(value);
                 valueLabel.setText("Value: " + value);
-            }catch (NullPointerException ex) {}
+            }catch (NullPointerException ignored) {}
         });
         sliderPanel.add(slider);
         sliderPanel.add(valueLabel);
@@ -103,7 +101,7 @@ public class LayerTab extends JPanel {
             try {
                 Layer activeLayer = layerJList.getSelectedValue();
                 activeLayer.setActive(activeCB.getState());
-            }catch (NullPointerException ex) {}
+            }catch (NullPointerException ignored) {}
         });
         controls.add(activeCB);
     }
