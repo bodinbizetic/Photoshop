@@ -1,4 +1,6 @@
 
+*.vcxproj
+
 out/
 .idea/
 *.iml
@@ -344,3 +346,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
+C++/Poop C++ Projekat/Poop C++ Projekat.vcxproj
