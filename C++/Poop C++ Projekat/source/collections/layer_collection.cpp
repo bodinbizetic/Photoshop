@@ -21,6 +21,7 @@ void LayerCollection::addLayer(std::string name_, std::string path_, int opacity
     newLayer.setOpacity(opacity);
     newLayer.setActive(active);
     all_layers.push_back(newLayer);
+    updateDim(newLayer.Dimension());
     fitAll();
 }
 

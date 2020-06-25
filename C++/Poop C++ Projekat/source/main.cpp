@@ -11,7 +11,7 @@ void loadImage(Image& project, int argc, char const* argv[]) {
         if (!std::filesystem::exists(argv[i]))
             throw PathNotExists();
         if (std::filesystem::path(argv[i]).extension() == ".bmp" || std::filesystem::path(argv[i]).extension() == ".pam") {
-            project.getLayerCollection().addLayer("ConsoleLayer", argv[i], 100, 1);
+            project.getLayerCollection().addLayer("ConsoleLayer" + std::to_string(i), argv[i], 100, 1);
         }
         else if (std::filesystem::path(argv[i]).extension() == ".fun") {
             Project_Manager_Formater formater(argv[i], "CustomOperation", "Operation");
@@ -37,10 +37,10 @@ int createCustomOperation(Image& project) {
 }
 
 int main(int argc, char const *argv[]) {
-    /*argc = 3;
-    argv[1] = "C:\\Users\\Dinbo\\Desktop\\MyProj\\Test1\\resource\\Layer2.bmp";
-    argv[2] = "C:\\Users\\Dinbo\\Desktop\\MyProj\\Test1\\operations\\BB.fun";*/
-
+   /* argc = 3;
+    argv[1] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\resource\\test1.bmp";
+    argv[2] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\resource\\test2.bmp";
+    */
     if (argc <= 1) {
         Menu& m = *new Menu_Main();
         m.start();
