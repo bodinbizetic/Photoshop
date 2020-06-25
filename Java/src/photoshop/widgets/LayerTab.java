@@ -1,5 +1,6 @@
 package photoshop.widgets;
 
+import photoshop.PhotoshopExec;
 import photoshop.exceptions.FileExtensionMissmatch;
 import photoshop.exceptions.FileNameException;
 import photoshop.layer.Layer;
@@ -29,6 +30,10 @@ public class LayerTab extends JPanel {
     private TextField newLayerName = new TextField();
 
     private Label valueLabel = new Label("Value: 100");
+
+    static {
+        PhotoshopExec.setPath("C:\\Users\\Dinbo\\Desktop\\Photoshop\\C++\\x64\\Release\\Poop C++ Projekat.exe"); //TODO: Change to be modular
+    }
 
     public LayerTab(DrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
@@ -87,10 +92,17 @@ public class LayerTab extends JPanel {
             Files.copy(Paths.get(src_path), Paths.get(System.getProperty("user.dir") + File.separator + dst_path)); // TODO: Call c++ to fit all
             Layer newLayer = new Layer(name, dst_path, 100, true);
             project.addLayer(newLayer);
+            PhotoshopExec ph = new PhotoshopExec();
+            ph.addLayers(project.getAll_layers());
+            ph.start();
+            synchronized (ph) {
+                if(ph.isAlive())
+                    ph.wait();
+            }
             loadLayers();
         } catch(FileExtensionMissmatch | FileNameException | IOException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+        } catch(InterruptedException ignore) {}
     }
 
     private String getExtension(String path) throws FileNameException {
