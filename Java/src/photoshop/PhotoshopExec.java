@@ -72,7 +72,7 @@ public class PhotoshopExec extends Thread{
                 String command = cppFilePath + getArgumentsList();
                 System.out.println(command);
                 Process process = Runtime.getRuntime().exec(command + "", null, new File(System.getProperty("user.dir")));
-                System.out.println("Ending " + process.waitFor());
+                System.out.println("Ending " + process.waitFor()); // TODO: remove System.out.println
             }
         } catch (IOException | InterruptedException e) {
             System.out.println("Failed"); //TODO: better fail if cpp program not found

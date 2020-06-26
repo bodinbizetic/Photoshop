@@ -34,8 +34,7 @@ public class Layer {
         this.path = path;
 
         originalImage = new File(path);
-        if(originalImage.exists() == false)
-            throw new ImageNotLoadedException(path);
+        loadImage();
     }
 
     @Override

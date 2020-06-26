@@ -31,7 +31,8 @@ public class LayerTab extends JPanel {
     private TextField newLayerName = new TextField();
 
     private Label valueLabel = new Label("Value: 100");
-    private File combinedLayers;
+    private Layer combinedLayers;
+
     public LayerTab(DrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
         setLayout(new GridLayout(4, 1));
@@ -208,15 +209,27 @@ public class LayerTab extends JPanel {
     }
 
     private void combineLayers() {
-        combinedLayers = new File(System.getProperty("user.dir"), ".temp" + File.separator + "combined.bmp"); //TODO: if .temp does not exist
+        File combinedLayersFile = new File(System.getProperty("user.dir"), ".temp" + File.separator + "combined.bmp"); //TODO: if .temp does not exist
         PhotoshopExec ps = new PhotoshopExec();
         ps.setFilterActive(true);
         ps.addLayers(project.getAll_layers());
-        ps.addDestination(combinedLayers.getPath());
+        ps.addDestination(combinedLayersFile.getPath());
         ps.start();
+
         try {
             ps.join();
-        } catch (InterruptedException ignore) {}
+            combinedLayers = new Layer("CombineLayer", combinedLayersFile.getPath());
+        } catch (InterruptedException ignore) {} catch (ImageNotLoadedException e) {
+            JOptionPane.showMessageDialog(this, "Critical error: " + e.getMessage());
+        }
+    }
+
+    private void showCombinedLayer() {
+        if(combinedLayers == null)
+            return;
+        drawingPanel.clearLayers();
+        drawingPanel.addLayer(combinedLayers);
+        drawingPanel.repaint();
     }
 
     private class LayerTabCreater extends Thread {
@@ -233,6 +246,7 @@ public class LayerTab extends JPanel {
         @Override
         public void run() {
             combineLayers();
+            showCombinedLayer();
         }
     }
 }
