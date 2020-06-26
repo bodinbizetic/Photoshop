@@ -11,16 +11,18 @@ enum commands {SAVE_ALL, EXPORT};
 
 std::string export_path = "";
 commands returnCode = SAVE_ALL;
-void loadImage(Image& project, int argc, char const* argv[]) {
+int loadImage(Image& project, int argc, char const* argv[]) {
     for (int i = 1; i < argc; i++) {
-        if (argv[i] == "-e") {
+        if (strcmp(argv[i], "-e") == 0) {
             returnCode = EXPORT;
             export_path = argv[i + 1];
             i++;
             continue;
         }
-        else if (!std::filesystem::exists(argv[i]))
+        else if (!std::filesystem::exists(argv[i])) {
             throw PathNotExists();
+        }
+        //std::cout << std::filesystem::path(argv[i]).extension() << std::endl;
         if (std::filesystem::path(argv[i]).extension() == ".bmp" || std::filesystem::path(argv[i]).extension() == ".pam") {
             project.getLayerCollection().addLayer("ConsoleLayer" + std::to_string(i), argv[i], 100, 1);
         }
@@ -36,6 +38,7 @@ void loadImage(Image& project, int argc, char const* argv[]) {
             throw WrongCommand();
         }
     }
+    return returnCode;
 }
 
 void exportTemp(std::string path, Image& project) {
@@ -55,10 +58,11 @@ int createCustomOperation(Image& project) {
 int main(int argc, char const *argv[]) {
     /*argc = 5;
     argv[1] = "-e";
-    argv[2] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\resource\\test5.bmp";
-    argv[3] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\resource\\L1.bmp";
-    argv[4] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\resource\\L2.bmp";
-   */
+
+    argv[2] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\.temp\\combined.bmp";
+    argv[3] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\.temp\\L1.bmp";
+    argv[4] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\.temp\\L2.bmp";
+    */
     if (argc <= 1) {
         Menu& m = *new Menu_Main();
         m.start();
