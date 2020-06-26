@@ -73,7 +73,7 @@ private:
     void loadSelections(const std::vector<PM_Formater_info>& all_selection_info);
     void loadOperations(const std::vector<PM_Formater_info>& all_operations_info);
 
-    friend void loadImage(Image& project, int argc, char const* argv[]);
+    friend int loadImage(Image& project, int argc, char const* argv[]);
 };
 
 #endif // _image_h_

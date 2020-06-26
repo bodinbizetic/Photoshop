@@ -3,12 +3,23 @@
 #define _TEST_
 #include "menu_main.h"
 #include "image.h"
+#include <formater.h>
 using std::cout;
 using std::endl;
 
+enum commands {SAVE_ALL, EXPORT};
+
+std::string export_path = "";
+commands returnCode = SAVE_ALL;
 void loadImage(Image& project, int argc, char const* argv[]) {
     for (int i = 1; i < argc; i++) {
-        if (!std::filesystem::exists(argv[i]))
+        if (argv[i] == "-e") {
+            returnCode = EXPORT;
+            export_path = argv[i + 1];
+            i++;
+            continue;
+        }
+        else if (!std::filesystem::exists(argv[i]))
             throw PathNotExists();
         if (std::filesystem::path(argv[i]).extension() == ".bmp" || std::filesystem::path(argv[i]).extension() == ".pam") {
             project.getLayerCollection().addLayer("ConsoleLayer" + std::to_string(i), argv[i], 100, 1);
@@ -27,6 +38,11 @@ void loadImage(Image& project, int argc, char const* argv[]) {
     }
 }
 
+void exportTemp(std::string path, Image& project) {
+    std::shared_ptr<Formater> formater(Formater::getFormater(path));
+    formater->store(project.getFinalResult(), project.Dimensions());
+}
+
 int createCustomOperation(Image& project) {
     OperationCollection& oc = project.getOperationCollection();
     std::vector<std::pair<int, int>> new_op;
@@ -37,10 +53,12 @@ int createCustomOperation(Image& project) {
 }
 
 int main(int argc, char const *argv[]) {
-   /* argc = 3;
-    argv[1] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\resource\\test1.bmp";
-    argv[2] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\resource\\test2.bmp";
-    */
+    /*argc = 5;
+    argv[1] = "-e";
+    argv[2] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\resource\\test5.bmp";
+    argv[3] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\resource\\L1.bmp";
+    argv[4] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\resource\\L2.bmp";
+   */
     if (argc <= 1) {
         Menu& m = *new Menu_Main();
         m.start();
@@ -52,7 +70,11 @@ int main(int argc, char const *argv[]) {
         loadImage(project, argc, argv);
         int op_id = createCustomOperation(project);
         project.useOperation({ op_id, 0 });
-        project.getLayerCollection().saveAllLayers();
+        if(returnCode == SAVE_ALL)
+            project.getLayerCollection().saveAllLayers();
+        else if (returnCode == EXPORT) {
+            exportTemp(export_path, project);
+        }
     }
     catch (std::exception& e) {
         std::cout << e.what() << std::endl;
