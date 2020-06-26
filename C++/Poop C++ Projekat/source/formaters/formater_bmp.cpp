@@ -18,7 +18,7 @@ std::vector<int> Formater_BMP::load() {
     file.seekg(offset_for_pixels, std::ios::beg);
     int alfa = (hasAlfa ? 4 : 3);
     int x=0;
-    for(int i=0; i<dimension.second; i++) {
+    for(int i=dimension.second-1; i>=0; i--) {
         for(int j=0; j<dimension.first; j++){
             int newElement = readBytes(file, alfa) | (hasAlfa ? 0 :0xff000000); // TODO: Load check for anomalities
             matrix[i * dimension.first + j] = newElement;
@@ -43,7 +43,7 @@ void Formater_BMP::store(std::vector<int> matrix, std::pair<int, int> dimensions
 
     hasAlfa = true;
     int alfaSize = (hasAlfa ? 4 : 4); //
-    for(int i=0; i<dimension.second; i++){
+    for(int i=dimension.second-1; i >= 0; i--){
         int j;
         for(j=0; j<dimension.first; j++){
             storeBytes(file, matrix[i*dimension.first + j], alfaSize);

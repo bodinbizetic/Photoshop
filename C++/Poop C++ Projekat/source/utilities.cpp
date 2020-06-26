@@ -36,7 +36,7 @@ void consoleDraw(std::vector<int> vvi, std::pair<int, int> dim) {
         {   
             Pixel p = vvi[i * dim.first + j];
             COLORREF COLOR= RGB(p.Red(), p.Green(), p.Blue()); 
-            SetPixel(mydc,j,dim.second - 1 - i,COLOR);
+            SetPixel(mydc,j, i,COLOR);
         }
 
     ReleaseDC(myconsole, mydc);

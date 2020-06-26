@@ -23,7 +23,7 @@ void Formater_PAM::store(std::vector<int> matrix, std::pair<int, int> dimensions
 	header.width = dimensions.first;
 	header.height = dimensions.second;
 	storeHeader(output);
-	flipImage(matrix);
+	// flipImage(matrix);
 	storeMatrix(output, matrix);
 
 	output.close();
@@ -97,7 +97,7 @@ std::vector<int> Formater_PAM::readMatrix(std::ifstream& file) {
 			pixels.push_back(in);
 		}
 	}
-	flipImage(pixels);
+	// flipImage(pixels);
 	return pixels;
 }
 
