@@ -19,16 +19,6 @@ public class PhotoShopMenuBar extends MenuBar {
         super();
         this.parent = parent;
         addMenuFile();
-        addMenuExport();
-    }
-
-    private void addMenuExport() {
-        Menu export = new Menu("Export");
-        MenuItem bmp = new MenuItem("as BMP");
-        MenuItem pam = new MenuItem("as PAM");
-        export.add(bmp);
-        export.add(pam);
-        add(export);
     }
 
     private void addMenuFile() {
