@@ -1,20 +1,11 @@
 package photoshop.project;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import photoshop.exceptions.FileCorruptedException;
 import photoshop.exceptions.ImageNotLoadedException;
 import photoshop.layer.Layer;
 import photoshop.operations.Operation;
 import photoshop.selection.Selection;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +58,7 @@ public class Project {
         Project p = projectLoader.loadProject();
 
         for(Layer l : p.all_layers)
-            System.out.println(l.getName() + " " + l.getPath());
+            System.out.println(l.getName() + " " + l.getTempPath());
     }
 
     public void reloadLayers() {

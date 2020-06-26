@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LayerTab extends JPanel implements Runnable{
+public class LayerTab extends JPanel {
     private static int LAYER_INDEX=0;
     private Project project;
 
@@ -30,10 +30,7 @@ public class LayerTab extends JPanel implements Runnable{
     private TextField newLayerName = new TextField();
 
     private Label valueLabel = new Label("Value: 100");
-    static {
-        PhotoshopExec.setPath("C:\\Users\\Dinbo\\Desktop\\Photoshop\\C++\\x64\\Release\\Poop C++ Projekat.exe"); //TODO: Change to be modular
-    }
-
+    private File combinedLayers;
     public LayerTab(DrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
         setLayout(new GridLayout(4, 1));
@@ -73,7 +70,7 @@ public class LayerTab extends JPanel implements Runnable{
         controls.add(newLayerName);
         Button addLayer         = new Button("Add layer");
         Button deleteSelected   = new Button("Delete selected");
-        addLayer.addActionListener(ev->new Thread(this).start());
+        addLayer.addActionListener(ev->new LayerTabCreater().start());
         deleteSelected.addActionListener(ev-> deleteSelectedLayer());
 
         buttons.add(addLayer);
@@ -81,12 +78,6 @@ public class LayerTab extends JPanel implements Runnable{
 
         allControls.add(controls);
         allControls.add(buttons);
-    }
-    @Override
-    public void run() {
-        addLayer();
-        loadLayers();
-        project.reloadLayers();
     }
 
     private void addLayer() {
@@ -192,6 +183,8 @@ public class LayerTab extends JPanel implements Runnable{
             drawingPanel.repaint();
         });
 
+        showAll.addActionListener(e-> new LayerTabCombiner().start());
+
         addActiveControl(controls);
         allControls.add(controls);
     }
@@ -211,5 +204,34 @@ public class LayerTab extends JPanel implements Runnable{
     public void closeLayers() {
         ((DefaultListModel)layerJList.getModel()).clear();
         project = null;
+    }
+
+    private void combineLayers() {
+        combinedLayers = new File(System.getProperty("user.dir"), ".temp" + File.separator + "combined.bmp"); //TODO: if .temp does not exist
+        PhotoshopExec ps = new PhotoshopExec();
+        ps.setFilterActive(true);
+        ps.addLayers(project.getAll_layers());
+        ps.addDestination(combinedLayers.getPath());
+        ps.start();
+        try {
+            ps.join();
+        } catch (InterruptedException ignore) {}
+    }
+
+    private class LayerTabCreater extends Thread {
+
+        @Override
+        public void run() {
+            addLayer();
+            loadLayers();
+            project.reloadLayers();
+        }
+    }
+
+    private class LayerTabCombiner extends Thread {
+        @Override
+        public void run() {
+            combineLayers();
+        }
     }
 }
