@@ -1,5 +1,6 @@
 package photoshop;
 
+import photoshop.exceptions.ProjectNotLoaded;
 import photoshop.project.Project;
 import photoshop.widgets.DrawingPanel;
 import photoshop.widgets.PhotoShopMenuBar;
@@ -95,5 +96,11 @@ public class MainWindow  extends Frame {
 
     public static void main(String[] args) {
         new MainWindow();
+    }
+
+    public Project getProject() throws ProjectNotLoaded {
+        if(project == null)
+            throw new ProjectNotLoaded();
+        return project;
     }
 }

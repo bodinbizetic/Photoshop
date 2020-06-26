@@ -1,14 +1,17 @@
 package photoshop.layer;
 
+import photoshop.PhotoshopExec;
 import photoshop.exceptions.ImageNotLoadedException;
 import photoshop.exceptions.ImageNotSaved;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -34,8 +37,10 @@ public class UserLayer extends Layer {
         String dst_path = temp_name + File.separator + originalImage.getName().substring(0, originalImage.getName().indexOf('.')) + ".bmp";
         tempImageFile = new File(System.getProperty("user.dir"), dst_path);
         try {
-            Files.copy(Paths.get(originalImage.getPath()), Paths.get(tempImageFile.getPath()), REPLACE_EXISTING);
-        } catch (IOException e) {
+            Thread t = new LayerConverter(originalImage, tempImageFile);
+            t.start();
+            t.join();
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             System.out.println("Terminal error: file cannot be copied to temp " + tempImageFile.getPath());
             throw new ImageNotLoadedException(originalImage.getPath());
@@ -63,5 +68,33 @@ public class UserLayer extends Layer {
     @Override
     public String getPath() {
         return tempImageFile.getPath();
+    }
+
+    private static class LayerConverter extends Thread {
+
+        private File src;
+        private File dst;
+
+        public LayerConverter(File src, File dst) throws FileNotFoundException {
+            this.src = src;
+            this.dst = dst;
+            if(!src.exists())
+                throw new FileNotFoundException();
+        }
+
+        @Override
+        public void run() {
+            PhotoshopExec ps = new PhotoshopExec();
+            try {
+                Layer layer = new Layer("LogicalLayer", src.getPath());
+                List<Layer> temp = new LinkedList<>();
+                temp.add(layer);
+                ps.addLayers(temp);
+                ps.addDestination(dst.getPath());
+                ps.start();
+                ps.join();
+            } catch (ImageNotLoadedException | InterruptedException ignore) {}
+
+        }
     }
 }
