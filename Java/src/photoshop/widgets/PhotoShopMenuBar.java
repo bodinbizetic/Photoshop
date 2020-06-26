@@ -53,15 +53,16 @@ public class PhotoShopMenuBar extends MenuBar {
 
     private void openProject() {
         try {
-            String path = folderDialog();
+            String path;// = folderDialog();
+            path = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat"; // TODO: Revert
             checkIfFileExists(path + File.separator + "Project.xml");
             System.setProperty("user.dir", path);
             ProjectLoader projectLoader = new ProjectLoader(path + File.separator + "Project.xml");
             parent.loadProject(projectLoader.loadProject());
         } catch (ProjectFileNotFound | FileCorruptedException e) {
             JOptionPane.showMessageDialog(parent, e.getMessage());
-        } catch (ChooseFolderDialogCanceled ignored) {
-        }
+        } /*catch (ChooseFolderDialogCanceled ignored) {
+        }*/
     }
 
     private void checkIfFileExists(String s) throws ProjectFileNotFound {

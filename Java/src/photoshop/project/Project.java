@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import photoshop.exceptions.FileCorruptedException;
+import photoshop.exceptions.ImageNotLoadedException;
 import photoshop.layer.Layer;
 import photoshop.operations.Operation;
 import photoshop.selection.Selection;
@@ -67,5 +68,17 @@ public class Project {
 
         for(Layer l : p.all_layers)
             System.out.println(l.getName() + " " + l.getPath());
+    }
+
+    public void reloadLayers() {
+        synchronized (all_layers) {
+            all_layers.forEach(layer -> {
+                try {
+                    layer.loadImage();
+                } catch (ImageNotLoadedException e) {
+
+                }
+            });
+        }
     }
 }

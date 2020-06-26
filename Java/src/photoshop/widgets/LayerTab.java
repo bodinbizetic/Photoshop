@@ -3,6 +3,7 @@ package photoshop.widgets;
 import photoshop.PhotoshopExec;
 import photoshop.exceptions.FileExtensionMissmatch;
 import photoshop.exceptions.FileNameException;
+import photoshop.exceptions.ImageNotLoadedException;
 import photoshop.layer.Layer;
 import photoshop.project.Project;
 
@@ -13,13 +14,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LayerTab extends JPanel {
-
+public class LayerTab extends JPanel implements Runnable{
+    private static int LAYER_INDEX=0;
     private Project project;
 
     private JList<Layer> layerJList;
@@ -30,7 +30,6 @@ public class LayerTab extends JPanel {
     private TextField newLayerName = new TextField();
 
     private Label valueLabel = new Label("Value: 100");
-
     static {
         PhotoshopExec.setPath("C:\\Users\\Dinbo\\Desktop\\Photoshop\\C++\\x64\\Release\\Poop C++ Projekat.exe"); //TODO: Change to be modular
     }
@@ -45,6 +44,8 @@ public class LayerTab extends JPanel {
         layerJList = new JList<>();
         layerJList.addListSelectionListener(e -> {
             Layer activeLayer = layerJList.getSelectedValue();
+            if(activeLayer == null)
+                return;
             activeCB.setState(activeLayer.isActive());
             setSlider(activeLayer.getOpacity());
         });
@@ -72,7 +73,7 @@ public class LayerTab extends JPanel {
         controls.add(newLayerName);
         Button addLayer         = new Button("Add layer");
         Button deleteSelected   = new Button("Delete selected");
-        addLayer.addActionListener(ev->addLayer());
+        addLayer.addActionListener(ev->new Thread(this).start());
         deleteSelected.addActionListener(ev-> deleteSelectedLayer());
 
         buttons.add(addLayer);
@@ -81,28 +82,38 @@ public class LayerTab extends JPanel {
         allControls.add(controls);
         allControls.add(buttons);
     }
+    @Override
+    public void run() {
+        addLayer();
+        loadLayers();
+        project.reloadLayers();
+    }
 
     private void addLayer() {
         if(project == null)
             return;
+
         try {
-            String name = (newLayerName.getText().isEmpty() ? "Layer" : newLayerName.getText());
-            String src_path = getLayerPathDialog();
-            String dst_path = "resource" + File.separator + name + getExtension(src_path);
-            Files.copy(Paths.get(src_path), Paths.get(System.getProperty("user.dir") + File.separator + dst_path)); // TODO: Call c++ to fit all
-            Layer newLayer = new Layer(name, dst_path, 100, true);
+            String name = (newLayerName.getText().isEmpty() ? "Layer" + ++LAYER_INDEX : newLayerName.getText());
+            String path = getLayerPath(name);
+            Layer newLayer = new Layer(name, path, 100, true);
             project.addLayer(newLayer);
             PhotoshopExec ph = new PhotoshopExec();
             ph.addLayers(project.getAll_layers());
             ph.start();
-            synchronized (ph) {
-                if(ph.isAlive())
-                    ph.wait();
-            }
-            loadLayers();
-        } catch(FileExtensionMissmatch | FileNameException | IOException e) {
+            ph.join();
+        } catch(FileExtensionMissmatch | FileNameException | ImageNotLoadedException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
+        }catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "File with that name already exists");
         } catch(InterruptedException ignore) {}
+    }
+
+    private String getLayerPath(String newName) throws FileExtensionMissmatch, FileNameException, IOException {
+        String src_path = getLayerPathDialog();
+        String dst_path = "resource" + File.separator + newName + getExtension(src_path);
+        Files.copy(Paths.get(src_path), Paths.get(System.getProperty("user.dir") + File.separator + dst_path));
+        return dst_path;
     }
 
     private String getExtension(String path) throws FileNameException {
@@ -117,6 +128,7 @@ public class LayerTab extends JPanel {
         JFileChooser jf = new JFileChooser();
         jf.addChoosableFileFilter(new FileNameExtensionFilter("*.bmp", "bmp"));
         jf.addChoosableFileFilter(new FileNameExtensionFilter("*.pam", "pam"));
+        jf.setCurrentDirectory(new File("C:\\Users\\Dinbo\\Desktop\\Paint")); // TODO: Change to be System.getProperty("user.dir");
         jf.showOpenDialog(this);
         File file = jf.getSelectedFile();
         if(!file.getPath().contains(".bmp") && !file.getPath().contains(".pam"))
@@ -189,7 +201,7 @@ public class LayerTab extends JPanel {
         loadLayers();
     }
 
-    private void loadLayers() {
+    private synchronized void loadLayers() {
         List<Layer> all_layers = project.getAll_layers();
         DefaultListModel layerList = new DefaultListModel<>();
         all_layers.forEach(layerList::addElement);

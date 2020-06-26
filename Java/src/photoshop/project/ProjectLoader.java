@@ -5,10 +5,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import photoshop.exceptions.FileCorruptedException;
+import photoshop.exceptions.ImageNotLoadedException;
 import photoshop.layer.Layer;
 import photoshop.operations.Operation;
 import photoshop.selection.Selection;
 
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -56,7 +58,11 @@ public class ProjectLoader {
         String path = element.getAttribute("path");
         int opacity = Integer.parseInt(element.getAttribute("opacity"));
         boolean active = (element.getAttribute("active").equals("true"));
-        all_layers.add(new Layer(name, path, opacity, active));
+        try {
+            all_layers.add(new Layer(name, path, opacity, active));
+        } catch (ImageNotLoadedException e) {
+            System.out.println("Image not loaded");
+        }
     }
 
     private Document openXMLDocument() throws FileCorruptedException {
