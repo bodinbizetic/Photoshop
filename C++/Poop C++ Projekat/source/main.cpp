@@ -4,6 +4,7 @@
 #include "menu_main.h"
 #include "image.h"
 #include <formater.h>
+#include <utilities.h>
 using std::cout;
 using std::endl;
 
@@ -24,7 +25,16 @@ int loadImage(Image& project, int argc, char const* argv[]) {
         }
         //std::cout << std::filesystem::path(argv[i]).extension() << std::endl;
         if (std::filesystem::path(argv[i]).extension() == ".bmp" || std::filesystem::path(argv[i]).extension() == ".pam") {
-            project.getLayerCollection().addLayer("ConsoleLayer" + std::to_string(i), argv[i], 100, 1);
+            int opacity = 100;
+            int disp = 0;
+            if (i != argc - 1 && !strcmp(argv[i+1], "--opacity")) {
+                if (i != argc - 2 && isInteger(argv[i + 2]) == false)
+                    throw WrongCommand();
+                opacity = atoi(argv[i + 2]);
+                disp = 2;
+            }
+            project.getLayerCollection().addLayer("ConsoleLayer" + std::to_string(i), argv[i], opacity, 1);
+            i += disp;
         }
         else if (std::filesystem::path(argv[i]).extension() == ".fun") {
             Project_Manager_Formater formater(argv[i], "CustomOperation", "Operation");
@@ -56,13 +66,15 @@ int createCustomOperation(Image& project) {
 }
 
 int main(int argc, char const *argv[]) {
-    /*argc = 5;
+   /* argc = 7;
     argv[1] = "-e";
 
     argv[2] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\.temp\\combined.bmp";
     argv[3] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\.temp\\L1.bmp";
     argv[4] = "C:\\Users\\Dinbo\\Desktop\\Paint\\Projekat\\.temp\\L2.bmp";
-    */
+    argv[5] = "--opacity";
+    argv[6] = "50";*/
+    
     if (argc <= 1) {
         Menu& m = *new Menu_Main();
         m.start();
