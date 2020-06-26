@@ -5,6 +5,7 @@ import photoshop.exceptions.FileExtensionMissmatch;
 import photoshop.exceptions.FileNameException;
 import photoshop.exceptions.ImageNotLoadedException;
 import photoshop.layer.Layer;
+import photoshop.layer.UserLayer;
 import photoshop.project.Project;
 
 import javax.swing.*;
@@ -87,7 +88,7 @@ public class LayerTab extends JPanel {
         try {
             String name = (newLayerName.getText().isEmpty() ? "Layer" + ++LAYER_INDEX : newLayerName.getText());
             String path = getLayerPath(name);
-            Layer newLayer = new Layer(name, path, 100, true);
+            Layer newLayer = new UserLayer(name, path, 100, true);
             project.addLayer(newLayer);
             PhotoshopExec ph = new PhotoshopExec();
             ph.addLayers(project.getAll_layers());

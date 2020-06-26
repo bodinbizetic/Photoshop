@@ -50,7 +50,7 @@ public class PhotoshopExec extends Thread{
 
     private String getFileList() {
         StringBuilder sb = new StringBuilder();
-        layers.stream().filter(layer -> layer.isActive() || !filterActive).forEach(layer -> sb.append(layer.getTempPath()).append(" "));
+        layers.stream().filter(layer -> layer.isActive() || !filterActive).forEach(layer -> sb.append(layer.getPath()).append(" "));
         return sb.toString();
     }
 

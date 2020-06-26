@@ -58,7 +58,7 @@ public class Project {
         Project p = projectLoader.loadProject();
 
         for(Layer l : p.all_layers)
-            System.out.println(l.getName() + " " + l.getTempPath());
+            System.out.println(l.getName() + " " + l.getPath());
     }
 
     public void reloadLayers() {

@@ -7,6 +7,7 @@ import org.xml.sax.SAXException;
 import photoshop.exceptions.FileCorruptedException;
 import photoshop.exceptions.ImageNotLoadedException;
 import photoshop.layer.Layer;
+import photoshop.layer.UserLayer;
 import photoshop.operations.Operation;
 import photoshop.selection.Selection;
 
@@ -59,7 +60,7 @@ public class ProjectLoader {
         int opacity = Integer.parseInt(element.getAttribute("opacity"));
         boolean active = (element.getAttribute("active").equals("true"));
         try {
-            all_layers.add(new Layer(name, path, opacity, active));
+            all_layers.add(new UserLayer(name, path, opacity, active));
         } catch (ImageNotLoadedException e) {
             System.out.println("Image not loaded");
         }
