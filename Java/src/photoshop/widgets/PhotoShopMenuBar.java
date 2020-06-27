@@ -36,6 +36,7 @@ public class PhotoShopMenuBar extends MenuBar {
         open.addActionListener((e -> openProject()));
         file.add(open);
         file.add(save);
+        file.addSeparator();
         file.add(export);
         add(file);
     }
