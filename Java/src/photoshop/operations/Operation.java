@@ -17,6 +17,10 @@ abstract public class Operation {
         this.cppID = cppID;
     }
 
+    boolean hasParam() {
+        return false;
+    }
+
     int getParametar() {
         return 0;
     }
@@ -24,5 +28,9 @@ abstract public class Operation {
 
     public String getName() {
         return name;
+    }
+
+    public int getcppID() {
+        return cppID;
     }
 }

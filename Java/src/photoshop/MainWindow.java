@@ -3,6 +3,7 @@ package photoshop;
 import photoshop.exceptions.ProjectNotLoaded;
 import photoshop.project.Project;
 import photoshop.widgets.DrawingPanel;
+import photoshop.widgets.OperationTab;
 import photoshop.widgets.PhotoShopMenuBar;
 import photoshop.widgets.Tools;
 

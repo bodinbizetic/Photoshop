@@ -15,6 +15,11 @@ public class DiadicOperation extends Operation {
     }
 
     @Override
+    boolean hasParam() {
+        return true;
+    }
+
+    @Override
     public int getParametar() {
         return parametar;
     }

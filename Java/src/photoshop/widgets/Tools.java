@@ -11,7 +11,7 @@ public class Tools extends JTabbedPane {
     private static final Color bgColor = new Color(0xFFFFFF);
 
     private LayerTab layerPanel;
-    private JPanel operationPanel;
+    private OperationTab operationPanel;
     private JPanel selectionPanel;
 
     private JList layer_list = new JList();
@@ -38,7 +38,7 @@ public class Tools extends JTabbedPane {
     }
 
     private void addOperationPanel() {
-        operationPanel = new JPanel();
+        operationPanel = new OperationTab();
 //        selectionPanel.setBackground(Color.WHITE);
         addTab("Operations", operationPanel);
     }
