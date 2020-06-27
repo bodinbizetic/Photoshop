@@ -12,62 +12,87 @@ public class OperationTab extends JPanel {
     private JList<Operation> all_operations;
     private JList<Operation> createList;
     private JSpinner parametarSpinner;
+    private TextField operationName;
     public OperationTab() {
         setLayout(new GridLayout(2, 1));
 
         addOperationPickerPanel();
-//        addOperationCreaterPanel();
+        addOperationCreaterPanel();
     }
 
     private void addOperationCreaterPanel() {
-        JPanel operations = new JPanel();
-        operations.setLayout(new GridLayout(1, 2));
-        createList = new JList<>();
+        JPanel creationPanel = new JPanel();
+        creationPanel.setLayout(new GridLayout(1, 2));
 
-        operations.add(createList);
-        add(createList);
+        addOperationCreaterPanelLeft(creationPanel);
+        addOperationCreaterPanelRight(creationPanel);
+        add(creationPanel);
+    }
+
+    private void addOperationCreaterPanelRight(JPanel creationPanel) {
+        JPanel right = new JPanel();
+        Button create = new Button("Create");
+        operationName = new TextField();
+        operationName.setPreferredSize(new Dimension(100, 20));
+        Button remove = new Button("Clear");
+
+        right.add(new Label("Name: "));
+        right.add(operationName);
+        right.add(create);
+        right.add(remove);
+        creationPanel.add(right);
+    }
+
+    private void addOperationCreaterPanelLeft(JPanel creationPanel) {
+        JPanel listPanel = new JPanel();
+        listPanel.setLayout(new GridLayout(1, 1));
+        createList = new JList<>();
+        createList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        listPanel.add(createList);
+        listPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        creationPanel.add(listPanel);
     }
 
     private void addOperationPickerPanel() {
-        JPanel operations = new JPanel();
-        operations.setBorder(BorderFactory.createRaisedBevelBorder());
-        operations.setLayout(new GridLayout(1, 2));
+        JPanel operationsPanel = new JPanel();
+        operationsPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        operationsPanel.setLayout(new GridLayout(1, 2));
 
-        addOperationPickerPanelRight(operations);
-        addOperationPickerPanelLeft(operations);
+        addOperationPickerPanelLeft(operationsPanel);
+        addOperationPickerPanelRight(operationsPanel);
 
-        add(operations);
+        add(operationsPanel);
     }
 
-    private void addOperationPickerPanelRight(JPanel operations) {
+    private void addOperationPickerPanelLeft(JPanel operations) {
         JPanel right = new JPanel();
         right.setBorder(new EmptyBorder(10, 10, 10, 10));
+        right.setLayout(new BorderLayout());
         all_operations = new JList<>();
-        all_operations.setPreferredSize(new Dimension(120, 280));
         all_operations.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         right.add(all_operations);
         operations.add(right);
     }
 
-    private void addOperationPickerPanelLeft(JPanel operations) {
+    private void addOperationPickerPanelRight(JPanel operations) {
         JPanel center = new JPanel();
-        center.setBorder(new EmptyBorder(100, 0, 0, 0));
+//        center.setBorder(new EmptyBorder(100, 0, 0, 0));
         center.setLayout(new BorderLayout());
-        JPanel leftPart = new JPanel();
-        leftPart.setLayout(new FlowLayout());
-        Label label = new Label("Arg: ");
+        JPanel rightPart = new JPanel();
+        rightPart.setLayout(new FlowLayout());
+        Label label = new Label("Arg:");
         parametarSpinner = new JSpinner();
         parametarSpinner.setPreferredSize(new Dimension(60, 20));
         Button use = new Button("Use");
         Button add = new Button("Add");
         Button delete = new Button("Delete");
 
-        leftPart.add(label);
-        leftPart.add(parametarSpinner);
-        leftPart.add(use);
-        leftPart.add(add);
-        leftPart.add(delete);
-        center.add(leftPart, BorderLayout.CENTER);
+        rightPart.add(label);
+        rightPart.add(parametarSpinner);
+        rightPart.add(use);
+        rightPart.add(add);
+        rightPart.add(delete);
+        center.add(BorderLayout.CENTER, rightPart);
         operations.add(center);
     }
 }

@@ -14,7 +14,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 
 
-public class MainWindow  extends Frame {
+public class MainWindow  extends JFrame {
     private static final int DEFAULT_WINDOW_WIDTH = 1000;
     private static final int DEFAULT_WINDOW_HEIGHT = 700;
 

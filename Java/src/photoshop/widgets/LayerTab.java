@@ -245,6 +245,8 @@ public class LayerTab extends JPanel {
     private class LayerTabCombiner extends Thread {
         @Override
         public void run() {
+            if(project == null)
+                return;
             combineLayers();
             showCombinedLayer();
         }
