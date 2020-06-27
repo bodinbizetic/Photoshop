@@ -15,7 +15,7 @@ import java.util.List;
 public class DrawingPanel extends JPanel{
     private List<Layer> to_Draw = new ArrayList<>();
     private List<Selection> selected = new ArrayList<>();
-
+    private BufferedImage prevImage;
     public synchronized void addLayer(Layer l) {
         to_Draw.add(l);
     }
@@ -33,6 +33,7 @@ public class DrawingPanel extends JPanel{
                 return;
             BufferedImage image = first.getImage();
             setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+            revalidate();
             g.drawImage(image, 0, 0, null);
         }
     }
