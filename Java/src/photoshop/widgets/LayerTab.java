@@ -147,12 +147,17 @@ public class LayerTab extends JPanel {
         JPanel sliderPanel = new JPanel();
         slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
         slider.addChangeListener(e -> {
+
+            int value = 0;
             try {
-                int value = slider.getValue();
+                value = slider.getValue();
                 Layer activeLayer = layerJList.getSelectedValue();
                 activeLayer.setOpacity(value);
+
+            } catch (NullPointerException ignored) {
+            } finally {
                 valueLabel.setText("Value: " + value);
-            }catch (NullPointerException ignored) {}
+            }
         });
         sliderPanel.add(slider);
         sliderPanel.add(valueLabel);
@@ -236,6 +241,8 @@ public class LayerTab extends JPanel {
 
         @Override
         public void run() {
+            if(project == null)
+                return;
             addLayer();
             loadLayers();
             project.reloadLayers();
