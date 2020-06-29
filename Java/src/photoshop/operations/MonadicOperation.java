@@ -7,12 +7,12 @@ import java.util.List;
 
 public class MonadicOperation extends Operation {
 
-    public MonadicOperation(String name, String path, int cppID) {
-        super(name, path, cppID);
+    public MonadicOperation(String name, String path) {
+        super(name, path);
     }
 
     @Override
-    List<Operation> getList() {
+    public List<Operation> getList() {
         List<Operation> tempList = new LinkedList<>();
         tempList.add(this);
         return tempList;

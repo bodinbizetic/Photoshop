@@ -9,13 +9,13 @@ public class ComplexOperation extends Operation{
 
     private List<Operation> all_operations = new LinkedList<>();
 
-    public ComplexOperation(String name, String path, int cppID, List<Operation> operations) {
-        super(name, path, cppID);
+    public ComplexOperation(String name, String path, List<Operation> operations) {
+        super(name, path);
         this.all_operations = operations;
     }
 
     @Override
-    List<Operation> getList() {
+    public List<Operation> getList() {
         return all_operations;
     }
 }

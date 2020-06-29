@@ -9,13 +9,13 @@ public class DiadicOperation extends Operation {
 
     private int parametar;
 
-    public DiadicOperation(String name, String path, int cppID, ParametarGetter parametarGetter) {
-        super(name, path, cppID);
+    public DiadicOperation(String name, String path, ParametarGetter parametarGetter) {
+        super(name, path);
         this.parametar = parametarGetter.getParametar();
     }
 
     @Override
-    boolean hasParam() {
+    public boolean hasParam() {
         return true;
     }
 
@@ -25,7 +25,7 @@ public class DiadicOperation extends Operation {
     }
 
     @Override
-    List<Operation> getList() {
+    public List<Operation> getList() {
         List<Operation> tempList = new LinkedList<>();
         tempList.add(this);
         return tempList;
