@@ -24,6 +24,8 @@ abstract public class Operation {
     }
     public abstract List<Operation> getList();
 
+    public void setParam() {}
+
     @Override
     public String toString() {
         return getName();

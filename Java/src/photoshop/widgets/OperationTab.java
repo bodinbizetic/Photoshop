@@ -1,5 +1,6 @@
 package photoshop.widgets;
 
+import photoshop.PhotoshopExec;
 import photoshop.exceptions.ProjectNotLoaded;
 import photoshop.operations.DiadicOperation;
 import photoshop.operations.MonadicOperation;
@@ -13,6 +14,7 @@ import java.util.stream.Stream;
 
 public class OperationTab extends JPanel {
 
+    private final DrawingPanel drawingPanel;
     private JList<Operation> all_operations;
     private JList<Operation> createList;
     private JSpinner parametarSpinner;
@@ -20,7 +22,8 @@ public class OperationTab extends JPanel {
     private Project project;
 
     private Operation[] default_operations;
-    public OperationTab() {
+    public OperationTab(DrawingPanel drawingPanel) {
+        this.drawingPanel = drawingPanel;
         setLayout(new GridLayout(2, 1));
 
         addOperationPickerPanel();
@@ -96,6 +99,13 @@ public class OperationTab extends JPanel {
         Button add = new Button("Add");
         Button delete = new Button("Delete");
 
+        use.addActionListener(e -> {
+            if(all_operations.getSelectedIndex() < default_operations.length)
+                all_operations.getSelectedValue().setParam();
+
+            new UseOperationHandler(all_operations.getSelectedValue()).start();
+        });
+
         rightPart.add(label);
         rightPart.add(parametarSpinner);
         rightPart.add(use);
@@ -156,5 +166,28 @@ public class OperationTab extends JPanel {
             throw new ProjectNotLoaded();
         return Stream.of(default_operations).filter(operation -> operation.getName().equals(name)).findFirst().get();
 
+    }
+
+    private class UseOperationHandler extends Thread{
+        Operation operation;
+        public UseOperationHandler(Operation operation) {
+            this.operation = operation;
+        }
+
+        @Override
+        public void run() {
+            try {
+                if(operation == null)
+                    return;
+                PhotoshopExec ph = new PhotoshopExec();
+                ph.setFilterActive(true);
+                ph.addLayers(project.getAll_layers());
+                ph.addOperation(operation);
+                ph.start();
+                ph.join();
+                project.reloadLayers();
+                drawingPanel.repaint();
+            } catch (InterruptedException ignore) {}
+        }
     }
 }

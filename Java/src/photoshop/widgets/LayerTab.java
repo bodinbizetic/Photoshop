@@ -213,8 +213,10 @@ public class LayerTab extends JPanel {
         project = null;
     }
 
+    public static final String LAYER_COMBINE_PATH = ".temp" + File.separator + "combined.bmp";
+
     private void combineLayers() {
-        File combinedLayersFile = new File(System.getProperty("user.dir"), ".temp" + File.separator + "combined.bmp"); //TODO: if .temp does not exist
+        File combinedLayersFile = new File(System.getProperty("user.dir"), LAYER_COMBINE_PATH); //TODO: if .temp does not exist
         PhotoshopExec ps = new PhotoshopExec();
         ps.setFilterActive(true);
         ps.addLayers(project.getAll_layers());

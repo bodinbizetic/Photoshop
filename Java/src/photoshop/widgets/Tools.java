@@ -38,7 +38,7 @@ public class Tools extends JTabbedPane {
     }
 
     private void addOperationPanel() {
-        operationPanel = new OperationTab();
+        operationPanel = new OperationTab(drawingPanel);
 //        selectionPanel.setBackground(Color.WHITE);
         addTab("Operations", operationPanel);
     }

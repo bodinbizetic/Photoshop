@@ -74,7 +74,6 @@ public class ProjectLoader {
     }
 
     private String getSingleOperationPath(Node item) {
-        System.out.println(item.getNodeName());
         NamedNodeMap map = item.getAttributes();
         Node node = map.item(0);
         String path = node.getNodeValue();

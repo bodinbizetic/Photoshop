@@ -2,8 +2,11 @@ package photoshop;
 
 import photoshop.layer.Layer;
 import photoshop.operations.Operation;
+import photoshop.project.ProjectSaver;
 import photoshop.selection.Selection;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -17,6 +20,8 @@ public class PhotoshopExec extends Thread{
     private List<Operation> operations  = new LinkedList<>();
     private List<Selection> selections  = new LinkedList<>();
     private List<String>    args        = new LinkedList<>();
+    private static int ID_Temp = 0;
+
 
     private boolean filterActive = false;
     public static void setPath(String path) {
@@ -32,9 +37,9 @@ public class PhotoshopExec extends Thread{
 //        layers.add(l);
     }
 
-//    public void addOperation(Operation op) {
-//        operations.add(op);
-//    }
+    public void addOperation(Operation op) {
+        operations.add(op);
+    }
 //
 //    public void addSelection(Selection sel) {
 //        selections.add(sel);
@@ -45,7 +50,30 @@ public class PhotoshopExec extends Thread{
         sb.append(" ");
         sb.append(getCppArgList());
         sb.append(getFileList());
+        sb.append(getOperationList());
         return sb.toString();
+    }
+
+    private String getOperationList() {
+        StringBuilder bs = new StringBuilder();
+        operations.forEach(operation -> {
+            try {
+                String path = tempCopy(operation);
+                bs.append(path);
+                bs.append(" ");
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        });
+        return bs.toString();
+    }
+
+    private String tempCopy(Operation operation) throws TransformerException, ParserConfigurationException {
+        String path = ".temp" + File.separator + ID_Temp++ + ".fun";
+        ProjectSaver.saveOperationFile(path, operation);
+        return path;
     }
 
     private String getFileList() {
