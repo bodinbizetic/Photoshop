@@ -32,9 +32,9 @@ public class Project {
 //        return all_selections;
 //    }
 //
-//    public List<Operation> getAll_operations() {
-//        return all_operations;
-//    }
+    public List<Operation> getAll_operations() {
+        return all_operations;
+    }
 //
     public List<Layer> getAll_layers() {
         return all_layers;
