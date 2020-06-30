@@ -5,7 +5,7 @@ import photoshop.project.Project;
 import java.io.File;
 import java.util.List;
 
-abstract public class Operation {
+abstract public class Operation implements Cloneable{
 
     protected File saveFile;
     protected String name;
@@ -28,10 +28,15 @@ abstract public class Operation {
 
     @Override
     public String toString() {
-        return getName();
+        return getName() + (hasParam() ? " " + getParametar() : "");
     }
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

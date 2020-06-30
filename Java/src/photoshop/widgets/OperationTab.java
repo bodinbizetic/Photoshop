@@ -1,7 +1,9 @@
 package photoshop.widgets;
 
 import photoshop.PhotoshopExec;
+import photoshop.exceptions.NameAlreadyExists;
 import photoshop.exceptions.ProjectNotLoaded;
+import photoshop.operations.ComplexOperation;
 import photoshop.operations.DiadicOperation;
 import photoshop.operations.MonadicOperation;
 import photoshop.operations.Operation;
@@ -9,7 +11,11 @@ import photoshop.project.Project;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.io.File;
+import java.util.LinkedList;
 import java.util.stream.Stream;
 
 public class OperationTab extends JPanel {
@@ -46,6 +52,8 @@ public class OperationTab extends JPanel {
         operationName.setPreferredSize(new Dimension(100, 20));
         Button remove = new Button("Clear");
 
+        remove.addActionListener(e -> emptyCreateList());
+        create.addActionListener(e -> addNewOperation());
         right.add(new Label("Name: "));
         right.add(operationName);
         right.add(create);
@@ -53,10 +61,56 @@ public class OperationTab extends JPanel {
         creationPanel.add(right);
     }
 
+    private void addNewOperation() {
+        try {
+            Operation op = createOperation();
+            addToListsOperation(op);
+            emptyCreateList();
+        } catch(NameAlreadyExists e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
+    private void addToListsOperation(Operation op) {
+        project.addOperation(op);
+        DefaultListModel model = (DefaultListModel) all_operations.getModel();
+        model.addElement(op);
+    }
+
+    private Operation createOperation() throws NameAlreadyExists {
+        int n = createList.getModel().getSize();
+        java.util.List<Operation> list = new LinkedList<>();
+        for(int i=0; i<n; i++) {
+            Operation oper = createList.getModel().getElementAt(i);
+            oper.getList().forEach(operation -> list.add(operation));
+        }
+        String name = getOperationName();
+        Operation cOp = new ComplexOperation(name, "resource" + File.separator + name + ".fun", list);
+        return cOp;
+    }
+
+    private String getOperationName() throws NameAlreadyExists {
+        String text = operationName.getText();
+        if(nameExistsCheck(text) || text == "")
+            throw new NameAlreadyExists(text);
+        return text;
+    }
+
+    private boolean nameExistsCheck(String text) {
+        if(project.getAll_operations().stream().filter(operation -> operation.getName().equals(text)).count() > 0)
+            return true;
+        return false;
+    }
+
+    private void emptyCreateList() {
+        createList.setModel(new DefaultListModel<>());
+    }
+
     private void addOperationCreaterPanelLeft(JPanel creationPanel) {
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new GridLayout(1, 1));
         createList = new JList<>();
+        createList.setModel(new DefaultListModel<>());
         createList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         listPanel.add(createList);
         listPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -88,24 +142,32 @@ public class OperationTab extends JPanel {
 
     private void addOperationPickerPanelRight(JPanel operations) {
         JPanel center = new JPanel();
-//        center.setBorder(new EmptyBorder(100, 0, 0, 0));
         center.setLayout(new BorderLayout());
         JPanel rightPart = new JPanel();
         rightPart.setLayout(new FlowLayout());
         Label label = new Label("Arg:");
         parametarSpinner = new JSpinner();
         parametarSpinner.setPreferredSize(new Dimension(60, 20));
+        parametarSpinner.addChangeListener(e -> {
+            if(all_operations.getSelectedValue() == null)
+                return;
+            all_operations.getSelectedValue().setParam();
+            all_operations.repaint();
+        });
         Button use = new Button("Use");
         Button add = new Button("Add");
         Button delete = new Button("Delete");
 
+        add.addActionListener(e -> addPickToCreate());
         use.addActionListener(e -> {
+            if(all_operations.getSelectedValue() == null)
+                return;
             if(all_operations.getSelectedIndex() < default_operations.length)
                 all_operations.getSelectedValue().setParam();
 
             new UseOperationHandler(all_operations.getSelectedValue()).start();
         });
-
+        delete.addActionListener(e -> removeSelectedNonDefaultOperation());
         rightPart.add(label);
         rightPart.add(parametarSpinner);
         rightPart.add(use);
@@ -113,6 +175,29 @@ public class OperationTab extends JPanel {
         rightPart.add(delete);
         center.add(BorderLayout.CENTER, rightPart);
         operations.add(center);
+    }
+
+    private void removeSelectedNonDefaultOperation() {
+        if(all_operations.getSelectedValue() == null)
+            return;
+        if(all_operations.getSelectedIndex() < default_operations.length)
+            return;
+        Operation operation = all_operations.getSelectedValue();
+        project.removeOperation(operation);
+        loadOperations();
+    }
+
+    private void addPickToCreate() {
+        if(all_operations.getSelectedValue() == null)
+            return;
+        DefaultListModel<Operation> model = (DefaultListModel) createList.getModel();
+        try {
+            Operation newOp = (Operation) all_operations.getSelectedValue().clone();
+            newOp.setParam();
+            model.addElement(newOp);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadProject(Project project) {

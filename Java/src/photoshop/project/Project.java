@@ -72,4 +72,12 @@ public class Project {
             });
         }
     }
+
+    public void addOperation(Operation cOp) {
+        all_operations.add(cOp);
+    }
+
+    public void removeOperation(Operation operation) {
+        all_operations.remove(operation);
+    }
 }

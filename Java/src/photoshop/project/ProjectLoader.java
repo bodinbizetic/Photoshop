@@ -68,7 +68,7 @@ public class ProjectLoader {
         HashMap<String, String> header = xml.getHeaderValues();
         final List<Operation> operation_list = new LinkedList<>();
         xml.getBodyValuesList().forEach(val -> {
-            operation_list.add(new DiadicOperation(val.get("name"), "", ()-> Integer.parseInt(val.get("arg")))); // TODO: Use already made operations
+            operation_list.add(new DiadicOperation(val.get("name"), "", ()-> Integer.parseInt(val.get("arg"))));
         });
         return new ComplexOperation(header.get("name"), path, operation_list);
     }

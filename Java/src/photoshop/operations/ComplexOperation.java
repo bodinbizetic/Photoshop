@@ -18,4 +18,18 @@ public class ComplexOperation extends Operation{
     public List<Operation> getList() {
         return all_operations;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        ComplexOperation newOp = (ComplexOperation) super.clone();
+        newOp.all_operations = new LinkedList<>();
+        all_operations.forEach(op -> {
+            try {
+                newOp.all_operations.add((Operation) op.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        });
+        return newOp;
+    }
 }
