@@ -24,7 +24,8 @@ public class MouseRectangleSelection implements MouseListener, MouseMotionListen
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        reset();
+        drawingPanel.repaint();
     }
 
     @Override
@@ -62,5 +63,13 @@ public class MouseRectangleSelection implements MouseListener, MouseMotionListen
 
     public Rectangle getRectangle() {
         return new Rectangle(startX, startY, endX-startX, endY-startY);
+    }
+
+    public void reset() {
+        startY = 0;
+        startX = 0;
+        endY = 0;
+        endX = 0;
+
     }
 }

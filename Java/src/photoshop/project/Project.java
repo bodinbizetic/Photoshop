@@ -91,4 +91,12 @@ public class Project {
     public void removeSelection(Selection sel) {
         all_selections.remove(sel);
     }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
