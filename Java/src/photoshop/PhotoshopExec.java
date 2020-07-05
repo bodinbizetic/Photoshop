@@ -2,6 +2,7 @@ package photoshop;
 
 import photoshop.layer.Layer;
 import photoshop.operations.Operation;
+import photoshop.project.Project;
 import photoshop.project.ProjectSaver;
 import photoshop.selection.Selection;
 
@@ -40,6 +41,10 @@ public class PhotoshopExec extends Thread{
     public void addOperation(Operation op) {
         operations.add(op);
     }
+
+    public void addSelections(List<Selection> s) {
+        s.stream().filter(selection -> selection.isActive()).forEach(selection -> selections.add(selection));
+    }
 //
 //    public void addSelection(Selection sel) {
 //        selections.add(sel);
@@ -51,14 +56,37 @@ public class PhotoshopExec extends Thread{
         sb.append(getCppArgList());
         sb.append(getFileList());
         sb.append(getOperationList());
+        sb.append(getSelectionList());
         return sb.toString();
+    }
+
+    private String getSelectionList() {
+        StringBuilder sb = new StringBuilder();
+        selections.forEach(selection -> {
+            try {
+                String path = tempCopySelection(selection);
+                sb.append(path);
+                sb.append(" ");
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        });
+        return sb.toString();
+    }
+
+    private String tempCopySelection(Selection selection) throws TransformerException, ParserConfigurationException {
+        String path = ".temp" + File.separator + ID_Temp++ + ".sel";
+        ProjectSaver.saveSelectionFile(path, selection);
+        return path;
     }
 
     private String getOperationList() {
         StringBuilder bs = new StringBuilder();
         operations.forEach(operation -> {
             try {
-                String path = tempCopy(operation);
+                String path = tempCopyOperation(operation);
                 bs.append(path);
                 bs.append(" ");
             } catch (TransformerException e) {
@@ -70,7 +98,7 @@ public class PhotoshopExec extends Thread{
         return bs.toString();
     }
 
-    private String tempCopy(Operation operation) throws TransformerException, ParserConfigurationException {
+    private String tempCopyOperation(Operation operation) throws TransformerException, ParserConfigurationException {
         String path = ".temp" + File.separator + ID_Temp++ + ".fun";
         ProjectSaver.saveOperationFile(path, operation);
         return path;

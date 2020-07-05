@@ -72,7 +72,7 @@ public class ProjectLoader {
         xml.getBodyValuesList().forEach(val -> {
             selection_list.add(new Rectangle(Integer.parseInt(val.get("x")), Integer.parseInt(val.get("y")), Integer.parseInt(val.get("width")), Integer.parseInt(val.get("height"))));
         });
-        return new Selection(header.get("name"), path, selection_list, Boolean.getBoolean(header.get("active")));
+        return new Selection(header.get("name"), path, selection_list, header.get("active").equals("true"));
     }
 
     private void loadOperations(Element root) {

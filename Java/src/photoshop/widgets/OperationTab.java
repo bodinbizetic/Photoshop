@@ -273,6 +273,7 @@ public class OperationTab extends JPanel {
                 ph.setFilterActive(true);
                 ph.addLayers(project.getAll_layers());
                 ph.addOperation(operation);
+                ph.addSelections(project.getAll_Selections());
                 ph.start();
                 ph.join();
                 project.reloadLayers();
