@@ -24,7 +24,7 @@ public class MainWindow  extends JFrame {
     private Project project;
 
     static {
-        PhotoshopExec.setPath("C:\\Users\\Dinbo\\Desktop\\POOP C++\\Photoshop\\C++\\x64\\Release\\Poop C++ Projekat.exe"); //TODO: Change to be modular
+        PhotoshopExec.setPath("C:\\Users\\Dinbo-PC\\Desktop\\POOP C++\\Photoshop\\C++\\x64\\Release\\Poop C++ Projekat.exe"); //TODO: Change to be modular
     }
 
     public MainWindow() {

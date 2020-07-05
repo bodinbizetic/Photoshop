@@ -1,5 +1,6 @@
 package photoshop.widgets;
 
+import com.sun.org.apache.bcel.internal.generic.Select;
 import photoshop.layer.Layer;
 import photoshop.project.Project;
 
@@ -12,7 +13,7 @@ public class Tools extends JTabbedPane {
 
     private LayerTab layerPanel;
     private OperationTab operationPanel;
-    private JPanel selectionPanel;
+    private SelectionTab selectionPanel;
 
     private JList layer_list = new JList();
     private DrawingPanel drawingPanel;
@@ -26,7 +27,7 @@ public class Tools extends JTabbedPane {
     }
 
     private void addSelectionPanel() {
-        selectionPanel = new JPanel();
+        selectionPanel = new SelectionTab(drawingPanel);
 //        selectionPanel.setBackground(bgColor);
         addTab("Selections", selectionPanel);
     }
