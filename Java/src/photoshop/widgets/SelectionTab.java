@@ -12,6 +12,7 @@ import java.util.List;
 
 public class SelectionTab extends JPanel {
 
+    private final DrawingPanel drawingPanel;
     private JList<Selection> all_selections;
     private JList<Selection> all_rectangles;
     private Checkbox cbActive;
@@ -20,6 +21,8 @@ public class SelectionTab extends JPanel {
 
     public SelectionTab(DrawingPanel drawingPanel) {
         setLayout(new GridLayout(2, 1));
+
+        this.drawingPanel = drawingPanel;
 
         addUpperPanel();
         addLowerPanel();
@@ -60,7 +63,12 @@ public class SelectionTab extends JPanel {
         });
         Button delete = new Button("Delete");
         cbActive = new Checkbox("active");
-
+        cbActive.addItemListener(e -> {
+            if(all_selections.getSelectedValue() == null)
+                return;
+            all_selections.getSelectedValue().setActive(cbActive.getState());
+            updateDrawingSelections();
+        });
         tfNameField.setPreferredSize(new Dimension(100, 20));
 
         controls.add(name);
@@ -87,9 +95,16 @@ public class SelectionTab extends JPanel {
         cbActive.setState(selected.isActive());
     }
 
+    private void updateDrawingSelections() {
+        drawingPanel.clearSelection();
+        project.getAll_Selections().stream().filter(sel -> sel.isActive()).forEach(selection -> drawingPanel.addSelection(selection));
+        drawingPanel.repaint();
+    }
+
     public void loadProject(Project project) {
         this.project = project;
         loadSelectionList();
+        updateDrawingSelections();
     }
 
     private void loadSelectionList() {

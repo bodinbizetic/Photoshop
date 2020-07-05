@@ -7,7 +7,7 @@ public class Selection {
     private final String name;
     private final String path;
     private final List<Rectangle> all_rectangles;
-    private final boolean active;
+    private boolean active;
 
     public Selection(String name, String path, List<Rectangle> all_rectangles, boolean active) {
         this.name = name;
@@ -35,5 +35,9 @@ public class Selection {
 
     public boolean isActive() {
         return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
