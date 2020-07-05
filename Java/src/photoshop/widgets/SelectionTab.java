@@ -2,6 +2,7 @@ package photoshop.widgets;
 
 import photoshop.project.Project;
 import photoshop.project.ProjectSaver;
+import photoshop.selection.MouseRectangleSelection;
 import photoshop.selection.Selection;
 
 import javax.swing.*;
@@ -19,10 +20,14 @@ public class SelectionTab extends JPanel {
     private JTextField tfNameField;
     private Project project;
 
+    private MouseRectangleSelection mouseRectangleSelection;
     public SelectionTab(DrawingPanel drawingPanel) {
         setLayout(new GridLayout(2, 1));
 
         this.drawingPanel = drawingPanel;
+        mouseRectangleSelection = new MouseRectangleSelection(drawingPanel, this);
+        drawingPanel.addMouseListener(mouseRectangleSelection);
+        drawingPanel.addMouseMotionListener(mouseRectangleSelection);
 
         addUpperPanel();
         addLowerPanel();

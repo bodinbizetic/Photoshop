@@ -1,6 +1,7 @@
 package photoshop.widgets;
 
 import photoshop.layer.Layer;
+import photoshop.selection.MouseRectangleSelection;
 import photoshop.selection.Rectangle;
 import photoshop.selection.Selection;
 
@@ -18,6 +19,7 @@ public class DrawingPanel extends JPanel{
     private List<Layer> to_Draw = new LinkedList<>();
     private List<Selection> selected = new LinkedList<>();
     private List<Rectangle> selected_rectangles = new LinkedList<>();
+    private MouseRectangleSelection mouseSelection;
     private BufferedImage prevImage;
     public synchronized void addLayer(Layer l) {
         to_Draw.add(l);
@@ -43,12 +45,27 @@ public class DrawingPanel extends JPanel{
         selected_rectangles.clear();
     }
 
-        @Override
+    public void setMouseSelection(MouseRectangleSelection mouseSelection) {
+        this.mouseSelection = mouseSelection;
+    }
+
+    @Override
     public void paint(Graphics g) {
         super.paint(g);
         paintImage(g);
         paintSelections(g);
         paintRectnagles(g);
+        paintMouseSelection(g);
+    }
+
+    private void paintMouseSelection(Graphics g) {
+        if(to_Draw.isEmpty())
+            return;
+        if(mouseSelection == null)
+            return;
+        Rectangle rectangle = mouseSelection.getRectangle();
+        paintRectangle(g, rectangle, false);
+        paintBorder(g, rectangle, new Color(Color.RED.getRGB()));
     }
 
     private void paintSelections(Graphics g) {
@@ -76,10 +93,15 @@ public class DrawingPanel extends JPanel{
         g.setColor(old);
 
         if(hasBorder) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setStroke(new BasicStroke(3));
-            g2.drawRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+            paintBorder(g, rectangle, new Color(Color.BLACK.getRGB()));
         }
+    }
+
+    private void paintBorder(Graphics g, Rectangle rectangle, Color borderColor) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(3));
+        g.setColor(borderColor);
+        g2.drawRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
     }
 
     private void paintImage(Graphics g) {
