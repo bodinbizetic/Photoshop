@@ -133,6 +133,7 @@ public class OperationTab extends JPanel {
         right.setBorder(new EmptyBorder(10, 10, 10, 10));
         right.setLayout(new BorderLayout());
         all_operations = new JList<>();
+        all_operations.addListSelectionListener(e -> updateList());
         all_operations.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(all_operations);
@@ -149,10 +150,7 @@ public class OperationTab extends JPanel {
         parametarSpinner = new JSpinner();
         parametarSpinner.setPreferredSize(new Dimension(60, 20));
         parametarSpinner.addChangeListener(e -> {
-            if(all_operations.getSelectedValue() == null)
-                return;
-            all_operations.getSelectedValue().setParam();
-            all_operations.repaint();
+            updateList();
         });
         Button use = new Button("Use");
         Button add = new Button("Add");
@@ -175,6 +173,13 @@ public class OperationTab extends JPanel {
         rightPart.add(delete);
         center.add(BorderLayout.CENTER, rightPart);
         operations.add(center);
+    }
+
+    private void updateList() {
+        if(all_operations.getSelectedValue() == null)
+            return;
+        all_operations.getSelectedValue().setParam();
+        all_operations.repaint();
     }
 
     private void removeSelectedNonDefaultOperation() {
