@@ -36,7 +36,7 @@ public class XMLFormater {
     }
 
     private void loadBody(Element root) {
-        NodeList list = root.getElementsByTagName("Operation");
+        NodeList list = root.getElementsByTagName(body);
         bodyValuesList = new LinkedList<>();
         for(int i=0; i<list.getLength(); i++) {
             HashMap<String, String> attr = loadBodyAttributes(list.item(i));

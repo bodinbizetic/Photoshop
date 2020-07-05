@@ -1,9 +1,12 @@
 package photoshop.widgets;
 
 import photoshop.project.Project;
+import photoshop.project.ProjectSaver;
 import photoshop.selection.Selection;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.util.List;
 
@@ -46,6 +49,15 @@ public class SelectionTab extends JPanel {
         Label name = new Label("Selection name: ");
         tfNameField = new JTextField();
         Button create = new Button("Create");
+        create.addActionListener(e -> {
+            try {
+                ProjectSaver.saveSelectionFile("Selection.sel", all_selections.getSelectedValue());
+            } catch (ParserConfigurationException parserConfigurationException) {
+                parserConfigurationException.printStackTrace();
+            } catch (TransformerException transformerException) {
+                transformerException.printStackTrace();
+            }
+        });
         Button delete = new Button("Delete");
         cbActive = new Checkbox("active");
 
@@ -64,9 +76,15 @@ public class SelectionTab extends JPanel {
         upperPanel.setLayout(new GridLayout(1, 2));
         all_selections = new JList<>();
         all_selections.setModel(new DefaultListModel<>());
+        all_selections.addListSelectionListener(e -> updateSelectionList());
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(all_selections);
         upperPanel.add(scrollPane);
+    }
+
+    private void updateSelectionList() {
+        Selection selected = all_selections.getSelectedValue();
+        cbActive.setState(selected.isActive());
     }
 
     public void loadProject(Project project) {

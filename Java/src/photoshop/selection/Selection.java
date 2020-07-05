@@ -20,4 +20,20 @@ public class Selection {
     public String toString() {
         return name;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public List<Rectangle> getAll_rectangles() {
+        return all_rectangles;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
 }
