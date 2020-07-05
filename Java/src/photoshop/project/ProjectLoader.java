@@ -9,6 +9,7 @@ import photoshop.layer.UserLayer;
 import photoshop.operations.ComplexOperation;
 import photoshop.operations.DiadicOperation;
 import photoshop.operations.Operation;
+import photoshop.selection.Rectangle;
 import photoshop.selection.Selection;
 
 import javax.swing.*;
@@ -39,7 +40,39 @@ public class ProjectLoader {
 
         loadLayers(root);
         loadOperations(root);
+        loadSelections(root);
         return new Project(all_selections, all_operations, all_layers, root.getAttribute("name"), path);
+    }
+
+    private void loadSelections(Element root) {
+        NodeList operations = root.getElementsByTagName("Selections");
+        Node op = operations.item(0);
+        if(op == null)
+            return;
+
+        NodeList list = op.getChildNodes();
+        for(int i=0; i<list.getLength(); i++) {
+            try {
+                if(list.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                    Selection sel = loadSingleSelection(list.item(i));
+                    all_selections.add(sel);
+                }
+            } catch (FileCorruptedException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+
+    }
+
+    private Selection loadSingleSelection(Node item) throws FileCorruptedException {
+        String path = getSingleOperationPath(item);
+        XMLFormater xml = new XMLFormater(path, "Rectangle");
+        HashMap<String, String> header = xml.getHeaderValues();
+        final List<Rectangle> selection_list = new LinkedList<>();
+        xml.getBodyValuesList().forEach(val -> {
+            selection_list.add(new Rectangle(Integer.parseInt(val.get("x")), Integer.parseInt(val.get("y")), Integer.parseInt(val.get("width")), Integer.parseInt(val.get("height"))));
+        });
+        return new Selection(header.get("name"), path, selection_list, Boolean.getBoolean(header.get("active")));
     }
 
     private void loadOperations(Element root) {
@@ -54,7 +87,6 @@ public class ProjectLoader {
                 if(list.item(i).getNodeType() == Node.ELEMENT_NODE) {
                     Operation oper = loadSingleOperation(list.item(i));
                     all_operations.add(oper);
-                    System.out.println(list.item(i).getNodeName());
                 }
             } catch (FileCorruptedException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());

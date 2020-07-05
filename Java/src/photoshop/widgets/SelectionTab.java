@@ -1,9 +1,11 @@
 package photoshop.widgets;
 
+import photoshop.project.Project;
 import photoshop.selection.Selection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class SelectionTab extends JPanel {
 
@@ -11,6 +13,8 @@ public class SelectionTab extends JPanel {
     private JList<Selection> all_rectangles;
     private Checkbox cbActive;
     private JTextField tfNameField;
+    private Project project;
+
     public SelectionTab(DrawingPanel drawingPanel) {
         setLayout(new GridLayout(2, 1));
 
@@ -23,7 +27,7 @@ public class SelectionTab extends JPanel {
         lowerPanel.setLayout(new FlowLayout());
         all_rectangles = new JList<>();
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(all_selections);
+        scrollPane.setViewportView(all_rectangles);
         lowerPanel.add(scrollPane);
         add(lowerPanel);
     }
@@ -59,9 +63,22 @@ public class SelectionTab extends JPanel {
     private void addJList(JPanel upperPanel) {
         upperPanel.setLayout(new GridLayout(1, 2));
         all_selections = new JList<>();
+        all_selections.setModel(new DefaultListModel<>());
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(all_selections);
         upperPanel.add(scrollPane);
     }
 
+    public void loadProject(Project project) {
+        this.project = project;
+        loadSelectionList();
+    }
+
+    private void loadSelectionList() {
+        List<Selection> selections = project.getAll_Selections();
+        DefaultListModel model = (DefaultListModel) all_selections.getModel();
+        model.clear();
+        selections.forEach(sel -> model.addElement(sel));
+        all_selections.repaint();
+    }
 }

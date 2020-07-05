@@ -80,4 +80,15 @@ public class Project {
     public void removeOperation(Operation operation) {
         all_operations.remove(operation);
     }
+
+    public List<Selection> getAll_Selections() {
+        return all_selections;
+    }
+    public void addSelection(Selection sel) {
+        all_selections.add(sel);
+    }
+
+    public void removeSelection(Selection sel) {
+        all_selections.remove(sel);
+    }
 }
