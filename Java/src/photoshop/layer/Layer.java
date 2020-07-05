@@ -46,6 +46,10 @@ public class Layer {
         return name;
     }
 
+    public String getRelativePath() {
+        return path;
+    }
+
     public String getPath() {
         return originalImage.getPath();
     }

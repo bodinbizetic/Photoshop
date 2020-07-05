@@ -7,11 +7,13 @@ import java.util.List;
 
 abstract public class Operation implements Cloneable{
 
+    private final String path;
     protected File saveFile;
     protected String name;
 
     public Operation(String name, String path) {
         this.name = name;
+        this.path = path;
         this.saveFile = new File(System.getProperty("user.dir"), path);
     }
 
@@ -33,6 +35,10 @@ abstract public class Operation implements Cloneable{
 
     public String getName() {
         return name;
+    }
+
+    public String getPath() {
+        return path;
     }
 
     @Override

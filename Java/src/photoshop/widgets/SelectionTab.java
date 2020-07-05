@@ -127,7 +127,7 @@ public class SelectionTab extends JPanel {
             List<Rectangle> recList = new LinkedList<>();
             DefaultListModel model = (DefaultListModel) all_rectangles.getModel();
             Stream.of(model.toArray()).forEach(rectangle -> recList.add((Rectangle) rectangle));
-            Selection newSelection = new Selection(name, "selection" + File.separator + name + ".sel", recList, true);
+            Selection newSelection = new Selection(name, "selections" + File.separator + name + ".sel", recList, true);
             project.addSelection(newSelection);
 
             clearSelectedRectangles();

@@ -23,19 +23,16 @@ public class Project {
     }
 
     Project(List<Selection> all_selections, List<Operation> all_operations, List<Layer> all_layers, String name, String path) {
+        this(name, path);
         this.all_selections = all_selections;
         this.all_operations = all_operations;
         this.all_layers = all_layers;
     }
 
-//    public List<Selection> getAll_selections() {
-//        return all_selections;
-//    }
-//
     public List<Operation> getAll_operations() {
         return all_operations;
     }
-//
+
     public List<Layer> getAll_layers() {
         return all_layers;
     }

@@ -5,8 +5,11 @@ import photoshop.PhotoshopExec;
 import photoshop.exceptions.*;
 import photoshop.project.Project;
 import photoshop.project.ProjectLoader;
+import photoshop.project.ProjectSaver;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.io.File;
 import java.nio.file.FileAlreadyExistsException;
@@ -26,6 +29,7 @@ public class PhotoShopMenuBar extends MenuBar {
         MenuItem open   = new MenuItem("Open");
         MenuItem save   = new MenuItem("Save");
         MenuItem export = new MenuItem("Export");
+        save.addActionListener(e -> saveProject());
         export.addActionListener(e -> {
             try {
                 exportProject();
@@ -70,6 +74,15 @@ public class PhotoShopMenuBar extends MenuBar {
         if(selectedFolder == null)
             throw new ChooseFolderDialogCanceled();
         return selectedFolder.getAbsolutePath();
+    }
+
+    private void saveProject() {
+        try {
+            ProjectSaver projectSaver = new ProjectSaver(parent.getProject());
+            projectSaver.saveProject();
+        } catch (ProjectNotLoaded | ParserConfigurationException | TransformerException e) {
+            JOptionPane.showMessageDialog(parent, e.getMessage());
+        }
     }
 
     private void openProject() {

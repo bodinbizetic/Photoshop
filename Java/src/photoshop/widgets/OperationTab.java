@@ -85,7 +85,7 @@ public class OperationTab extends JPanel {
             oper.getList().forEach(operation -> list.add(operation));
         }
         String name = getOperationName();
-        Operation cOp = new ComplexOperation(name, "resource" + File.separator + name + ".fun", list);
+        Operation cOp = new ComplexOperation(name, "operations" + File.separator + name + ".fun", list);
         return cOp;
     }
 

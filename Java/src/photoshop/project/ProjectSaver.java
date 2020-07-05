@@ -3,11 +3,14 @@ package photoshop.project;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import photoshop.exceptions.FileCorruptedException;
+import photoshop.exceptions.ImageNotSaved;
+import photoshop.layer.UserLayer;
 import photoshop.operations.DiadicOperation;
 import photoshop.operations.MonadicOperation;
 import photoshop.operations.Operation;
 import photoshop.selection.Selection;
 
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,8 +22,10 @@ import java.util.LinkedList;
 
 public class ProjectSaver {
 
-    public ProjectSaver() {
+    private Project project;
 
+    public ProjectSaver(Project project) {
+        this.project = project;
     }
 
     private static Document createDocument() throws ParserConfigurationException {
@@ -97,6 +102,96 @@ public class ProjectSaver {
             node.setAttribute("name", op.getName());
             root.appendChild(node);
         });
+    }
+
+    public void saveProject() throws ParserConfigurationException, TransformerException {
+//        File projectFile = new File(System.getProperty("user.dir"), project.getPath());
+        Document doc = createDocument();
+
+        Element root = doc.createElement("Project");
+        root.setAttribute("name", project.getName());
+
+        renewFolders();
+        saveLayers(doc, root);
+        saveOperations(doc, root);
+        saveSelections(doc, root);
+
+        doc.appendChild(root);
+        saveXmlFile(doc, new File(System.getProperty("user.dir"), "Project.xml"));
+    }
+
+    private void saveOperations(Document doc, Element root) {
+        Element all_operations_node = doc.createElement("Operations");
+        project.getAll_operations().forEach(operation -> {
+            try {
+                saveOperationFile(operation.getPath(), operation);
+                Element operation_node = doc.createElement("Operation");
+                operation_node.setAttribute("path", operation.getPath());
+                all_operations_node.appendChild(operation_node);
+            } catch (TransformerException | ParserConfigurationException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        });
+        root.appendChild(all_operations_node);
+    }
+
+    private void saveSelections(Document doc, Element root) {
+        Element all_selections_node = doc.createElement("Selections");
+        project.getAll_Selections().forEach(selection -> {
+            try {
+                saveSelectionFile(selection.getPath(), selection);
+                Element operation_node = doc.createElement("Selection");
+                operation_node.setAttribute("path", selection.getPath());
+                all_selections_node.appendChild(operation_node);
+            } catch (TransformerException | ParserConfigurationException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        });
+        root.appendChild(all_selections_node);
+    }
+
+    private void renewFolders() {
+        String[] paths = {"resource", "operations", "selections"};
+        for(String path : paths) {
+            renewFolder(path);
+        }
+    }
+
+    private void renewFolder(String path) {
+        File tempFolder = new File(System.getProperty("user.dir"), path);
+        if(!tempFolder.exists()) {
+            tempFolder.mkdir();
+            return;
+        }
+        File[] allContents = tempFolder.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                file.delete();
+            }
+        }
+        tempFolder.delete();
+        tempFolder.mkdir();
+    }
+
+    private void saveLayers(Document doc, Element root) {
+        Element all_layers_node = doc.createElement("Layers");
+        project.getAll_layers().forEach(layer -> {
+            try {
+                if (layer instanceof UserLayer) {
+                    UserLayer uLayer = (UserLayer) layer;
+                    uLayer.saveLayer();
+                    Element layer_node = doc.createElement("Layer");
+                    layer_node.setAttribute("name", layer.getName());
+                    layer_node.setAttribute("path", layer.getRelativePath());
+                    layer_node.setAttribute("opacity", String.valueOf(layer.getOpacity()));
+                    layer_node.setAttribute("active", String.valueOf(layer.isActive()));
+                    all_layers_node.appendChild(layer_node);
+                }
+            } catch (ImageNotSaved imageNotSaved) {
+                JOptionPane.showMessageDialog(null, imageNotSaved.getMessage());
+            }
+        });
+        root.appendChild(all_layers_node);
     }
 
     public static void main(String[] args) throws TransformerException, ParserConfigurationException, FileCorruptedException {

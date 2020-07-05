@@ -128,14 +128,16 @@ public class ProjectLoader {
     }
 
     private void extractLayer(Element element) {
-        String name = element.getAttribute("name");
-        String path = element.getAttribute("path");
-        int opacity = Integer.parseInt(element.getAttribute("opacity"));
-        boolean active = (element.getAttribute("active").equals("true"));
         try {
+            String name = element.getAttribute("name");
+            String path = element.getAttribute("path");
+            int opacity = Integer.parseInt(element.getAttribute("opacity"));
+            boolean active = (element.getAttribute("active").equals("true"));
             all_layers.add(new UserLayer(name, path, opacity, active));
         } catch (ImageNotLoadedException e) {
             System.out.println("Image not loaded");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "File curroption error");
         }
     }
 
