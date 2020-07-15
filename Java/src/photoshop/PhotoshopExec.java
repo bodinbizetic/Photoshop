@@ -1,11 +1,13 @@
 package photoshop;
 
+import photoshop.exceptions.EngineNotLoaded;
 import photoshop.layer.Layer;
 import photoshop.operations.Operation;
 import photoshop.project.Project;
 import photoshop.project.ProjectSaver;
 import photoshop.selection.Selection;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.File;
@@ -127,6 +129,8 @@ public class PhotoshopExec extends Thread{
     @Override
     public void run() {
         try {
+            if(cppFilePath == "" || new File(cppFilePath.substring(1, cppFilePath.length()-1)).exists() == false)
+                throw new EngineNotLoaded();
             synchronized (this.getClass()) {
                 System.out.println("Starting " + System.getProperty("user.dir"));
                 String command = cppFilePath + getArgumentsList();
@@ -135,8 +139,10 @@ public class PhotoshopExec extends Thread{
                 System.out.println("Ending " + process.waitFor()); // TODO: remove System.out.println
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println("Failed"); //TODO: better fail if cpp program not found
+            System.out.println("Failed");
             e.printStackTrace();
+        } catch (EngineNotLoaded engineNotLoaded) {
+            JOptionPane.showMessageDialog(null, "Engine not loaded!");
         } finally {
             synchronized (this) {
                 notifyAll();

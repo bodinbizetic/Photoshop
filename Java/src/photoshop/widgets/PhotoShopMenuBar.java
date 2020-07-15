@@ -13,6 +13,7 @@ import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.io.File;
 import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 
 public class PhotoShopMenuBar extends MenuBar {
 
@@ -26,9 +27,12 @@ public class PhotoShopMenuBar extends MenuBar {
 
     private void addMenuFile() {
         Menu file = new Menu("File");
-        MenuItem open   = new MenuItem("Open");
-        MenuItem save   = new MenuItem("Save");
-        MenuItem export = new MenuItem("Export");
+        MenuItem createNew      = new MenuItem("New");
+        MenuItem open           = new MenuItem("Open");
+        MenuItem save           = new MenuItem("Save");
+        MenuItem export         = new MenuItem("Export");
+        MenuItem loadCppPath    = new MenuItem("Path to engine");
+        createNew.addActionListener(e -> createNewProject());
         save.addActionListener(e -> saveProject());
         export.addActionListener(e -> {
             try {
@@ -38,11 +42,35 @@ public class PhotoShopMenuBar extends MenuBar {
             }
         });
         open.addActionListener((e -> openProject()));
+        loadCppPath.addActionListener(e -> setPathToEngine());
+        file.add(createNew);
         file.add(open);
         file.add(save);
         file.addSeparator();
         file.add(export);
+        file.add(loadCppPath);
         add(file);
+    }
+
+    private void createNewProject() {
+        try {
+            String path = folderDialog();
+            String name = JOptionPane.showInputDialog("Name of the project: ");
+            System.setProperty("user.dir", path);
+            parent.loadProject(new Project(name, path));
+            saveProject();
+        } catch (ChooseFolderDialogCanceled chooseFolderDialogCanceled) {
+
+        }
+    }
+
+    private void setPathToEngine() {
+        String path = JOptionPane.showInputDialog("Input engine .exe path: ");
+        if( new File(path).exists() == false) {
+            JOptionPane.showMessageDialog(null, "File not found!");
+            return;
+        }
+        PhotoshopExec.setPath(path);
     }
 
     private void exportProject() throws FileAlreadyExistsException, FileExtensionMissmatch, ProjectNotLoaded {
