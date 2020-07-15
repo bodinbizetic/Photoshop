@@ -172,10 +172,17 @@ public class SelectionTab extends JPanel {
     }
 
     public void loadProject(Project project) {
+        closeProject();
         this.project = project;
         loadSelectionList();
         mouseRectangleSelection.reset();
         updateDrawingPanel();
+    }
+
+    public void closeProject() {
+        this.project = null;
+        all_selections.setModel(new DefaultListModel<>());
+        all_rectangles.setModel(new DefaultListModel<>());
     }
 
     private void loadSelectionList() {

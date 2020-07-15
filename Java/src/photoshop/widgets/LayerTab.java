@@ -197,8 +197,17 @@ public class LayerTab extends JPanel {
     }
 
     public void loadProject(Project project) {
+        closeProject();
         this.project = project;
         loadLayers();
+    }
+
+    public void closeProject() {
+        this.project = null;
+        layerJList.setModel(new DefaultListModel<>());
+        drawingPanel.clearRectangles();
+        drawingPanel.clearSelection();
+        drawingPanel.clearLayers();
     }
 
     private synchronized void loadLayers() {
@@ -206,11 +215,6 @@ public class LayerTab extends JPanel {
         DefaultListModel layerList = new DefaultListModel<>();
         all_layers.forEach(layerList::addElement);
         layerJList.setModel(layerList);
-    }
-
-    public void closeLayers() {
-        ((DefaultListModel)layerJList.getModel()).clear();
-        project = null;
     }
 
     public static final String LAYER_COMBINE_PATH = ".temp" + File.separator + "combined.bmp";

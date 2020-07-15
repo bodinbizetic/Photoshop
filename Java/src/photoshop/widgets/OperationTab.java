@@ -206,9 +206,15 @@ public class OperationTab extends JPanel {
     }
 
     public void loadProject(Project project) {
+        closeProject();
         this.project = project;
-
         loadOperations();
+    }
+
+    public void closeProject() {
+        this.project = null;
+        all_operations.setModel(new DefaultListModel<>());
+        createList.setModel(new DefaultListModel<>());
     }
 
     private void loadOperations() {

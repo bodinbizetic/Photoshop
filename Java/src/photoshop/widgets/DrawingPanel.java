@@ -16,11 +16,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DrawingPanel extends JPanel{
+    public enum MouseAction {
+        SELECTING
+    }
+
+
+    private MouseAction currentAction = MouseAction.SELECTING;
+
     private List<Layer> to_Draw = new LinkedList<>();
     private List<Selection> selected = new LinkedList<>();
     private List<Rectangle> selected_rectangles = new LinkedList<>();
     private MouseRectangleSelection mouseSelection;
     private BufferedImage prevImage;
+
+    public void setCurrentAction(MouseAction currentAction) {
+        this.currentAction = currentAction;
+    }
+
+    public MouseAction getCurrentAction() {
+        return currentAction;
+    }
+
     public synchronized void addLayer(Layer l) {
         to_Draw.add(l);
     }
@@ -59,11 +75,15 @@ public class DrawingPanel extends JPanel{
     }
 
     private void paintMouseSelection(Graphics g) {
+        if(currentAction != MouseAction.SELECTING)
+            return;
         if(to_Draw.isEmpty())
             return;
         if(mouseSelection == null)
             return;
         Rectangle rectangle = mouseSelection.getRectangle();
+        if(rectangle.getHeight() == 0 || rectangle.getHeight() == 0)
+            return;
         paintRectangle(g, rectangle, false);
         paintBorder(g, rectangle, new Color(Color.RED.getRGB()));
     }
