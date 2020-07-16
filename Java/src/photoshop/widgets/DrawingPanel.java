@@ -84,8 +84,8 @@ public class DrawingPanel extends JPanel{
         Rectangle rectangle = mouseSelection.getRectangle();
         if(rectangle.getHeight() == 0 || rectangle.getHeight() == 0)
             return;
-        paintRectangle(g, rectangle, false);
-        paintBorder(g, rectangle, new Color(Color.RED.getRGB()));
+        paintRectangle(g, rectangle, false, false);
+        paintBorder(g, rectangle, new Color(Color.RED.getRGB()), true);
     }
 
     private void paintSelections(Graphics g) {
@@ -93,19 +93,20 @@ public class DrawingPanel extends JPanel{
             return;
         selected.forEach(selection -> {
             List<Rectangle> rectangles = selection.getAll_rectangles();
-            rectangles.forEach(rectangle -> paintRectangle(g, rectangle, false));
+            rectangles.forEach(rectangle -> paintRectangle(g, rectangle, true, true));
         });
+
     }
 
     private void paintRectnagles(Graphics g) {
         if(to_Draw.isEmpty())
             return;
         selected_rectangles.forEach(rectangle -> {
-            paintRectangle(g, rectangle, true);
+            paintRectangle(g, rectangle, true, false);
         });
     }
 
-    private void paintRectangle(Graphics g, Rectangle rectangle, boolean hasBorder) {
+    private void paintRectangle(Graphics g, Rectangle rectangle, boolean hasBorder, boolean isDashed) {
         Color old = g.getColor();
         Color newColor = new Color(240, 240, 240, 127);
         g.setColor(newColor);
@@ -113,15 +114,26 @@ public class DrawingPanel extends JPanel{
         g.setColor(old);
 
         if(hasBorder) {
-            paintBorder(g, rectangle, new Color(Color.BLACK.getRGB()));
+                Graphics2D g2 = (Graphics2D) g;
+                float[] dash1 = { 2f, 0f, 2f };
+                Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND,1.0f, dash1,2f);
+                Stroke old1 = g2.getStroke();
+                g2.setStroke(dashed);
+                paintBorder(g2, rectangle, new Color(Color.BLACK.getRGB()), isDashed);
+                g2.setStroke(old1);
+               // paintBorder(g, rectangle, new Color(Color.BLACK.getRGB()));
         }
     }
 
-    private void paintBorder(Graphics g, Rectangle rectangle, Color borderColor) {
+    private void paintBorder(Graphics g, Rectangle rectangle, Color borderColor, boolean isDahsed) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(3));
         g.setColor(borderColor);
+        float[] dash1 = { 2f, 0f, 2f };
+        Stroke dashed = (isDahsed ? new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND,1.0f, dash1,2f) : new BasicStroke(3));
+        Stroke old1 = g2.getStroke();
+        g2.setStroke(dashed);
         g2.drawRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+        g2.setStroke(old1);
     }
 
     private void paintImage(Graphics g) {

@@ -1,6 +1,7 @@
 package photoshop.widgets;
 
 import photoshop.PhotoshopExec;
+import photoshop.exceptions.ChooseFolderDialogCanceled;
 import photoshop.exceptions.FileExtensionMissmatch;
 import photoshop.exceptions.FileNameException;
 import photoshop.exceptions.ImageNotLoadedException;
@@ -99,10 +100,10 @@ public class LayerTab extends JPanel {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }catch (IOException e) {
             JOptionPane.showMessageDialog(this, "File with that name already exists");
-        } catch(InterruptedException ignore) {}
+        } catch(InterruptedException | ChooseFolderDialogCanceled ignore) {}
     }
 
-    private String getLayerPath(String newName) throws FileExtensionMissmatch, FileNameException, IOException {
+    private String getLayerPath(String newName) throws FileExtensionMissmatch, FileNameException, IOException, ChooseFolderDialogCanceled {
         String src_path = getLayerPathDialog();
         String dst_path = "resource" + File.separator + newName + getExtension(src_path);
         Files.copy(Paths.get(src_path), Paths.get(System.getProperty("user.dir") + File.separator + dst_path));
@@ -117,13 +118,15 @@ public class LayerTab extends JPanel {
         throw new FileNameException(path);
     }
 
-    private String getLayerPathDialog() throws FileExtensionMissmatch {
+    private String getLayerPathDialog() throws FileExtensionMissmatch, ChooseFolderDialogCanceled {
         JFileChooser jf = new JFileChooser();
         jf.addChoosableFileFilter(new FileNameExtensionFilter("*.bmp", "bmp"));
         jf.addChoosableFileFilter(new FileNameExtensionFilter("*.pam", "pam"));
         jf.setCurrentDirectory(new File("C:\\Users\\Dinbo\\Desktop\\Paint")); // TODO: Change to be System.getProperty("user.dir");
         jf.showOpenDialog(this);
         File file = jf.getSelectedFile();
+        if(!file.exists())
+            throw new ChooseFolderDialogCanceled();
         if(!file.getPath().contains(".bmp") && !file.getPath().contains(".pam"))
             throw new FileExtensionMissmatch(file.getPath());
         return jf.getSelectedFile().getPath();
