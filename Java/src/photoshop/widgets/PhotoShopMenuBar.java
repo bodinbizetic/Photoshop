@@ -104,7 +104,7 @@ public class PhotoShopMenuBar extends MenuBar {
         return selectedFolder.getAbsolutePath();
     }
 
-    private void saveProject() {
+    public void saveProject() {
         try {
             ProjectSaver projectSaver = new ProjectSaver(parent.getProject());
             projectSaver.saveProject();

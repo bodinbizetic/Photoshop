@@ -132,11 +132,12 @@ public class PhotoshopExec extends Thread{
             if(cppFilePath == "" || new File(cppFilePath.substring(1, cppFilePath.length()-1)).exists() == false)
                 throw new EngineNotLoaded();
             synchronized (this.getClass()) {
-                System.out.println("Starting " + System.getProperty("user.dir"));
+                //System.out.println("Starting " + System.getProperty("user.dir"));
                 String command = cppFilePath + getArgumentsList();
                 System.out.println(command);
                 Process process = Runtime.getRuntime().exec(command + "", null, new File(System.getProperty("user.dir")));
-                System.out.println("Ending " + process.waitFor()); // TODO: remove System.out.println
+                //System.out.println("Ending " + ;
+                process.waitFor();
             }
         } catch (IOException | InterruptedException e) {
             System.out.println("Failed");

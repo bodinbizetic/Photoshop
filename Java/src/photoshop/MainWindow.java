@@ -24,7 +24,7 @@ public class MainWindow  extends JFrame {
     private Project project;
 
     static {
-        PhotoshopExec.setPath("C:\\Users\\Dinbo-PC\\Desktop\\POOP C++\\Photoshop\\C++\\x64\\Release\\Poop C++ Projekat.exe"); //TODO: Change to be modular
+        PhotoshopExec.setPath("..\\..\\..\\POOP C++\\Photoshop\\C++\\x64\\Release\\Poop C++ Projekat.exe"); //TODO: Change to be modular
     }
 
     public MainWindow() {
@@ -78,8 +78,18 @@ public class MainWindow  extends JFrame {
     }
 
     private void close() {
+        promtpOnExit();
         deleteTempFolder();
         dispose();
+    }
+
+    private void promtpOnExit() {
+        if(project == null)
+            return;
+        int reply = JOptionPane.showConfirmDialog(null, "Do you want to save", "Save", JOptionPane.YES_NO_OPTION);
+        if (reply == JOptionPane.YES_OPTION)
+            ((PhotoShopMenuBar) getMenuBar()).saveProject();
+
     }
 
     private void deleteTempFolder() {
