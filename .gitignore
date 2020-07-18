@@ -1,5 +1,3 @@
-*.vcxproj
-
 out/
 .idea/
 *.iml
