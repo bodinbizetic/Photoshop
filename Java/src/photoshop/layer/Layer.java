@@ -1,32 +1,57 @@
 package photoshop.layer;
 
-public class Layer {
-    private String name;
-    private String path;
-    private int opacity;
-    private boolean active;
+import photoshop.exceptions.ImageNotLoadedException;
+import photoshop.exceptions.ImageNotSaved;
 
-    public Layer(String name, String path, int opacity, boolean active) {
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
+public class Layer {
+    protected String name;
+    protected String path;
+    protected int opacity;
+    protected boolean active;
+
+    protected File originalImage;
+    protected BufferedImage image;
+
+    protected Layer() {
+
+    }
+
+    public Layer(String name, String path) throws ImageNotLoadedException {
+        this.opacity = 100;
+        this.active = true;
         this.name = name;
         this.path = path;
-        this.opacity = opacity;
-        this.active = active;
+
+        originalImage = new File(path);
+        loadImage();
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPath() {
+    public String getRelativePath() {
         return path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public String getPath() {
+        return originalImage.getPath();
     }
 
     public int getOpacity() {
@@ -43,5 +68,21 @@ public class Layer {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public void delete() {
+        originalImage.delete();
+    }
+
+    public synchronized BufferedImage getImage() {
+        return image;
+    }
+
+    public synchronized void loadImage() throws ImageNotLoadedException {
+        try {
+            image = ImageIO.read(originalImage);
+        } catch (IOException e) {
+            throw new ImageNotLoadedException(path);
+        }
     }
 }
