@@ -88,7 +88,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>headers/rapidXml;headers/operations;headers/formaters;headers/collections;headers/gui;headers</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>HeaderFiless/rapidXml;HeaderFiless/operations;HeaderFiless/formaters;HeaderFiless/collections;HeaderFiless/gui;HeaderFiless</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers\rapidXml;C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers\operations;C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers\gui;C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers\formaters;C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers\collections;C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>HeaderFiless\rapidXml;HeaderFiless\operations;HeaderFiless\gui;HeaderFiless\formaters;HeaderFiless\collections;HeaderFiless;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers\rapidXml;C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers\operations;C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers\gui;C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers\formaters;C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers\collections;C:\Users\Dinbo\Desktop\Photoshop\C++\Poop C++ Projekat\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>HeaderFiless\rapidXml;HeaderFiless\operations;HeaderFiless\gui;HeaderFiless\formaters;HeaderFiless\collections;HeaderFiless;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -144,71 +144,71 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="headers\collections\layer_collection.h" />
-    <ClInclude Include="headers\collections\operation_collection.h" />
-    <ClInclude Include="headers\collections\project_manager.h" />
-    <ClInclude Include="headers\collections\selection_collection.h" />
-    <ClInclude Include="headers\formaters\formater.h" />
-    <ClInclude Include="headers\formaters\formater_bmp.h" />
-    <ClInclude Include="headers\formaters\formater_pam.h" />
-    <ClInclude Include="headers\formaters\project_manager_formater.h" />
-    <ClInclude Include="headers\gui\menu.h" />
-    <ClInclude Include="headers\gui\menu_export.h" />
-    <ClInclude Include="headers\gui\menu_file.h" />
-    <ClInclude Include="headers\gui\menu_image.h" />
-    <ClInclude Include="headers\gui\menu_layer.h" />
-    <ClInclude Include="headers\gui\menu_main.h" />
-    <ClInclude Include="headers\gui\menu_operations.h" />
-    <ClInclude Include="headers\gui\menu_operations_mode.h" />
-    <ClInclude Include="headers\gui\menu_selection.h" />
-    <ClInclude Include="headers\image.h" />
-    <ClInclude Include="headers\layer.h" />
-    <ClInclude Include="headers\operations\complex_operation.h" />
-    <ClInclude Include="headers\operations\diadic_operation.h" />
-    <ClInclude Include="headers\operations\gray_operation.h" />
-    <ClInclude Include="headers\operations\median_operation.h" />
-    <ClInclude Include="headers\operations\operation.h" />
-    <ClInclude Include="headers\operations\simple_operation.h" />
-    <ClInclude Include="headers\pixel.h" />
-    <ClInclude Include="headers\rectangle.h" />
-    <ClInclude Include="headers\selection.h" />
-    <ClInclude Include="headers\utilities.h" />
+    <ClInclude Include="HeaderFiless\collections\layer_collection.h" />
+    <ClInclude Include="HeaderFiless\collections\operation_collection.h" />
+    <ClInclude Include="HeaderFiless\collections\project_manager.h" />
+    <ClInclude Include="HeaderFiless\collections\selection_collection.h" />
+    <ClInclude Include="HeaderFiless\formaters\formater.h" />
+    <ClInclude Include="HeaderFiless\formaters\formater_bmp.h" />
+    <ClInclude Include="HeaderFiless\formaters\formater_pam.h" />
+    <ClInclude Include="HeaderFiless\formaters\project_manager_formater.h" />
+    <ClInclude Include="HeaderFiless\gui\menu.h" />
+    <ClInclude Include="HeaderFiless\gui\menu_export.h" />
+    <ClInclude Include="HeaderFiless\gui\menu_file.h" />
+    <ClInclude Include="HeaderFiless\gui\menu_image.h" />
+    <ClInclude Include="HeaderFiless\gui\menu_layer.h" />
+    <ClInclude Include="HeaderFiless\gui\menu_main.h" />
+    <ClInclude Include="HeaderFiless\gui\menu_operations.h" />
+    <ClInclude Include="HeaderFiless\gui\menu_operations_mode.h" />
+    <ClInclude Include="HeaderFiless\gui\menu_selection.h" />
+    <ClInclude Include="HeaderFiless\image.h" />
+    <ClInclude Include="HeaderFiless\layer.h" />
+    <ClInclude Include="HeaderFiless\operations\complex_operation.h" />
+    <ClInclude Include="HeaderFiless\operations\diadic_operation.h" />
+    <ClInclude Include="HeaderFiless\operations\gray_operation.h" />
+    <ClInclude Include="HeaderFiless\operations\median_operation.h" />
+    <ClInclude Include="HeaderFiless\operations\operation.h" />
+    <ClInclude Include="HeaderFiless\operations\simple_operation.h" />
+    <ClInclude Include="HeaderFiless\pixel.h" />
+    <ClInclude Include="HeaderFiless\rectangle.h" />
+    <ClInclude Include="HeaderFiless\selection.h" />
+    <ClInclude Include="HeaderFiless\utilities.h" />
     <ClInclude Include="rapidxml.hpp" />
     <ClInclude Include="rapidxml_iterators.hpp" />
     <ClInclude Include="rapidxml_print.hpp" />
     <ClInclude Include="rapidxml_utils.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="headers\formaters\formater.cpp" />
-    <ClCompile Include="source\collections\layer_collection.cpp" />
-    <ClCompile Include="source\collections\operation_collection.cpp" />
-    <ClCompile Include="source\collections\project_manager.cpp" />
-    <ClCompile Include="source\collections\selection_collection.cpp" />
-    <ClCompile Include="source\formaters\formater_bmp.cpp" />
-    <ClCompile Include="source\formaters\formater_pam.cpp" />
-    <ClCompile Include="source\formaters\project_manager_formater.cpp" />
-    <ClCompile Include="source\gui\menu.cpp" />
-    <ClCompile Include="source\gui\menu_export.cpp" />
-    <ClCompile Include="source\gui\menu_file.cpp" />
-    <ClCompile Include="source\gui\menu_image.cpp" />
-    <ClCompile Include="source\gui\menu_layer.cpp" />
-    <ClCompile Include="source\gui\menu_main.cpp" />
-    <ClCompile Include="source\gui\menu_operations.cpp" />
-    <ClCompile Include="source\gui\menu_operation_mode.cpp" />
-    <ClCompile Include="source\gui\menu_selection.cpp" />
-    <ClCompile Include="source\image.cpp" />
-    <ClCompile Include="source\layer.cpp" />
-    <ClCompile Include="source\main.cpp" />
-    <ClCompile Include="source\operations\complex_operation.cpp" />
-    <ClCompile Include="source\operations\diadic_operation.cpp" />
-    <ClCompile Include="source\operations\gray_operation.cpp" />
-    <ClCompile Include="source\operations\median_operation.cpp" />
-    <ClCompile Include="source\operations\operation.cpp" />
-    <ClCompile Include="source\operations\simple_operation.cpp" />
-    <ClCompile Include="source\pixel.cpp" />
-    <ClCompile Include="source\rectangle.cpp" />
-    <ClCompile Include="source\selection.cpp" />
-    <ClCompile Include="source\utilities.cpp" />
+    <ClCompile Include="HeaderFiless\formaters\formater.cpp" />
+    <ClCompile Include="SourceFiles\collections\layer_collection.cpp" />
+    <ClCompile Include="SourceFiles\collections\operation_collection.cpp" />
+    <ClCompile Include="SourceFiles\collections\project_manager.cpp" />
+    <ClCompile Include="SourceFiles\collections\selection_collection.cpp" />
+    <ClCompile Include="SourceFiles\formaters\formater_bmp.cpp" />
+    <ClCompile Include="SourceFiles\formaters\formater_pam.cpp" />
+    <ClCompile Include="SourceFiles\formaters\project_manager_formater.cpp" />
+    <ClCompile Include="SourceFiles\gui\menu.cpp" />
+    <ClCompile Include="SourceFiles\gui\menu_export.cpp" />
+    <ClCompile Include="SourceFiles\gui\menu_file.cpp" />
+    <ClCompile Include="SourceFiles\gui\menu_image.cpp" />
+    <ClCompile Include="SourceFiles\gui\menu_layer.cpp" />
+    <ClCompile Include="SourceFiles\gui\menu_main.cpp" />
+    <ClCompile Include="SourceFiles\gui\menu_operations.cpp" />
+    <ClCompile Include="SourceFiles\gui\menu_operation_mode.cpp" />
+    <ClCompile Include="SourceFiles\gui\menu_selection.cpp" />
+    <ClCompile Include="SourceFiles\image.cpp" />
+    <ClCompile Include="SourceFiles\layer.cpp" />
+    <ClCompile Include="SourceFiles\main.cpp" />
+    <ClCompile Include="SourceFiles\operations\complex_operation.cpp" />
+    <ClCompile Include="SourceFiles\operations\diadic_operation.cpp" />
+    <ClCompile Include="SourceFiles\operations\gray_operation.cpp" />
+    <ClCompile Include="SourceFiles\operations\median_operation.cpp" />
+    <ClCompile Include="SourceFiles\operations\operation.cpp" />
+    <ClCompile Include="SourceFiles\operations\simple_operation.cpp" />
+    <ClCompile Include="SourceFiles\pixel.cpp" />
+    <ClCompile Include="SourceFiles\rectangle.cpp" />
+    <ClCompile Include="SourceFiles\selection.cpp" />
+    <ClCompile Include="SourceFiles\utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\sample_640426.pam" />

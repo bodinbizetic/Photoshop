@@ -9,7 +9,7 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
+    <Filter Include="ReSourceFiles Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
@@ -42,81 +42,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\collections\layer_collection.h">
-      <Filter>Header Files\collections</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\collections\operation_collection.h">
-      <Filter>Header Files\collections</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\collections\project_manager.h">
-      <Filter>Header Files\collections</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\collections\selection_collection.h">
-      <Filter>Header Files\collections</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\gui\menu.h">
-      <Filter>Header Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\gui\menu_image.h">
-      <Filter>Header Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\gui\menu_layer.h">
-      <Filter>Header Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\gui\menu_main.h">
-      <Filter>Header Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\gui\menu_operations.h">
-      <Filter>Header Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\gui\menu_operations_mode.h">
-      <Filter>Header Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\gui\menu_selection.h">
-      <Filter>Header Files\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\formaters\formater.h">
-      <Filter>Header Files\formaters</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\formaters\formater_bmp.h">
-      <Filter>Header Files\formaters</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\formaters\formater_pam.h">
-      <Filter>Header Files\formaters</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\operations\complex_operation.h">
-      <Filter>Header Files\operations</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\operations\gray_operation.h">
-      <Filter>Header Files\operations</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\operations\operation.h">
-      <Filter>Header Files\operations</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\operations\simple_operation.h">
-      <Filter>Header Files\operations</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\layer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\pixel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\rectangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\selection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\utilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\gui\menu_export.h">
-      <Filter>Header Files\gui</Filter>
-    </ClInclude>
     <ClInclude Include="rapidxml.hpp">
       <Filter>Header Files\rapidXml</Filter>
     </ClInclude>
@@ -129,114 +54,189 @@
     <ClInclude Include="rapidxml_utils.hpp">
       <Filter>Header Files\rapidXml</Filter>
     </ClInclude>
-    <ClInclude Include="headers\operations\diadic_operation.h">
-      <Filter>Header Files\operations</Filter>
+    <ClInclude Include="HeaderFiless\collections\layer_collection.h">
+      <Filter>Header Files\collections</Filter>
     </ClInclude>
-    <ClInclude Include="headers\operations\median_operation.h">
-      <Filter>Header Files\operations</Filter>
+    <ClInclude Include="HeaderFiless\collections\operation_collection.h">
+      <Filter>Header Files\collections</Filter>
     </ClInclude>
-    <ClInclude Include="headers\gui\menu_file.h">
+    <ClInclude Include="HeaderFiless\collections\project_manager.h">
+      <Filter>Header Files\collections</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\collections\selection_collection.h">
+      <Filter>Header Files\collections</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\formaters\formater.h">
+      <Filter>Header Files\formaters</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\formaters\formater_bmp.h">
+      <Filter>Header Files\formaters</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\formaters\formater_pam.h">
+      <Filter>Header Files\formaters</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\formaters\project_manager_formater.h">
+      <Filter>Header Files\formaters</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\gui\menu.h">
       <Filter>Header Files\gui</Filter>
     </ClInclude>
-    <ClInclude Include="headers\formaters\project_manager_formater.h">
-      <Filter>Header Files\formaters</Filter>
+    <ClInclude Include="HeaderFiless\gui\menu_export.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\gui\menu_file.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\gui\menu_image.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\gui\menu_layer.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\gui\menu_main.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\gui\menu_operations.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\gui\menu_operations_mode.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\gui\menu_selection.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\layer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\operations\diadic_operation.h">
+      <Filter>Header Files\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\operations\gray_operation.h">
+      <Filter>Header Files\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\operations\median_operation.h">
+      <Filter>Header Files\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\operations\operation.h">
+      <Filter>Header Files\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\operations\simple_operation.h">
+      <Filter>Header Files\operations</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\pixel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\rectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\selection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderFiless\operations\complex_operation.h">
+      <Filter>Header Files\operations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\collections\layer_collection.cpp">
+    <ClCompile Include="SourceFiles\collections\layer_collection.cpp">
       <Filter>Source Files\collections</Filter>
     </ClCompile>
-    <ClCompile Include="source\collections\operation_collection.cpp">
+    <ClCompile Include="SourceFiles\collections\operation_collection.cpp">
       <Filter>Source Files\collections</Filter>
     </ClCompile>
-    <ClCompile Include="source\collections\project_manager.cpp">
+    <ClCompile Include="SourceFiles\collections\project_manager.cpp">
       <Filter>Source Files\collections</Filter>
     </ClCompile>
-    <ClCompile Include="source\collections\selection_collection.cpp">
+    <ClCompile Include="SourceFiles\collections\selection_collection.cpp">
       <Filter>Source Files\collections</Filter>
     </ClCompile>
-    <ClCompile Include="source\formaters\formater_bmp.cpp">
+    <ClCompile Include="SourceFiles\formaters\formater_bmp.cpp">
       <Filter>Source Files\formaters</Filter>
     </ClCompile>
-    <ClCompile Include="source\formaters\formater_pam.cpp">
+    <ClCompile Include="SourceFiles\formaters\formater_pam.cpp">
       <Filter>Source Files\formaters</Filter>
     </ClCompile>
-    <ClCompile Include="source\gui\menu.cpp">
+    <ClCompile Include="SourceFiles\gui\menu.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="source\gui\menu_image.cpp">
+    <ClCompile Include="SourceFiles\gui\menu_image.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="source\gui\menu_layer.cpp">
+    <ClCompile Include="SourceFiles\gui\menu_layer.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="source\gui\menu_main.cpp">
+    <ClCompile Include="SourceFiles\gui\menu_main.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="source\gui\menu_operation_mode.cpp">
+    <ClCompile Include="SourceFiles\gui\menu_operation_mode.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="source\gui\menu_operations.cpp">
+    <ClCompile Include="SourceFiles\gui\menu_operations.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="source\gui\menu_selection.cpp">
+    <ClCompile Include="SourceFiles\gui\menu_selection.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="source\operations\complex_operation.cpp">
+    <ClCompile Include="SourceFiles\operations\complex_operation.cpp">
       <Filter>Source Files\operations</Filter>
     </ClCompile>
-    <ClCompile Include="source\operations\gray_operation.cpp">
+    <ClCompile Include="SourceFiles\operations\gray_operation.cpp">
       <Filter>Source Files\operations</Filter>
     </ClCompile>
-    <ClCompile Include="source\operations\operation.cpp">
+    <ClCompile Include="SourceFiles\operations\operation.cpp">
       <Filter>Source Files\operations</Filter>
     </ClCompile>
-    <ClCompile Include="source\operations\simple_operation.cpp">
+    <ClCompile Include="SourceFiles\operations\simple_operation.cpp">
       <Filter>Source Files\operations</Filter>
     </ClCompile>
-    <ClCompile Include="source\image.cpp">
+    <ClCompile Include="SourceFiles\image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\layer.cpp">
+    <ClCompile Include="SourceFiles\layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\main.cpp">
+    <ClCompile Include="SourceFiles\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\pixel.cpp">
+    <ClCompile Include="SourceFiles\pixel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\rectangle.cpp">
+    <ClCompile Include="SourceFiles\rectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\selection.cpp">
+    <ClCompile Include="SourceFiles\selection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\utilities.cpp">
+    <ClCompile Include="SourceFiles\utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\gui\menu_export.cpp">
+    <ClCompile Include="SourceFiles\gui\menu_export.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="headers\formaters\formater.cpp">
+    <ClCompile Include="SourceFiles\operations\diadic_operation.cpp">
+      <Filter>Source Files\operations</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\operations\median_operation.cpp">
+      <Filter>Source Files\operations</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\gui\menu_file.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\formaters\project_manager_formater.cpp">
       <Filter>Source Files\formaters</Filter>
     </ClCompile>
-    <ClCompile Include="source\operations\diadic_operation.cpp">
-      <Filter>Source Files\operations</Filter>
-    </ClCompile>
-    <ClCompile Include="source\operations\median_operation.cpp">
-      <Filter>Source Files\operations</Filter>
-    </ClCompile>
-    <ClCompile Include="source\gui\menu_file.cpp">
-      <Filter>Source Files\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="source\formaters\project_manager_formater.cpp">
+    <ClCompile Include="HeaderFiless\formaters\formater.cpp">
       <Filter>Source Files\formaters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\sample_640426.pam">
-      <Filter>Resource Files</Filter>
+      <Filter>ReSourceFiles Files</Filter>
     </None>
   </ItemGroup>
 </Project>
